@@ -26,12 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button map = findViewById( R.id.button2);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                new MapsFragment()).addToBackStack(null).commit();
-
-    }
-
         pets_container = findViewById(R.id.pets_container);
 
         final ImageView filter_icon = (ImageView)findViewById(R.id.filter_icon);
