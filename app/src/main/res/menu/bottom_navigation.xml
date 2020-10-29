@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_pets"
+        android:icon="@drawable/ic_baseline_pets_24"
+        android:title="@string/title_pets" />
+
+    <item
+        android:id="@+id/nav_shelters"
+        android:icon="@drawable/ic_baseline_location_on_24"
+        android:title="@string/title_shelters" />
+
+    <item
+        android:id="@+id/nav_lost"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/title_lost" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/title_profile" />
+</menu>
