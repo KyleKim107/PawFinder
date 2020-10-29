@@ -26,10 +26,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pets_container = findViewById(R.id.pets_container);
+      pets_container = findViewById(R.id.pets_container);
 
         final ImageView filter_icon = (ImageView)findViewById(R.id.filter_icon);
         filter_icon.setClickable(true);
+//fragment_container
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                new SheltersFragment()).addToBackStack(null).commit();
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.nav_pets);
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new PetsFragment();
                         break;
                     case R.id.nav_shelters:
-                        pets_container.setVisibility(View.GONE);
+                        pets_container.setVisibility(View.INVISIBLE);
                         selectedFragment = new SheltersFragment();
                         break;
                     case R.id.nav_lost:
