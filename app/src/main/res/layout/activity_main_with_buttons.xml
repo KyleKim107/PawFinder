@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/pets_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="58dp"
+        android:clipChildren="false">
+
+        <RelativeLayout
+            android:id="@+id/button_container"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:clipChildren="false">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/next_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/rewind_button"
+                android:layout_toStartOf="@+id/rewind_button"
+                android:src="@drawable/ic_arrow_back_red_24dp"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="auto"
+                app:rippleColor="#22ED7563"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/rewind_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_baseline_rewind_blue_24"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="mini"
+                app:rippleColor="#225BC9FA"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/favorite_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/rewind_button"
+                android:layout_toEndOf="@+id/rewind_button"
+                android:src="@drawable/ic_baseline_heart_green_24"
+                app:backgroundTint="@android:color/white"
+                app:fabSize="auto"
+                app:rippleColor="#226FE2B3"/>
+
+        </RelativeLayout>
+
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/card_stack_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/button_container"
+            android:padding="4dp"
+            android:clipToPadding="false">
+        </com.yuyakaido.android.cardstackview.CardStackView>
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="679dp"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginBottom="0dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation"
+        android:background="@color/colorPrimary"/>
+
+</RelativeLayout>

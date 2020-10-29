@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pawfinder</string>
+    <string name="title_pets">Pets</string>
+    <string name="title_shelters">Shelters</string>
+    <string name="title_lost">Lost</string>
+    <string name="title_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
