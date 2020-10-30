@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -23,28 +25,25 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     RelativeLayout pets_container;
-
+    ImageButton filterButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    public void openFragment(Fragment fragment) {
+    public void openFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container, new FilterFragment());
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     public void openFilterFragment(View view) {
-//        pets_container.setVisibility(View.GONE);
         openFragment(FilterFragment.newInstance());
-
     }
 
 }
