@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,45 +28,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        pets_container = findViewById(R.id.pets_container);
-
-        final ImageView filter_icon = (ImageView)findViewById(R.id.filter_icon);
-        filter_icon.setClickable(true);
-
-        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
-        bottomNavigation.setSelectedItemId(R.id.nav_pets);
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Fragment selectedFragment = null;
-
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_pets:
-                        pets_container.setVisibility(View.VISIBLE);
-                        selectedFragment = new PetsFragment();
-                        break;
-                    case R.id.nav_shelters:
-                        pets_container.setVisibility(View.GONE);
-                        selectedFragment = new SheltersFragment();
-                        break;
-                    case R.id.nav_lost:
-                        pets_container.setVisibility(View.GONE);
-                        selectedFragment = new LostFragment();
-                        break;
-                    case R.id.nav_profile:
-                        pets_container.setVisibility(View.GONE);
-                        selectedFragment = new ProfileFragment();
-                        break;
-                }
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        selectedFragment).commit();
-                return true;
-            }
-        });
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                new PetsFragment()).addToBackStack(null).commit();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(navView, navController);
     }
 
     public void openFragment(Fragment fragment) {
@@ -74,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openFilterFragment(View view) {
+//        pets_container.setVisibility(View.GONE);
         openFragment(FilterFragment.newInstance());
+
     }
 
 }

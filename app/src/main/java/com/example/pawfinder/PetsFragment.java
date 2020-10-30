@@ -36,8 +36,6 @@ import java.util.List;
 public class PetsFragment extends Fragment {
 
     private static final String TAG = PetsFragment.class.getSimpleName();
-
-    private CardStackView cardStackView;
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
 
@@ -45,7 +43,6 @@ public class PetsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_pets, container, false);
         init(root);
-
         return root;
     }
 
@@ -101,7 +98,7 @@ public class PetsFragment extends Fragment {
         manager.setMaxDegree(20.0f);
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
-        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual);
+        manager.setSwipeableMethod(SwipeableMethod.Manual);
         manager.setOverlayInterpolator(new LinearInterpolator());
         adapter = new CardStackAdapter(createSpots());
         cardStackView.setLayoutManager(manager);
@@ -129,8 +126,8 @@ public class PetsFragment extends Fragment {
         return items;
     }
 
-    private ItemModel createSpot() {
-        return new ItemModel(R.drawable.pet1, "Daisy", "3 years", "Female");
-    }
+//    private ItemModel createSpot() {
+//        return new ItemModel(R.drawable.pet1, "Daisy", "3 years", "Female");
+//    }
 
 }
