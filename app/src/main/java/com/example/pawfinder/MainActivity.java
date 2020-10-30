@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         filter_icon.setClickable(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                         new LostFragment()).addToBackStack(null).commit();
+                         new ProfileFragment()).addToBackStack(null).commit();
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.nav_pets);
