@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -20,7 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     RelativeLayout pets_container;
-
+    ImageButton filterButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
       pets_container = findViewById(R.id.pets_container);
 
-        final ImageView filter_icon = (ImageView)findViewById(R.id.filter_icon);
-        filter_icon.setClickable(true);
-//fragment_container
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                new SheltersFragment()).addToBackStack(null).commit();
+//        final ImageView filter_icon = (ImageView)findViewById(R.id.filter_icon);
+//        filter_icon.setClickable(true);
+        filterButton = findViewById(R.id.filter);
+        filterButton.setClickable(true);
+
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.nav_pets);
@@ -67,17 +69,27 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container,
                 new PetsFragment()).addToBackStack(null).commit();
+
+
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pets_container.setVisibility(View.INVISIBLE);
+//                Intent intent = new Intent(this , FilterFragment.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
-    public void openFragment(Fragment fragment) {
+    public void openFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
+        transaction.replace(R.id.container, new FilterFragment());
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     public void openFilterFragment(View view) {
-        openFragment(FilterFragment.newInstance());
+//        openFragment(FilterFragment.newInstance());
     }
 
 }
