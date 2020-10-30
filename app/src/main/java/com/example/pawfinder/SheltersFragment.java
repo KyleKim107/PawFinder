@@ -6,6 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,13 +25,24 @@ public class SheltersFragment extends Fragment {
         sheltersViewModel =
                 ViewModelProviders.of(this).get(SheltersViewModel.class);
         View root = inflater.inflate(R.layout.fragment_shelters, container, false);
-        final TextView textView = root.findViewById(R.id.text_shelters);
-        sheltersViewModel.getText().observe(this, new Observer<String>() {
+
+        // Initialize map fragment
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
+
+        // Async map
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onMapReady(GoogleMap googleMap) {
+                // Do something here??
             }
         });
+//        final TextView textView = root.findViewById(R.id.text_shelters);
+//        sheltersViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
         return root;
     }
 }
