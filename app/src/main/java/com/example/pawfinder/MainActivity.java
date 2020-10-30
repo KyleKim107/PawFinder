@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView filter_icon = (ImageView)findViewById(R.id.filter_icon);
         filter_icon.setClickable(true);
-//fragment_container
-//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                new SheltersFragment()).addToBackStack(null).commit();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,
+                         new LostFragment()).addToBackStack(null).commit();
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setSelectedItemId(R.id.nav_pets);
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,
-                new PetsFragment()).addToBackStack(null).commit();
+       // getSupportFragmentManager().beginTransaction().replace(R.id.container,
+       //         new PetsFragment()).addToBackStack(null).commit();
     }
 
     public void openFragment(Fragment fragment) {
