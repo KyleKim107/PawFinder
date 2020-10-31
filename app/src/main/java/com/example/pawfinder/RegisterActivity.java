@@ -1,0 +1,143 @@
+package com.example.pawfinder;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    private Button mRegister;
+    private TextView mLoginTxt;
+    private EditText mFirstName, mLastName, mEmail, mPassword;
+
+    // Firebase
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+            }
+        };
+
+        mRegister = (Button) findViewById(R.id.btn_register);
+        mLoginTxt = (TextView) findViewById(R.id.logintxt_register);
+        mFirstName = (EditText) findViewById(R.id.firstName_register);
+        mLastName = (EditText) findViewById(R.id.lastName_register);
+        mEmail = (EditText) findViewById(R.id.email_register);
+        mPassword = (EditText) findViewById(R.id.password_register);
+
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String firstName = mFirstName.getText().toString().trim();
+                final String lastName = mLastName.getText().toString().trim();
+                final String email = mEmail.getText().toString().trim();
+                final String password = mPassword.getText().toString().trim();
+
+                if (firstName.isEmpty()) {
+                    mFirstName.setError("First name required.");
+                    mFirstName.requestFocus();
+                    return;
+                }
+                if (lastName.isEmpty()) {
+                    mLastName.setError("Last name required.");
+                    mLastName.requestFocus();
+                    return;
+                }
+                if (email.isEmpty()) {
+                    mEmail.setError("Email address required.");
+                    mEmail.requestFocus();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    mEmail.setError("Enter a valid email address.");
+                    mEmail.requestFocus();
+                    return;
+                }
+                if (password.isEmpty()) {
+                    mPassword.setError("Password required.");
+                    mPassword.requestFocus();
+                    return;
+                }
+                if (password.length() < 6) {
+                    mPassword.setError("Password should be at least 6 characters long.");
+                    mPassword.requestFocus();
+                    return;
+                }
+
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, task.getException().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Log.d(TAG, "createUserWithEmail:success");
+                        }
+                    }
+                });
+            }
+        });
+
+        mLoginTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(firebaseAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(firebaseAuthStateListener);
+    }
+}

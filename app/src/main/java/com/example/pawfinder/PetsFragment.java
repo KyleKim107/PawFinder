@@ -39,6 +39,11 @@ public class PetsFragment extends Fragment {
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
 
+    public static PetsFragment newInstance() {
+        PetsFragment fragment = new PetsFragment();
+        return fragment;
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_pets, container, false);
