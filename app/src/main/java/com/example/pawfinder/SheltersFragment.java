@@ -21,37 +21,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class SheltersFragment extends Fragment {
 
     private SheltersViewModel sheltersViewModel;
-
-    public static SheltersFragment newInstance() {
-        SheltersFragment fragment = new SheltersFragment();
-        return fragment;
-    }
-
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
-
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        @Override
-        public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        }
-    };
-
-
 
     @Nullable
     @Override
@@ -67,8 +42,30 @@ public class SheltersFragment extends Fragment {
         // Async map
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapReady(GoogleMap googleMap) {
-                // Do something here??
+            public void onMapReady(final GoogleMap googleMap) {
+                LatLng madison = new LatLng(43.0731, -89.4012);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madison, 11.0f));
+                LatLng shelter1 = new LatLng(42.995862, -89.524100);
+                googleMap.addMarker(new MarkerOptions().position(shelter1).title("Angel's Wish Pet Adoption and Resource Center"));
+                LatLng shelter2 = new LatLng(43.053467, -89.289811);
+                googleMap.addMarker(new MarkerOptions().position(shelter2).title("Dane County Humane Society"));
+                LatLng shelter3 = new LatLng(43.0830631, -89.308350);
+                googleMap.addMarker(new MarkerOptions().position(shelter3).title("Shelter From the Storm"));
+                LatLng shelter4 = new LatLng(43.036737, -89.390748);
+                googleMap.addMarker(new MarkerOptions().position(shelter4).title("Madison Cat Project"));
+                LatLng shelter5 = new LatLng(43.102949, -89.341310);
+                googleMap.addMarker(new MarkerOptions().position(shelter5).title("Underdog Pet Rescue of Wisconsin"));
+                LatLng shelter6 = new LatLng(43.108965, -89.301484);
+                googleMap.addMarker(new MarkerOptions().position(shelter6).title("Diamond Dogs Rescue"));
+
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 14.0f));
+                        marker.showInfoWindow();
+                        return true;
+                    }
+                });
             }
         });
 //        final TextView textView = root.findViewById(R.id.text_shelters);
