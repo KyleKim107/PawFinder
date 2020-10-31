@@ -46,8 +46,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             super(itemView);
             image = itemView.findViewById(R.id.item_image);
             name = itemView.findViewById(R.id.item_name);
-            age = itemView.findViewById(R.id.item_age);
-            gender = itemView.findViewById(R.id.item_gender);
+            age = itemView.findViewById(R.id.item_number);
+            gender = itemView.findViewById(R.id.item_location);
         }
 
         void setData(ItemModel data) {
