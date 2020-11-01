@@ -7,10 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".SheltersFragment">
 
-    <fragment
+<!--    <fragment-->
+<!--        android:id="@+id/google_map"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:name="com.google.android.gms.maps.SupportMapFragment" />-->
+
+    <com.google.android.gms.maps.MapView
         android:id="@+id/google_map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
