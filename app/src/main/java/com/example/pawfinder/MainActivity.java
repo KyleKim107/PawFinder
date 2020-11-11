@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
         Toast.makeText(this, "Successfully logged out.",
                 Toast.LENGTH_LONG).show();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
