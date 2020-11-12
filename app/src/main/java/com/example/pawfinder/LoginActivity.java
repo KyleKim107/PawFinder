@@ -3,9 +3,14 @@ package com.example.pawfinder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +27,10 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -42,6 +51,8 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
+    ConstraintLayout registerCard;
+
     private Button mLogin, mGoogle, mFacebook;
     private TextView mRegisterTxt;
     private EditText mEmail, mPassword;
@@ -52,10 +63,27 @@ public class LoginActivity extends AppCompatActivity {
 
     CallbackManager mCallbackManager;
 
+    GoogleSignInClient mGoogleSignInClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        registerCard = (ConstraintLayout) findViewById(R.id.registercard);
+        registerCard.setVisibility(View.GONE);
+
+        // Transition
+        getWindow().setEnterTransition(null);
+        getWindow().setExitTransition(null);
+
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                registerCard.setVisibility(View.VISIBLE);
+            }
+        };
+        handler.postDelayed(r, 300);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -70,6 +98,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        if (account != null) {
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//            return;
+//        }
 
         mCallbackManager = CallbackManager.Factory.create();
 
@@ -122,15 +160,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        mGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
-            }
-        });
+//        mGoogle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = mGoogleSignInClient.getSignInIntent();
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
         // Registering callback
         LoginManager.getInstance().registerCallback(mCallbackManager,
@@ -182,6 +219,15 @@ public class LoginActivity extends AppCompatActivity {
                 LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
             }
         });
+
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void handleFacebookAccessToken(AccessToken token) {

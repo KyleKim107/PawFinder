@@ -15,6 +15,7 @@
             android:id="@+id/paw_image_login"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:transitionName="paw_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -112,27 +113,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <EditText
-                android:id="@+id/leftOr"
+            <View
+                android:id="@+id/leftLine"
                 android:layout_width="131dp"
-                android:layout_height="45dp"
+                android:layout_height="2dp"
+                android:background="#DBDBDB"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="150dp"
+                android:layout_marginBottom="157dp"
                 android:ems="10"
-                android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <EditText
-                android:id="@+id/rightOr"
+            <TextView
+                android:id="@+id/rightLine"
                 android:layout_width="131dp"
-                android:layout_height="45dp"
+                android:layout_height="2dp"
+                android:background="#DBDBDB"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="150dp"
+                android:layout_marginBottom="157dp"
                 android:ems="10"
-                android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -168,21 +167,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-<!--            <com.facebook.login.widget.LoginButton-->
-<!--                android:id="@+id/facebook_login"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="45dp"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_marginStart="45dp"-->
-<!--                android:layout_marginLeft="45dp"-->
-<!--                android:layout_marginEnd="45dp"-->
-<!--                android:layout_marginRight="45dp"-->
-<!--                android:layout_marginBottom="30dp"-->
-<!--                android:textSize="17sp"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent" />-->
 
             <Button
                 android:id="@+id/facebook_login"
