@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,20 +17,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-//    String displayName, firstName, lastName, email, password, id;
-
-    // Firebase
-//    FirebaseAuth mAuth;
-//    FirebaseUser currentUser;
-//    DatabaseReference reference;
-
-    BottomNavigationView navView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        navView = findViewById(R.id.nav_view);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
     }
@@ -46,21 +36,6 @@ public class MainActivity extends AppCompatActivity {
     public void openFilterFragment(View view) {
         openFragment(FilterFragment.newInstance());
     }
-
-//    public void createUI(FirebaseUser user) {
-//        if (displayName != null) {
-//            // User has just signed up - update display name
-//            if (user != null) {
-//                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-//                        .setDisplayName(displayName)
-//                        .build();
-//            }
-//        } else {
-//            displayName = user.getDisplayName();
-//        }
-//        openFragment(PetsFragment.newInstance());
-//        hideBottomBar(false);
-//    }
 
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();

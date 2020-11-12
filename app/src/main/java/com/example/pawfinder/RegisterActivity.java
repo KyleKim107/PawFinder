@@ -2,7 +2,6 @@ package com.example.pawfinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,19 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+import com.google.firebase.auth.UserProfileChangeRequest;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private Button mRegister;
-    private TextView mLoginTxt;
     private EditText mFirstName, mLastName, mEmail, mPassword;
 
     // Firebase
@@ -45,13 +41,12 @@ public class RegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    return;
                 }
             }
         };
 
-        mRegister = (Button) findViewById(R.id.btn_register);
-        mLoginTxt = (TextView) findViewById(R.id.logintxt_register);
+        Button mRegister = (Button) findViewById(R.id.btn_register);
+        TextView mLoginTxt = (TextView) findViewById(R.id.logintxt_register);
         mFirstName = (EditText) findViewById(R.id.firstName_register);
         mLastName = (EditText) findViewById(R.id.lastName_register);
         mEmail = (EditText) findViewById(R.id.email_register);
@@ -106,6 +101,31 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                         else {
                             Log.d(TAG, "createUserWithEmail:success");
+                            // Set display name
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String displayName = firstName + " " + lastName;
+                            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(displayName).build();
+                            user.updateProfile(profile)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+
+                                                FirebaseUser user = mAuth.getCurrentUser();
+                                                String id = user.getUid();
+                                                Log.i(TAG, "onCompleted: Id: " + id);
+                                                // TODO: Add id to user database here (Check if already exists first)
+                                                String name = user.getDisplayName();
+                                                Log.i(TAG, "onCompleted: Name: " + name);
+                                                // TODO: Add name to user database here (Check if already exists first)
+                                                String email = user.getEmail();
+                                                Log.i(TAG, "onCompleted: Email: " + email);
+                                                // TODO: Add email to user database here (Check if already exists first)
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });
