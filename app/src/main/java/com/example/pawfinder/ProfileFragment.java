@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -30,6 +33,9 @@ public class ProfileFragment extends Fragment {
     private ArrayList<String> mAges = new ArrayList<>();
     private ArrayList<String> mGenders = new ArrayList<>();
 
+    private FirebaseAuth mAuth;
+    TextView name;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         profileViewModel =
@@ -42,6 +48,13 @@ public class ProfileFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
+
+        name = (TextView) root.findViewById(R.id.userName);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        name.setText(user.getDisplayName());
 
         initImageBitmaps();
 
