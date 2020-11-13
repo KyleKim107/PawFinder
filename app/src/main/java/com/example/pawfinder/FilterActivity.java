@@ -1,5 +1,6 @@
 package com.example.pawfinder;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class FilterActivity extends AppCompatActivity {
 
@@ -18,6 +20,21 @@ public class FilterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
+
+
+        Button btnBack = findViewById(R.id.backBtn);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(FilterActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+
+
+
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -35,15 +52,5 @@ public class FilterActivity extends AppCompatActivity {
 //        });
     }
 
-    public void btnBackOnclick (View view) {
-        Button btnFrag = (Button) view.findViewById(R.id.backBtn);
-        btnFrag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(FilterActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
-    }
 }
