@@ -14,8 +14,26 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.RequestBody;
+import java.io.IOException;
+
+
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf=8");
+    OkHttpClient client = new OkHttpClient();
+
+    String post(String url, String json) throws IOException{
+
+
+        return "";
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
+
+        String url = "https://api.petfinder.com/v2/oauth2/token";
+
     }
 
     public void openFragment(Fragment fragment) {
