@@ -17,6 +17,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -26,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +130,26 @@ public class RegisterActivity extends AppCompatActivity {
                                                 String email = user.getEmail();
                                                 Log.i(TAG, "onCompleted: Email: " + email);
                                                 // TODO: Add email to user database here (Check if already exists first)
+
+                                                reference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+
+                                                HashMap<String, Object> hashMap = new HashMap<>();
+                                                hashMap.put("name", name);
+                                                hashMap.put("email", email);
+                                                final ArrayList<ItemModel> favorites = new ArrayList<>();
+                                                favorites.add(new ItemModel("None", "None", "None", "None"));
+                                                hashMap.put("favorites", favorites);
+                                                hashMap.put("lastPet", "0");
+
+                                                reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // updates database in real time
+                                                            Log.d(TAG, "onSuccess: New user has been added to database.");
+                                                        }
+                                                    }
+                                                });
                                             }
                                         }
                                     });
