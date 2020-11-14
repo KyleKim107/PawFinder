@@ -38,6 +38,7 @@ public class PetsFragment extends Fragment {
     private static final String TAG = PetsFragment.class.getSimpleName();
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
+    //private List<ItemModel> MyPets;
 
     public static PetsFragment newInstance() {
         PetsFragment fragment = new PetsFragment();
@@ -118,6 +119,7 @@ public class PetsFragment extends Fragment {
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         adapter.setItems(current);
         result.dispatchUpdatesTo(adapter);
+
     }
 
     // Dummy data
@@ -130,6 +132,8 @@ public class PetsFragment extends Fragment {
         items.add(new ItemModel(R.drawable.pet5, "Bella", "3 years", "Female"));
         return items;
     }
+
+
 
 //    private ItemModel createSpot() {
 //        return new ItemModel(R.drawable.pet1, "Daisy", "3 years", "Female");
