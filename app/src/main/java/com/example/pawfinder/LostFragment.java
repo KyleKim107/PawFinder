@@ -109,30 +109,21 @@ public class LostFragment extends Fragment {
 
     // For buttons later
     public void myLostPets() {
-        List<ItemModel> old = adapter.getItems();
-        List<ItemModel> current = new ArrayList<>(createSpot());
-        CardStackCallback callback = new CardStackCallback(old, current);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setItems(current);
-        result.dispatchUpdatesTo(adapter);
+        //TODO make button press use  user account data to display their lost pets in card format
     }
 
     public void allLostPets() {
-        List<ItemModel> old = adapter.getItems();
-        List<ItemModel> current = new ArrayList<>(createSpots());
-        CardStackCallback callback = new CardStackCallback(old, current);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setItems(current);
-        result.dispatchUpdatesTo(adapter);
+        //TODO make button press have cards switch back to displaying all lost pets
+
     }
 
     // Dummy all lost pet data
     // Using fields incorrectly right now, but it still works
     private List<ItemModel> createSpots() {
         List<ItemModel> items = new ArrayList<>();
-        items.add(new ItemModel(R.drawable.pet5, "Lucy", "(262)-363-2727", "Last Seen: Downtown"));
-        items.add(new ItemModel(R.drawable.pet4, "Fred", "(343)-353-4562", "Last Seen: The Park"));
-        items.add(new ItemModel(R.drawable.pet3, "Marv", "(646)-545-7894", "Last Seen: East Dublin Rd."));
+        items.add(new ItemModel(R.drawable.pet8, "Lucy", "(262)-363-2727", "Last Seen: Downtown"));
+        items.add(new ItemModel(R.drawable.pet7, "Fred", "(343)-353-4562", "Last Seen: The Park"));
+        items.add(new ItemModel(R.drawable.pet9, "Marv", "(646)-545-7894", "Last Seen: East Dublin Rd."));
         return items;
     }
 
