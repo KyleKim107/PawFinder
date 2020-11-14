@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
     }
 
+    public void removeItem(int position) {
+        mImages.remove(position);
+        mNames.remove(position);
+        mAges.remove(position);
+        mGenders.remove(position);
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRemoved(position);
+    }
+
     @Override
     public int getItemCount() {
         return mNames.size();
@@ -75,6 +87,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView image;
         TextView name, age, gender;
         CardView layout;
+        public RelativeLayout viewBackground, viewForeground;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +96,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             age = itemView.findViewById(R.id.recyclerAge);
             gender = itemView.findViewById(R.id.recyclerGender);
             layout = itemView.findViewById(R.id.recyclerLayout);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.view_foreground);
         }
 
     }

@@ -7,4 +7,5 @@
     <color name="grey">#222222</color>
     <color name="lightgrey">#EDEDED</color>
     <color name="link">#0645AD</color>
+    <color name="remove_background">#fa315b</color>
 </resources>
