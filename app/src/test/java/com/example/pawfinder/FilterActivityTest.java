@@ -8,10 +8,6 @@ public class FilterActivityTest {
 
     FilterActivity test;
 
-    @Test
-    public void onCreate() {
-        //test.onCreate(null);
-    }
 
     @Test
     public void btnBackOnclick() {

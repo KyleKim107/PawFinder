@@ -227,7 +227,6 @@ public class CardStackCallbackTest {
 
         @Override
         public void add(int index, ItemModel element) {
-
         }
 
         @Override

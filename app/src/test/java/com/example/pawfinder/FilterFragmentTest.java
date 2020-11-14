@@ -8,9 +8,6 @@ import static org.junit.Assert.*;
 
 public class FilterFragmentTest {
 
-    @Test
-    public void onCreateView() {
-    }
 
     @Test
     public void newInstance() {
