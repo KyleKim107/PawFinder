@@ -1,20 +1,19 @@
 package com.example.pawfinder;
 
 public class ItemModel {
-    private int image;
-    private String name, age, gender;
+    private String image, name, age, gender;
 
     public ItemModel() {
     }
 
-    public ItemModel(int image, String name, String age, String gender) {
+    public ItemModel(String image, String name, String age, String gender) {
         this.image = image;
         this.name = name;
         this.age = age;
         this.gender = gender;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
