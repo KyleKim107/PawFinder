@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -72,6 +74,23 @@ public class PetsFragment extends Fragment {
             public void DataIsLoaded(ArrayList<Pet> pets, ArrayList<String> keys) {
                 new CardStackConfig().setConfig(mCardStackView, getActivity(), pets, keys);
                 mPets = pets;
+            }
+            @Override
+            public void DataIsInserted() {
+            }
+            @Override
+            public void DataIsUpdated() {
+            }
+            @Override
+            public void DataIsDeleted() {
+            }
+        });
+
+        // Read favorites to know which pets can be swiped and which are already in favorites list
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        new FirebaseDatabaseHelper("favorites", user.getUid()).readFavorites(new FirebaseDatabaseHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
             }
             @Override
             public void DataIsInserted() {

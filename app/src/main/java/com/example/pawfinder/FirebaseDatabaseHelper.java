@@ -71,11 +71,13 @@ public class FirebaseDatabaseHelper {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 favorites.clear();
+                CardStackConfig.ids.clear();
                 ArrayList<String> keys = new ArrayList<>();
                 for (DataSnapshot keyNode : snapshot.getChildren()) {
                     keys.add(keyNode.getKey());
                     Pet pet = keyNode.getValue(Pet.class);
                     favorites.add(pet);
+                    CardStackConfig.ids.add(pet.getId());
                 }
                 dataStatus.DataIsLoaded(favorites, keys);
             }
@@ -130,14 +132,16 @@ public class FirebaseDatabaseHelper {
     }
 
     public void addFavorite(Pet pet, final DataStatus dataStatus) {
-        String key = mReferenceFavorites.push().getKey();
-        mReferenceFavorites.child(key).setValue(pet)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        dataStatus.DataIsInserted();
-                    }
-                });
+        if (!CardStackConfig.ids.contains(pet.getId())) {
+            String key = mReferenceFavorites.push().getKey();
+            mReferenceFavorites.child(key).setValue(pet)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            dataStatus.DataIsInserted();
+                        }
+                    });
+        }
     }
 
     // TODO: figure out how to add to both my lost and all lost
