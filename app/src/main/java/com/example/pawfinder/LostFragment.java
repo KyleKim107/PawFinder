@@ -6,15 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DiffUtil;
 
@@ -99,8 +94,8 @@ public class LostFragment extends Fragment {
     }
 
     private void paginate() {
-        List<ItemModel> old = adapter.getItems();
-        List<ItemModel> current = new ArrayList<>(createSpots());
+        List<Pet> old = adapter.getItems();
+        List<Pet> current = new ArrayList<>(createSpots());
         CardStackCallback callback = new CardStackCallback(old, current);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         adapter.setItems(current);
@@ -109,28 +104,37 @@ public class LostFragment extends Fragment {
 
     // For buttons later
     public void myLostPets() {
-        //TODO make button press use  user account data to display their lost pets in card format
+        List<Pet> old = adapter.getItems();
+        List<Pet> current = new ArrayList<>(createSpot());
+        CardStackCallback callback = new CardStackCallback(old, current);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setItems(current);
+        result.dispatchUpdatesTo(adapter);
     }
 
     public void allLostPets() {
-        //TODO make button press have cards switch back to displaying all lost pets
-
+        List<Pet> old = adapter.getItems();
+        List<Pet> current = new ArrayList<>(createSpots());
+        CardStackCallback callback = new CardStackCallback(old, current);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setItems(current);
+        result.dispatchUpdatesTo(adapter);
     }
 
     // Dummy all lost pet data
     // Using fields incorrectly right now, but it still works
-    private List<ItemModel> createSpots() {
-        List<ItemModel> items = new ArrayList<>();
-        items.add(new ItemModel(R.drawable.pet8, "Lucy", "(262)-363-2727", "Last Seen: Downtown"));
-        items.add(new ItemModel(R.drawable.pet7, "Fred", "(343)-353-4562", "Last Seen: The Park"));
-        items.add(new ItemModel(R.drawable.pet9, "Marv", "(646)-545-7894", "Last Seen: East Dublin Rd."));
+    private List<Pet> createSpots() {
+        List<Pet> items = new ArrayList<>();
+//        items.add(new Pet("https://images.unsplash.com/photo-1570018143038-6f4c428f6e3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=698&q=80", "Lucy", "(262)-363-2727", "Last Seen: Downtown"));
+//        items.add(new Pet("https://images.unsplash.com/photo-1593991341138-9a9db56a8bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80", "Fred", "(343)-353-4562", "Last Seen: The Park"));
+//        items.add(new Pet("https://images.unsplash.com/photo-1598739871560-29dfcd95b823?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80", "Marv", "(646)-545-7894", "Last Seen: East Dublin Rd."));
         return items;
     }
 
     // Dummy my lost pet data
-    private List<ItemModel> createSpot() {
-        List<ItemModel> items = new ArrayList<>();
-        items.add(new ItemModel(R.drawable.pet6, "Jenny", "(608)-867-5309", "1600 Apple Grove"));
+    private List<Pet> createSpot() {
+        List<Pet> items = new ArrayList<>();
+//        items.add(new Pet("https://images.unsplash.com/photo-1570824105192-a7bb72b73141?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=767&q=80", "Jenny", "(608)-867-5309", "1600 Apple Grove"));
         return items;
     }
 

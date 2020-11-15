@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil;
 
 public class CardStackCallback extends DiffUtil.Callback {
 
-    private List<ItemModel> old, current;
+    private List<Pet> old, current;
 
-    public CardStackCallback(List<ItemModel> old, List<ItemModel> current) {
+    public CardStackCallback(List<Pet> old, List<Pet> current) {
         this.old = old;
         this.current = current;
     }

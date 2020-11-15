@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
-    private List<ItemModel> items;
+    private List<Pet> items;
 
-    public CardStackAdapter(List<ItemModel> items) {
+    public CardStackAdapter(List<Pet> items) {
         this.items = items;
     }
 
@@ -50,7 +50,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             gender = itemView.findViewById(R.id.item_gender);
         }
 
-        void setData(ItemModel data) {
+        void setData(Pet data) {
             Picasso.get()
                     .load(data.getImage())
                     .fit()
@@ -62,11 +62,11 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         }
     }
 
-    public List<ItemModel> getItems() {
+    public List<Pet> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemModel> items) {
+    public void setItems(List<Pet> items) {
         this.items = items;
     }
 }
