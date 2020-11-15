@@ -46,11 +46,12 @@ public class CardStackConfig {
     private FirebaseUser user;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReferencePets;
+    public static ArrayList<String> ids = new ArrayList<>();
 
     public void setConfig(CardStackView cardStackView, Context context, ArrayList<Pet> pets, ArrayList<String> keys) {
         // Firebase
         mAuth = FirebaseAuth.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        user = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
         final View[] root = new View[1];
         mContext = context;
