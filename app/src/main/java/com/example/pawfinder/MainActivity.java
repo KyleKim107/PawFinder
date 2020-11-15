@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         String url = "https://api.petfinder.com/v2/oauth2/token";
 
+
+
+
     }
 
     public void openFragment(Fragment fragment) {
@@ -55,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openFilterFragment(View view) {
-        openFragment(FilterFragment.newInstance());
+        Intent filter = new Intent(MainActivity.this, FilterActivity.class);
+        startActivity(filter);
+
     }
 
     public void logout(View view) {
