@@ -11,16 +11,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ProfileFragment extends Fragment {
@@ -31,16 +31,16 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
 
     //vars
-    private ArrayList<String> mImageUrls = new ArrayList<>();
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mAges = new ArrayList<>();
-    private ArrayList<String> mGenders = new ArrayList<>();
+    private ArrayList<Pet> mFavorites = new ArrayList<>();
+    private ArrayList<String> mKeys = new ArrayList<>();
 
-    RecyclerView recyclerView;
-    RecyclerViewAdapter adapter;
+    RecyclerView mRecyclerView;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
     TextView name;
+//    private String key;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,74 +55,40 @@ public class ProfileFragment extends Fragment {
 //            }
 //        });
 
-        name = (TextView) root.findViewById(R.id.userName);
+//        key = getArguments().getString("key");
 
+        // Firebase
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user = mAuth.getCurrentUser();
 
+        // Show the user's name in the profile page
+        name = (TextView) root.findViewById(R.id.userName);
         name.setText(user.getDisplayName());
 
-        initImageBitmaps();
+        mRecyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+
+        new FirebaseDatabaseHelper("favorites", user.getUid()).readFavorites(new FirebaseDatabaseHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                root.findViewById(R.id.loadingFavorites).setVisibility(View.GONE);
+                new RecyclerViewConfig().setConfig(mRecyclerView, getActivity(), favorites, keys);
+                mFavorites = favorites;
+                mKeys = keys;
+            }
+            @Override
+            public void DataIsInserted() {
+            }
+            @Override
+            public void DataIsUpdated() {
+            }
+            @Override
+            public void DataIsDeleted() {
+            }
+        });
+
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mRecyclerView);
 
         return root;
-    }
-
-    private void initImageBitmaps() {
-        Log.d(TAG, "initImageBitmaps: preparing bitmaps.");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1593991341138-9a9db56a8bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80");
-        mNames.add("Lucky");
-        mAges.add("3 years");
-        mGenders.add("Male");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1570018143038-6f4c428f6e3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=698&q=80");
-        mNames.add("Pumpkin");
-        mAges.add("1 month");
-        mGenders.add("Female");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1598739871560-29dfcd95b823?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80");
-        mNames.add("Chase");
-        mAges.add("5 years");
-        mGenders.add("Male");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1542296935124-75ae8a4e6329?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80");
-        mNames.add("Sweetie");
-        mAges.add("3 years");
-        mGenders.add("Female");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1570824105192-a7bb72b73141?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=767&q=80");
-        mNames.add("Honey");
-        mAges.add("2 years");
-        mGenders.add("Female");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1593991393705-552675fe6f6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
-        mNames.add("Camper");
-        mAges.add("4 years");
-        mGenders.add("Male");
-
-        mImageUrls.add("https://images.unsplash.com/photo-1605125731324-fe8ef7d199df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1418&q=80");
-        mNames.add("Grover");
-        mAges.add("2 years");
-        mGenders.add("Male");
-
-        initRecyclerView();
-    }
-
-    private void initRecyclerView(){
-        Log.d(TAG, "initRecyclerView: init recyclerview.");
-        recyclerView = root.findViewById(R.id.recyclerView);
-        adapter = new RecyclerViewAdapter(getActivity(), mImageUrls, mNames, mAges, mGenders);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    private void deletePet(String dImage, String dName, String dAge, String dGender) {
-        mImageUrls.remove(dImage);
-        mNames.remove(dName);
-        mAges.remove(dAge);
-        mGenders.remove(dGender);
-        adapter.notifyDataSetChanged();
     }
 
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -132,26 +98,41 @@ public class ProfileFragment extends Fragment {
         }
 
         @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            String deleteImage = mImageUrls.get(viewHolder.getAdapterPosition());
-            String deleteName = mNames.get(viewHolder.getAdapterPosition());
-            String deleteAge = mAges.get(viewHolder.getAdapterPosition());
-            String deleteGender = mGenders.get(viewHolder.getAdapterPosition());
-            deletePet(deleteImage, deleteName, deleteAge, deleteGender);
+        public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+            Pet fav = mFavorites.get(viewHolder.getAdapterPosition());
+            String key = mKeys.get(viewHolder.getAdapterPosition());
+            mFavorites.remove(fav);
+            mKeys.remove(key);
+
+            new FirebaseDatabaseHelper("favorites", user.getUid()).deleteFavorite(key, new FirebaseDatabaseHelper.DataStatus() {
+                @Override
+                public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                }
+                @Override
+                public void DataIsInserted() {
+                }
+                @Override
+                public void DataIsUpdated() {
+                }
+                @Override
+                public void DataIsDeleted() {
+
+                }
+            });
         }
 
         @Override
         public void onChildDrawOver(Canvas c, RecyclerView recyclerView,
                                     RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                     int actionState, boolean isCurrentlyActive) {
-            final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((RecyclerViewConfig.FavoriteItemView) viewHolder).viewForeground;
             getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                     actionState, isCurrentlyActive);
         }
 
         @Override
         public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((RecyclerViewConfig.FavoriteItemView) viewHolder).viewForeground;
             getDefaultUIUtil().clearView(foregroundView);
         }
 
@@ -159,7 +140,7 @@ public class ProfileFragment extends Fragment {
         public void onChildDraw(Canvas c, RecyclerView recyclerView,
                                 RecyclerView.ViewHolder viewHolder, float dX, float dY,
                                 int actionState, boolean isCurrentlyActive) {
-            final View foregroundView = ((RecyclerViewAdapter.ViewHolder) viewHolder).viewForeground;
+            final View foregroundView = ((RecyclerViewConfig.FavoriteItemView) viewHolder).viewForeground;
 
             getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                     actionState, isCurrentlyActive);
