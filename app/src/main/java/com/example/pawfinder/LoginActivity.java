@@ -290,10 +290,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.getValue() != null) {
-                    Log.d("TEST", "USER EXISTS OOOO");
+                    // user exists - do nothing?
                 } else {
-                    //user does not exist, do something else
-                    Log.d("TEST", "NEW USER OOOO");
+                    //user does not exist - add to database
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("name", name);
                     hashMap.put("email", email);
