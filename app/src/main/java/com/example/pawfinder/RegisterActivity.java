@@ -137,7 +137,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                 hashMap.put("name", name);
                                                 hashMap.put("email", email);
                                                 final ArrayList<Pet> favorites = new ArrayList<>();
-                                                favorites.add(new Pet("None", "None", "None", "None", "None"));
                                                 hashMap.put("favorites", favorites);
                                                 hashMap.put("lastPet", "0");
 

@@ -25,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -32,7 +33,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -44,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    private DatabaseReference reference;
 
     CallbackManager mCallbackManager;
 
@@ -225,13 +235,11 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String id = user.getUid();
                             Log.i(TAG, "onCompleted: Id: " + id);
-                            // TODO: Add id to user database here (Check if already exists first)
                             String name = user.getDisplayName();
                             Log.i(TAG, "onCompleted: Name: " + name);
-                            // TODO: Add name to user database here (Check if already exists first)
                             String email = user.getEmail();
                             Log.i(TAG, "onCompleted: Email: " + email);
-                            // TODO: Add email to user database here (Check if already exists first)
+                            addToDatabase(id,name, email);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("LoginActivity", "signInWithCredential:failure", task.getException());
@@ -259,13 +267,11 @@ public class LoginActivity extends AppCompatActivity {
 
                             String id = user.getUid();
                             Log.i(TAG, "onCompleted: Id: " + id);
-                            // TODO: Add id to user database here (Check if already exists first)
                             String name = user.getDisplayName();
                             Log.i(TAG, "onCompleted: Name: " + name);
-                            // TODO: Add name to user database here (Check if already exists first)
                             String email = user.getEmail();
                             Log.i(TAG, "onCompleted: Email: " + email);
-                            // TODO: Add email to user database here (Check if already exists first)
+                            addToDatabase(id,name, email);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -275,6 +281,38 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    // TODO: Add id to user database here (Check if already exists first)
+    private void addToDatabase(String id, final String name, final String email) {
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(id);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    Log.d("TEST", "USER EXISTS OOOO");
+                } else {
+                    //user does not exist, do something else
+                    Log.d("TEST", "NEW USER OOOO");
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("name", name);
+                    hashMap.put("email", email);
+                    hashMap.put("lastPet", "0");
+                    reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                // updates database in real time
+                                Log.d(TAG, "onSuccess: New user has been added to database.");
+                            }
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 
     @Override
