@@ -15,16 +15,14 @@ import static org.junit.Assert.*;
 
 public class CardStackCallbackTest {
 
-    ItemModel testModel1 = new ItemModel(3, "Henry", "10", "Male" );
-    ItemModel testModel2 = new ItemModel(4, "Mary", "5", "Female" );
-    ItemModel testModel3 = new ItemModel(7, "Rover", "2", "Male" );
+    Pet testModel1 = new Pet("1", "https://images.unsplash.com/photo-1593991341138-9a9db56a8bf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80", "Lucky", "3 years", "Male" );
+    Pet testModel2 = new Pet("2", "https://images.unsplash.com/photo-1570018143038-6f4c428f6e3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=698&q=80", "Pumpkin", "1 month", "Female");
+    Pet testModel3 = new Pet("3", "https://images.unsplash.com/photo-1598739871560-29dfcd95b823?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80", "Chase", "5 years", "Male");
 
-    List<ItemModel> list1;
-    List<ItemModel> list2;
+    List<Pet> list1;
+    List<Pet> list2;
 
     CardStackCallback test;
-
-
 
     @Test
     public void getOldListSize() {
