@@ -12,15 +12,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+//import org.robolectric.RobolectricGradleTestRunner;
+//import org.robolectric.annotation.Config;
+//import static org.assertj.core.api.Assertions.assertThat;
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants = BuildConfig.class, sdk=21)
-public class PetsFragmentTest extends {
+//@RunWith(RobolectricGradleTestRunner.class)
+//@Config(constants = BuildConfig.class, sdk=21)
+//public class PetsFragmentTest extends {
+public class PetsFragmentTest {
 
     @Test
     public void newInstance() {
