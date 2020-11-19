@@ -84,7 +84,6 @@ public class CardStackConfig {
                                 String name = name_tv.getText().toString();
                                 String age = age_tv.getText().toString();
                                 String gender = gender_tv.getText().toString();
-                            Toast.makeText(mContext, "ID is: " + id, Toast.LENGTH_SHORT).show();
 
                                 Pet favorite = new Pet(id, image, name, age, gender);
                                 new FirebaseDatabaseHelper("favorites", user.getUid()).addFavorite(favorite, new FirebaseDatabaseHelper.DataStatus() {
