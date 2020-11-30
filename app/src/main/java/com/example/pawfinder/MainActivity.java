@@ -10,16 +10,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.pawfinder.Login.LoginActivity;
+import com.example.pawfinder.Pets.FilterActivity;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.RequestBody;
+
 import java.io.IOException;
 
 

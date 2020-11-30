@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Lost.ReportPetActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relLayout1">
+
+        <RelativeLayout
+            android:id="@+id/relLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/snippet_top_reportpettoolbar" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/relLayout3"
+            android:layout_below="@+id/relLayout2"
+            android:layout_marginBottom="50dp">
+
+            <RelativeLayout
+                android:id="@+id/relLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_centerHorizontal="false"
+                android:layout_marginTop="40dp"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textMissingPet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Is your pet missing?"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/reportMissingPetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="Report Missing Pet"
+                    android:layout_below="@+id/textMissingPet"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_height="140dp"
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:id="@+id/relLayout5"
+                android:layout_below="@+id/relLayout4">
+
+                <TextView
+                    android:id="@+id/textFoundPet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Have you found somebody's pet but don't know who owns it?"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:id="@+id/reportFoundPetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="Report Found Pet"
+                    android:layout_below="@+id/textFoundPet"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

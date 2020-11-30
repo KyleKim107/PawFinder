@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="grey">#222222</color>
+    <color name="icon_grey">#6A6A6A</color>
     <color name="lightgrey">#EDEDED</color>
     <color name="link">#0645AD</color>
     <color name="remove_background">#fa315b</color>

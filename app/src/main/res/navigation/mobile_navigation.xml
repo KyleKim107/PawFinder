@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_pets"
-        android:name="com.example.pawfinder.PetsFragment"
+        android:name="com.example.pawfinder.Pets.PetsFragment"
         android:label="@string/title_pets"
         tools:layout="@layout/fragment_pets" />
 
     <fragment
         android:id="@+id/navigation_shelters"
-        android:name="com.example.pawfinder.SheltersFragment"
+        android:name="com.example.pawfinder.Shelters.SheltersFragment"
         android:label="@string/title_shelters"
         tools:layout="@layout/fragment_shelters" />
 
     <fragment
         android:id="@+id/navigation_lost"
-        android:name="com.example.pawfinder.LostFragment"
+        android:name="com.example.pawfinder.Lost.LostFragment"
         android:label="@string/title_lost"
         tools:layout="@layout/fragment_lost" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.pawfinder.ProfileFragment"
+        android:name="com.example.pawfinder.Profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

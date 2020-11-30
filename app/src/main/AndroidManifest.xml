@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -21,18 +24,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoadingActivity">
+        <activity android:name=".Lost.ReportPetActivity"></activity>
+        <activity android:name=".Login.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity"/>
-
+        <activity android:name=".Login.RegisterActivity" />
+        <activity android:name=".Login.LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".FilterActivity" />
+        <activity android:name=".Pets.FilterActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

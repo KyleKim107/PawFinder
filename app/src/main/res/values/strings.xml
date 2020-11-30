@@ -6,4 +6,6 @@
     <string name="title_profile">Profile</string>
     <string name="facebook_app_id">359285832043517</string>
     <string name="fb_login_protocol_scheme">fb359285832043517</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
