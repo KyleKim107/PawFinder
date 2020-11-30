@@ -1,8 +1,8 @@
 package com.example.pawfinder;
 
-import org.junit.Test;
+import com.example.pawfinder.Pets.FilterActivity;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class FilterActivityTest {
 

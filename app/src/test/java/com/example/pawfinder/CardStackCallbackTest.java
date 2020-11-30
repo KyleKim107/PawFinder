@@ -1,16 +1,13 @@
 package com.example.pawfinder;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Utils.CardStackCallback;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+
 import static org.junit.Assert.*;
 
 public class CardStackCallbackTest {

@@ -46,6 +46,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 //    implementation 'com.google.firebase:firebase-auth:20.0.0'
     implementation 'com.google.firebase:firebase-database:19.5.1'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.code.gson:gson:2.8.6'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -70,8 +71,10 @@ dependencies {
     testImplementation 'org.powermock:powermock-core:1.7.0RC2'
     testImplementation 'org.powermock:powermock-module-junit4:1.7.0RC2'
     testImplementation 'org.powermock:powermock-api-mockito2:1.7.0RC2'
-
-
+    // CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // Universal Image Loader
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     // View
     implementation 'com.makeramen:roundedimageview:2.3.0'
     // Import the BoM for the Firebase platform

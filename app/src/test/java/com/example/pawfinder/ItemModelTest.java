@@ -1,5 +1,7 @@
 package com.example.pawfinder;
 
+import com.example.pawfinder.Models.Pet;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
