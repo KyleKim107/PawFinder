@@ -63,26 +63,7 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
 
         try {
-//            URL url = new URL("https://api.petfinder.com/v2/oauth2/token");
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("POST");
-//            connection.setRequestProperty("grant_type", "client_credentials");
-//            connection.setRequestProperty("client_id", "Ru1hdjxh6Sa8uF7Ubconob19BRan9ZquO2VKeDAeWagiqAVziQ");
-//            connection.setRequestProperty("client_secret", "zW9bRfZLJRHyupME3Z7qs0pgWqq9EFDF2vYnSSBb");//전송방식
-//            connection.setDoOutput(true);       //데이터를 쓸 지 설정
-//            connection.setDoInput(true);        //데이터를 읽어올지 설정
-//            connection.setRequestProperty("Content-Type","application/json");
-//            connection.setRequestProperty("Accept","application/json");
-//
-//            InputStream is = connection.getInputStream();
-//            StringBuilder sb = new StringBuilder();
-//            BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
-//            String result;
-//            while((result = br.readLine())!=null){
-//                sb.append(result+"\n");
-//            }
-//
-//            result = sb.toString();
+
             HttpUrl httpUrl = new HttpUrl.Builder()
                     .scheme("http")
                     .host("api.petfinder.com")
@@ -102,9 +83,11 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
 
 
+
         }catch(Exception e){
 
         }
+
 
         return mView;
     }
@@ -118,7 +101,7 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
         try (Response response = client.newCall(request).execute()) {
             String res = response.body().string();
-            Log.w("GetRequest" , res);
+            Log.w("shelter" , res);
 
 
             return response.body().string();
@@ -140,11 +123,12 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
                 JSONObject obj = new JSONObject(mMessage);
 
                 token = obj.getString("access_token");
+                structure = getShelters(token);
+
             }catch (Exception e){
 
             }
             Log.w("777" ,token );
-            structure = getShelters(token);
 
         }
     };
