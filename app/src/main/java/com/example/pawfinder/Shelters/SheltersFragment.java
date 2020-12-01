@@ -46,6 +46,7 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
     private SheltersViewModel sheltersViewModel;
 
     GoogleMap mGoogleMap;
+    String structure;
     MapView mMapView;
     View mView;
     String mMessage;
@@ -82,7 +83,7 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 //            }
 //
 //            result = sb.toString();
-                        HttpUrl httpUrl = new HttpUrl.Builder()
+            HttpUrl httpUrl = new HttpUrl.Builder()
                     .scheme("http")
                     .host("api.petfinder.com")
                     .addPathSegment("v2/oauth2/token")
@@ -107,6 +108,22 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
         return mView;
     }
+
+    String getShelters(String token) throws IOException {
+        String url = "https://api.petfinder.com/v2/organizations?state=WI&location=53703";
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer "+token)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String res = response.body().string();
+            Log.w("GetRequest" , res);
+
+
+            return response.body().string();
+        }
+    }
     private Callback callbackAfterRequest = new Callback(){
 
         @Override
@@ -122,11 +139,12 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
             try{
                 JSONObject obj = new JSONObject(mMessage);
 
-            token = obj.getString("access_token");
+                token = obj.getString("access_token");
             }catch (Exception e){
 
             }
             Log.w("777" ,token );
+            structure = getShelters(token);
 
         }
     };
@@ -175,4 +193,3 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 }
-
