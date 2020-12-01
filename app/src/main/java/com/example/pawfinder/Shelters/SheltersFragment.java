@@ -22,7 +22,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,8 +48,9 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
-
+    String mMessage;
     OkHttpClient client = new OkHttpClient();
+    String token;
 
     @Nullable
     @Override
@@ -51,8 +60,29 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
                 ViewModelProviders.of(this).get(SheltersViewModel.class);
         mView = inflater.inflate(R.layout.fragment_shelters, container, false);
 
+
         try {
-            HttpUrl httpUrl = new HttpUrl.Builder()
+//            URL url = new URL("https://api.petfinder.com/v2/oauth2/token");
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("POST");
+//            connection.setRequestProperty("grant_type", "client_credentials");
+//            connection.setRequestProperty("client_id", "Ru1hdjxh6Sa8uF7Ubconob19BRan9ZquO2VKeDAeWagiqAVziQ");
+//            connection.setRequestProperty("client_secret", "zW9bRfZLJRHyupME3Z7qs0pgWqq9EFDF2vYnSSBb");//전송방식
+//            connection.setDoOutput(true);       //데이터를 쓸 지 설정
+//            connection.setDoInput(true);        //데이터를 읽어올지 설정
+//            connection.setRequestProperty("Content-Type","application/json");
+//            connection.setRequestProperty("Accept","application/json");
+//
+//            InputStream is = connection.getInputStream();
+//            StringBuilder sb = new StringBuilder();
+//            BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+//            String result;
+//            while((result = br.readLine())!=null){
+//                sb.append(result+"\n");
+//            }
+//
+//            result = sb.toString();
+                        HttpUrl httpUrl = new HttpUrl.Builder()
                     .scheme("http")
                     .host("api.petfinder.com")
                     .addPathSegment("v2/oauth2/token")
@@ -68,8 +98,13 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
                     .post(body)
                     .build();
             client.newCall(request).enqueue(callbackAfterRequest);
+
+
+
         }catch(Exception e){
+
         }
+
         return mView;
     }
     private Callback callbackAfterRequest = new Callback(){
@@ -82,9 +117,20 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            String mMessage = response.body().string();
-            Log.i("RESPONSE-1", mMessage);        }
+            mMessage = response.body().string();
+            Log.i("RESPONSE-1", mMessage);
+            try{
+                JSONObject obj = new JSONObject(mMessage);
+
+            token = obj.getString("access_token");
+            }catch (Exception e){
+
+            }
+            Log.w("777" ,token );
+
+        }
     };
+
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -129,3 +175,4 @@ public class SheltersFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 }
+
