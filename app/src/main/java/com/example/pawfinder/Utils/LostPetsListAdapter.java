@@ -93,16 +93,6 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
 
         Log.d(TAG, "position: " + position + " and lost pet: " + holder.lostPet);
 
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Loading more pet information.");
-                ((MainActivity)mContext).onLostPetSelected(getItem(position), "MAINACTIVITY");
-                ((MainActivity)mContext).hideLayout();
-
-            }
-        });
-
         //set the time it was posted
         String timestampDifference = getTimestampDifference(getItem(position));
         if(!timestampDifference.equals("0")){

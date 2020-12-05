@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,9 +33,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.ContentValues.TAG;
-
 public class AllLostPetsFragment extends Fragment {
+
+    private final String TAG = "AllLostPetsFragment";
+
+    public interface OnAllLostPetSelectedListener {
+        void onAllLostPetSelected(LostPet lostPet);
+    }
+    OnAllLostPetSelectedListener mOnAllLostPetSelectedListener;
 
     TextView mAllLostPetsText;
 
@@ -65,13 +71,22 @@ public class AllLostPetsFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        try {
+            mOnAllLostPetSelectedListener = (OnAllLostPetSelectedListener) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
+        }
+        super.onAttach(context);
+    }
+
     private void setUpListView() {
         Log.d(TAG, "setUpListView: Setting up all lost pet list.");
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference
                 .child("AllLostPets");
-//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,6 +121,13 @@ public class AllLostPetsFragment extends Fragment {
             mAdapter = new LostPetsListAdapter(getActivity(), R.layout.layout_alllostpets_listitem, mAllLostPets);
             mAdapter.setEllipsesInvisible();
             mListView.setAdapter(mAdapter);
+
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    mOnAllLostPetSelectedListener.onAllLostPetSelected(mAllLostPets.get(i));
+                }
+            });
         }
     }
 }

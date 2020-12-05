@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +36,13 @@ import java.util.Map;
 import static android.content.ContentValues.TAG;
 
 public class MyLostPetsFragment extends Fragment {
+
+    private final String TAG = "MyLostPetsFragment";
+
+    public interface OnMyLostPetSelectedListener {
+        void onMyLostPetSelected(LostPet lostPet);
+    }
+    MyLostPetsFragment.OnMyLostPetSelectedListener mOnMyLostPetSelectedListener;
 
     private TextView mMyLostPetsText;
     private Context mContext;
@@ -61,6 +70,16 @@ public class MyLostPetsFragment extends Fragment {
         setUpListView();
 
         return root;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        try {
+            mOnMyLostPetSelectedListener = (MyLostPetsFragment.OnMyLostPetSelectedListener) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
+        }
+        super.onAttach(context);
     }
 
     private void setUpListView() {
@@ -103,6 +122,13 @@ public class MyLostPetsFragment extends Fragment {
             });
             mAdapter = new LostPetsListAdapter(getActivity(), R.layout.layout_alllostpets_listitem, mMyLostPets);
             mListView.setAdapter(mAdapter);
+
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    mOnMyLostPetSelectedListener.onMyLostPetSelected(mMyLostPets.get(i));
+                }
+            });
         }
     }
 }

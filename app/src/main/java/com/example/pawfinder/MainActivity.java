@@ -17,7 +17,9 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.pawfinder.Login.LoginActivity;
+import com.example.pawfinder.Lost.AllLostPetsFragment;
 import com.example.pawfinder.Lost.LostFragment;
+import com.example.pawfinder.Lost.MyLostPetsFragment;
 import com.example.pawfinder.Lost.ViewLostPetFragment;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
@@ -26,6 +28,7 @@ import com.example.pawfinder.Pets.PetsFragment;
 import com.example.pawfinder.Profile.ProfileFragment;
 import com.example.pawfinder.Profile.ViewFavoritePetFragment;
 import com.example.pawfinder.Shelters.SheltersFragment;
+import com.example.pawfinder.Utils.LostPetsListAdapter;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +40,7 @@ import java.io.IOException;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AllLostPetsFragment.OnAllLostPetSelectedListener, MyLostPetsFragment.OnMyLostPetSelectedListener, LostPetsListAdapter.OnLoadMoreItemsListener {
 
     final static String TAG = "MainActivity";
 
@@ -101,20 +104,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-    public void onLostPetSelected(LostPet lostPet, String callingActivity) {
-        Log.d(TAG, "onLostPetSelected: Selected a lost pet");
-
-        ViewLostPetFragment fragment = new ViewLostPetFragment();
-        Bundle args = new Bundle();
-        args.putParcelable("LOSTPET", lostPet);
-        args.putString("MAINACTIVITY", callingActivity);
-        fragment.setArguments(args);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
-        transaction.commit();
-    }
+//    public void onLostPetSelected(LostPet lostPet, Boolean myLost, String callingActivity) {
+//        Log.d(TAG, "onLostPetSelected: Selected a lost pet");
+//
+//        ViewLostPetFragment fragment = new ViewLostPetFragment();
+//        Bundle args = new Bundle();
+//        args.putParcelable("LOSTPET", lostPet);
+//        args.putString("MAINACTIVITY", callingActivity);
+//        args.putBoolean("isMyLost", myLost);
+//        fragment.setArguments(args);
+//
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.main_activity_container, fragment);
+//        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
+//        transaction.commit();
+//    }
 
     public void onFavoritePetSelected(Pet pet, String callingActivity) {
         Log.d(TAG, "onLostPetSelected: Selected a lost pet");
@@ -172,5 +176,40 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onAllLostPetSelected(LostPet lostPet) {
+        Log.d(TAG, "onAllLostPetSelected: selected a lost pet listview: " + lostPet.toString());
+        ViewLostPetFragment fragment = new ViewLostPetFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("LOSTPET", lostPet);
+        args.putBoolean("isMyLost", false);
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_activity_container, fragment);
+        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
+        transaction.commit();
+    }
+
+    @Override
+    public void onMyLostPetSelected(LostPet lostPet) {
+        Log.d(TAG, "onMyLostPetSelected: selected a lost pet listview: " + lostPet.toString());
+        ViewLostPetFragment fragment = new ViewLostPetFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("LOSTPET", lostPet);
+        args.putBoolean("isMyLost", true);
+        fragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_activity_container, fragment);
+        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
+        transaction.commit();
+    }
+
+    @Override
+    public void onLoadMoreItems() {
+        // TODO: Not sure what to do here?
     }
 }
