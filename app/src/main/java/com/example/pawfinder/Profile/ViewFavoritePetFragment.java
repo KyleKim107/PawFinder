@@ -19,6 +19,8 @@ public class ViewFavoritePetFragment extends Fragment {
 
     public ViewFavoritePetFragment() {
         // Required empty public constructor
+//        super();
+//        setArguments(new Bundle());
     }
 
     @Override
