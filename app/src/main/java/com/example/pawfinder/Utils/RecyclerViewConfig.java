@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.R;
 
@@ -23,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewConfig {
 
+    private static final String TAG = "RecyclerViewConfig";
+
     private Context mContext;
     private FavoritesAdapter mAdapter;
 
@@ -33,7 +36,7 @@ public class RecyclerViewConfig {
         recyclerView.setAdapter(mAdapter);
     }
 
-    class FavoritesAdapter extends RecyclerView.Adapter<FavoriteItemView> {
+    public class FavoritesAdapter extends RecyclerView.Adapter<FavoriteItemView> {
 
         private ArrayList<Pet> mFavorites;
         private ArrayList<String> mKeys;
@@ -85,7 +88,7 @@ public class RecyclerViewConfig {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mContext, name + "!", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
@@ -103,8 +106,9 @@ public class RecyclerViewConfig {
                 @Override
                 public void onClick(View view) {
                     Log.d("FavoriteItemView", "onClick: clicked on: " + pet.getName());
-
-                    Toast.makeText(mContext, pet.getName() + "!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Loading more pet information.");
+                    ((MainActivity)mContext).onFavoritePetSelected(pet, "MAINACTIVITY");
+                    ((MainActivity)mContext).hideLayout();
                 }
             });
         }

@@ -97,12 +97,12 @@ public class LoginActivity extends AppCompatActivity {
 
         mCallbackManager = CallbackManager.Factory.create();
 
-        Button mLogin = (Button) findViewById(R.id.btn_login);
-        TextView mRegisterTxt = (TextView) findViewById(R.id.registertxt_login);
-        mEmail = (EditText) findViewById(R.id.email_login);
-        mPassword = (EditText) findViewById(R.id.password_login);
-        Button mGoogle = (Button) findViewById(R.id.google_login);
-        Button mFacebook = (Button) findViewById(R.id.facebook_login);
+        Button mLogin = findViewById(R.id.btn_login);
+        TextView mRegisterTxt = findViewById(R.id.registertxt_login);
+        mEmail = findViewById(R.id.email_login);
+        mPassword = findViewById(R.id.password_login);
+        Button mGoogle = findViewById(R.id.google_login);
+        Button mFacebook = findViewById(R.id.facebook_login);
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,12 +173,10 @@ public class LoginActivity extends AppCompatActivity {
                         //handling the token for Firebase Auth
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
-
                     @Override
                     public void onCancel() {
                         Log.d(TAG, "facebook:onCancel");
                     }
-
                     @Override
                     public void onError(FacebookException error) {
                         Log.d(TAG, "facebook:onError", error);
@@ -198,8 +196,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -222,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
             // Pass the activity result back to the Facebook SDK
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void firebaseAuthWithGoogle(final String idToken) {

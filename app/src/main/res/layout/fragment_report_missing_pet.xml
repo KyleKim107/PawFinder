@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".Lost.ReportMissingPetFragment">
-
-<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Lost.ReportMissingPetFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/relLayout1">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/snippet_top_reportmissingpettoolbar"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout1">
+
+            <include layout="@layout/snippet_top_reportmissingpettoolbar"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relLayout1"
+            android:id="@+id/relLayout2">
+
+            <include layout="@layout/snippet_center_reportmissingpet"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/relLayout1"
-        android:id="@+id/relLayout2">
-
-
-        <include layout="@layout/snippet_center_reportlostpet"/>
-
-    </RelativeLayout>
-
-
-</RelativeLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -32,7 +32,7 @@
                     android:textSize="20sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="5dp"
-                    android:id="@+id/reportLostPetText"/>
+                    android:id="@+id/reportMissingPetText"/>
 
                 <ImageView
                     android:layout_width="30dp"

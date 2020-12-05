@@ -18,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 public class LostFragment extends Fragment {
 
     private static final String TAG = "LostFragment";
@@ -31,7 +33,7 @@ public class LostFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_lost, container, false);
-        Log.d("TEST", "LOST FRAGMENT : ON CREATE VIEW");
+        Log.d("TAG", "onCreateView called.");
         pager = root.findViewById(R.id.viewPager);
         mTabLayout = root.findViewById(R.id.tablayout);
         mAllLostPetsItem = root.findViewById(R.id.allLostPetsItem);

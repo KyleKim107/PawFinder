@@ -27,7 +27,7 @@ public class LoadingActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-        paw_image = (ImageView) findViewById(R.id.paw_image_loading);
+        paw_image = findViewById(R.id.paw_image_loading);
 
         getWindow().setEnterTransition(null);
         getWindow().setExitTransition(null);

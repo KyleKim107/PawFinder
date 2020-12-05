@@ -11,7 +11,7 @@
     android:paddingBottom="5dp"
     app:cardCornerRadius="4dp"
     android:id="@+id/recyclerLayout"
-    tools:context=".MainActivity">
+    tools:context=".Profile.ProfileActivity">
 
     <RelativeLayout
         android:id="@+id/view_background"
@@ -29,7 +29,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:src="@drawable/ic_baseline_x_24" />
+            android:src="@drawable/ic_x" />
 
     </RelativeLayout>
 
@@ -48,7 +48,7 @@
             android:layout_height="100dp"
             android:layout_marginVertical="6dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_pets_24"
+            android:src="@drawable/ic_pets"
             app:riv_corner_radius="7dp" />
 
         <TextView
