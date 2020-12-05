@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/logout_menu"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout">
+    </item>
+
+<!--    <item-->
+<!--        android:id="@+id/change_pass_menu"-->
+<!--        android:title="Change Password">-->
+<!--    </item>-->
+
+<!--    <item-->
+<!--        android:id="@+id/delete_menu"-->
+<!--        android:title="Delete Account">-->
+<!--    </item>-->
+
+</menu>

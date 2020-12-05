@@ -11,11 +11,13 @@ import java.util.List;
 
 public class LostPet implements Parcelable {
 
+    private String status;
     private String date_posted;
     private String image_path;
     private String lost_pet_id;
     private String user_id;
     private String pet_name;
+    private String pet_type;
     private String pet_gender;
     private String date_missing;
     private String area_missing;
@@ -26,14 +28,16 @@ public class LostPet implements Parcelable {
     public LostPet() {
     }
 
-    public LostPet(String date_posted, String image_path, String lost_pet_id, String user_id,
-                   String pet_name, String pet_gender, String date_missing, String area_missing,
-                   String message, String email, String phone) {
+    public LostPet(String status, String date_posted, String image_path, String lost_pet_id,
+                   String user_id, String pet_name, String pet_gender, String date_missing,
+                   String area_missing, String message, String email, String phone) {
+        this.status = status;
         this.date_posted = date_posted;
         this.image_path = image_path;
         this.lost_pet_id = lost_pet_id;
         this.user_id = user_id;
         this.pet_name = pet_name;
+        this.pet_type = pet_type;
         this.pet_gender = pet_gender;
         this.date_missing = date_missing;
         this.area_missing = area_missing;
@@ -43,11 +47,13 @@ public class LostPet implements Parcelable {
     }
 
     protected LostPet(Parcel in) {
+        status = in.readString();
         date_posted = in.readString();
         image_path = in.readString();
         lost_pet_id = in.readString();
         user_id = in.readString();
         pet_name = in.readString();
+        pet_type = in.readString();
         pet_gender = in.readString();
         date_missing = in.readString();
         area_missing = in.readString();
@@ -58,11 +64,13 @@ public class LostPet implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(status);
         dest.writeString(date_posted);
         dest.writeString(image_path);
         dest.writeString(lost_pet_id);
         dest.writeString(user_id);
         dest.writeString(pet_name);
+        dest.writeString(pet_type);
         dest.writeString(pet_gender);
         dest.writeString(date_missing);
         dest.writeString(area_missing);
@@ -90,6 +98,14 @@ public class LostPet implements Parcelable {
 
     public static Creator<LostPet> getCREATOR() {
         return CREATOR;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDate_posted() {
@@ -130,6 +146,14 @@ public class LostPet implements Parcelable {
 
     public void setPet_name(String pet_name) {
         this.pet_name = pet_name;
+    }
+
+    public String getPet_type() {
+        return pet_type;
+    }
+
+    public void setPet_type(String pet_type) {
+        this.pet_type = pet_type;
     }
 
     public String getPet_gender() {
@@ -182,12 +206,14 @@ public class LostPet implements Parcelable {
 
     @Override
     public String toString() {
-        return "Photo{" +
-                "date_posted='" + date_posted + '\'' +
+        return "LostPet{" +
+                "status='" + status + '\'' +
+                ", date_posted='" + date_posted + '\'' +
                 ", image_path='" + image_path + '\'' +
                 ", photo_id='" + lost_pet_id + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", pet_name='" + pet_name + '\'' +
+                ", pet_type='" + pet_type + '\'' +
                 ", pet_gender='" + pet_gender + '\'' +
                 ", date_missing='" + date_missing + '\'' +
                 ", area_missing='" + area_missing + '\'' +

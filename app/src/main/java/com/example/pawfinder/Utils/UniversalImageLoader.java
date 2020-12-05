@@ -1,7 +1,6 @@
 package com.example.pawfinder.Utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 public class UniversalImageLoader {
 
-    private static final int defaultImage = R.drawable.ic_baseline_pets_24;
+    private static final int defaultImage = R.drawable.ic_pets;
     private Context mContext;
 
     public UniversalImageLoader(Context context) {

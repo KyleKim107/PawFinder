@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.userName);
         name.setText(user.getDisplayName());
 
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        mRecyclerView = root.findViewById(R.id.recyclerView);
 
         new FirebaseDatabaseHelper().readFavorites(new FirebaseDatabaseHelper.DataStatus() {
             @Override

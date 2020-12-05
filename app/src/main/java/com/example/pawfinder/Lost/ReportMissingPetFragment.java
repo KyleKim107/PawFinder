@@ -72,7 +72,7 @@ public class ReportMissingPetFragment extends Fragment {
     private EditText mPetName, mAreaMissing, mMessage, mEmail, mPhoneNumber;
     private TextView mDateMissing, mChangePetPhoto;
     private ImageView mPetPhoto;
-    private Spinner mPetGender;
+    private Spinner mPetType, mPetGender;
     private RelativeLayout mDateLayout;
 
     public static final int CAMERA_PERM_CODE = 101;
@@ -113,16 +113,17 @@ public class ReportMissingPetFragment extends Fragment {
             }
         });
 
-        mPetPhoto = root.findViewById(R.id.petphoto_lost);
-        mChangePetPhoto = root.findViewById(R.id.changepetphoto_lost);
-        mPetName = root.findViewById(R.id.petname_lost);
-        mPetGender = root.findViewById(R.id.genderspinner_lost);
-        mDateMissing = root.findViewById(R.id.datemissing_lost);
-        mAreaMissing = root.findViewById(R.id.areamissing_lost);
-        mMessage = root.findViewById(R.id.message_lost);
-        mEmail = root.findViewById(R.id.email_lost);
-        mPhoneNumber = root.findViewById(R.id.phonenumber_lost);
-        mDateLayout = root.findViewById(R.id.relLayout3);
+        mPetPhoto = root.findViewById(R.id.petphoto_missing);
+        mChangePetPhoto = root.findViewById(R.id.changepetphoto_missing);
+        mPetName = root.findViewById(R.id.petname_missing);
+        mPetType = root.findViewById(R.id.pettypespinner_missing);
+        mPetGender = root.findViewById(R.id.genderspinner_missing);
+        mDateMissing = root.findViewById(R.id.date_missing);
+        mAreaMissing = root.findViewById(R.id.area_missing);
+        mMessage = root.findViewById(R.id.message_missing);
+        mEmail = root.findViewById(R.id.email_missing);
+        mPhoneNumber = root.findViewById(R.id.phonenumber_missing);
+        mDateLayout = root.findViewById(R.id.relLayout4);
 
         // Set email
         mEmail.setText(user.getEmail());
@@ -142,8 +143,8 @@ public class ReportMissingPetFragment extends Fragment {
         reportMissingPetCheckmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO:final String petPhoto_text = mPetPhoto.getText().toString().trim();
                 final String petName_text = mPetName.getText().toString().trim();
+                final String petType_text = mPetType.getSelectedItem().toString().trim();
                 final String petGender_text = mPetGender.getSelectedItem().toString().trim();
                 final String dateMissing_text = mDateMissing.getText().toString().trim();
                 final String areaMissing_text = mAreaMissing.getText().toString().trim();
@@ -160,6 +161,14 @@ public class ReportMissingPetFragment extends Fragment {
                 if (petName_text.isEmpty()) {
                     mPetName.setError("Pet's name required.");
                     mPetName.requestFocus();
+                    return;
+                }
+                if (petType_text.equals("Pet Type")) {
+                    TextView errorText = (TextView)mPetType.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);
+                    errorText.setText("Pet type required.");
+                    mPetType.requestFocus();
                     return;
                 }
                 if (petGender_text.equals("Pet's Gender")) {
@@ -198,8 +207,8 @@ public class ReportMissingPetFragment extends Fragment {
                 }
 
                 Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
-                mFirebaseDatabaseHelper.uploadNewLostPet(lostPetCount, petName_text,
-                        petGender_text, dateMissing_text, areaMissing_text,
+                mFirebaseDatabaseHelper.uploadNewLostPet("missing", lostPetCount, petName_text,
+                        petType_text, petGender_text, dateMissing_text, areaMissing_text,
                         message_text, email_text, phoneNumber_text, bitmap);
 
                 Log.d(TAG, "onClick: navigating back to Lost Fragment");
@@ -215,6 +224,7 @@ public class ReportMissingPetFragment extends Fragment {
             }
         });
 
+        setTypeSpinner();
         setGenderSpinner();
         setCalendar();
 
@@ -276,6 +286,7 @@ public class ReportMissingPetFragment extends Fragment {
             imgUrl = null;
             if(resultCode == Activity.RESULT_OK){
                 mPetPhoto.setImageBitmap(bitmap);
+                mChangePetPhoto.setError(null);
             }
         }
         if(requestCode == GALLERY_REQUEST_CODE){
@@ -285,6 +296,7 @@ public class ReportMissingPetFragment extends Fragment {
                 try {
                     getRealPathFromURI(contentUri);
                     imgUrl = null;
+                    mChangePetPhoto.setError(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -346,8 +358,57 @@ public class ReportMissingPetFragment extends Fragment {
                 String date = month + "/" + day + "/" + year;
                 mDateMissing.setText(date);
                 mDateMissing.setTextColor(Color.BLACK);
+                mDateMissing.setError(null);
             }
         };
+    }
+
+    private void setTypeSpinner() {
+        String [] values = {"Pet Type", "Dog", "Cat", "Other"};
+        ArrayAdapter<String> adapter = new ArrayAdapter(this.getActivity(), R.layout.spinner_item, values) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textview = (TextView) view;
+                if (position == 0) {
+                    textview.setTextColor(Color.LTGRAY);
+                } else {
+                    textview.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        mPetType.setAdapter(adapter);
+        final boolean[] isSpinnerTouched = {false};
+        mPetType.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                isSpinnerTouched[0] = true;
+                return false;
+            }
+        });
+        mPetType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapter, View arg1, int arg2, long arg3) {
+                if (!isSpinnerTouched[0]) return;
+                TextView selectedText = (TextView) adapter.getChildAt(0);
+                if (selectedText != null) {
+                    selectedText.setTextColor(Color.BLACK);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void setGenderSpinner() {

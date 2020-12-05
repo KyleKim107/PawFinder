@@ -1,0 +1,169 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relLayout1">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/pet_image_view"
+                android:layout_marginTop="20dp"
+                app:civ_border_color="@color/black"
+                app:civ_border_width="0.5dp"
+                android:layout_centerHorizontal="true"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayout2"
+                android:layout_below="@+id/pet_image_view"
+                android:padding="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sweetie"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/pet_name_view"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="POSTED 3 DAYS AGO"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="16sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/pet_name_view"
+                    android:id="@+id/pet_posted_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHARACTERISTICS"
+                    android:textStyle="bold"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20sp"
+                    android:id="@+id/characteristics_view"
+                    android:layout_below="@+id/pet_posted_view"
+                    android:layout_marginTop="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender: Female"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/pet_gender_view"
+                    android:layout_below="@+id/characteristics_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type: Cat"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/pet_type_view"
+                    android:layout_below="@+id/pet_gender_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LAST SEEN/RECENTLY FOUND"
+                    android:textStyle="bold"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20sp"
+                    android:id="@+id/last_seen_view"
+                    android:layout_below="@+id/pet_type_view"
+                    android:layout_marginTop="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Area: Madison, Wiscosnin"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/pet_area_view"
+                    android:layout_below="@+id/last_seen_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date lost: 12/01/20"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/pet_date_view"
+                    android:layout_below="@+id/pet_area_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONTACT DETAILS"
+                    android:textStyle="bold"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20sp"
+                    android:id="@+id/contact_info_view"
+                    android:layout_below="@+id/pet_date_view"
+                    android:layout_marginTop="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email: randomemail@gmail.com"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/contact_email_view"
+                    android:layout_below="@+id/contact_info_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: 1234567890"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/contact_phone_view"
+                    android:layout_below="@+id/contact_email_view"
+                    android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADDITIONAL INFORMATION"
+                    android:textStyle="bold"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20sp"
+                    android:id="@+id/additional_info_view"
+                    android:layout_below="@+id/contact_phone_view"
+                    android:layout_marginTop="25dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Message: Please help me find Sweetie. She has brown fur and is very shy."
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/message_view"
+                    android:layout_below="@+id/additional_info_view"
+                    android:layout_marginTop="5dp"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</merge>

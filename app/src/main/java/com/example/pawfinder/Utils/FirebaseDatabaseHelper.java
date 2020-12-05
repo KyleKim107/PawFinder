@@ -197,8 +197,8 @@ public class FirebaseDatabaseHelper {
         return count;
     }
 
-    public void uploadNewLostPet(int count, final String petName,
-                                 final String petGender, final String dateMissing, final String areaMissing,
+    public void uploadNewLostPet(final String status, int count, final String petName, final String petType,
+                                 final String petGender, final String date, final String area,
                                  final String message, final String email, final String phone, final Bitmap bm) {
 
         Log.d(TAG, "uploadNewLostPet: uploading new pet photo: ");
@@ -222,7 +222,7 @@ public class FirebaseDatabaseHelper {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         String firebaseUrl = task.getResult().toString();
-                        addLostPetToDatabase(firebaseUrl, petName, petGender, dateMissing, areaMissing,
+                        addLostPetToDatabase(status, firebaseUrl, petName, petType, petGender, date, area,
                                 message, email, phone);
                     }
                 });
@@ -241,21 +241,23 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    private void addLostPetToDatabase(String url, String petName, String petGender,
-                                    String dateMissing, String areaMissing, String message,
-                                    String email, String phone) {
+    private void addLostPetToDatabase(String status, String url, String petName, String petType,
+                                      String petGender, String date, String area, String message,
+                                      String email, String phone) {
         Log.d(TAG, "addPhotoToDatabase: adding lost pet to database.");
 
         String newLostPetKey = mReferenceAllLost.push().getKey();
         LostPet lostPet = new LostPet();
+        lostPet.setStatus(status);
         lostPet.setDate_posted(getTimestamp());
         lostPet.setImage_path(url);
         lostPet.setLost_pet_id(newLostPetKey);
         lostPet.setUser_id(user.getUid());
         lostPet.setPet_name(petName);
+        lostPet.setPet_type(petType);
         lostPet.setPet_gender(petGender);
-        lostPet.setDate_missing(dateMissing);
-        lostPet.setArea_missing(areaMissing);
+        lostPet.setDate_missing(date);
+        lostPet.setArea_missing(area);
         lostPet.setMessage(message);
         lostPet.setEmail(email);
         lostPet.setPhone(phone);

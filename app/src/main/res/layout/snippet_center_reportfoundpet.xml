@@ -11,87 +11,41 @@
             android:background="@color/white"
             android:padding="20dp">
 
-
-<!--            <de.hdodenhof.circleimageview.CircleImageView-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="150dp"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                app:civ_border_color="@color/icon_grey"-->
-<!--                app:civ_border_width="1dp"-->
-<!--                android:layout_centerHorizontal="true"/>-->
-
             <ImageView
-                android:id="@+id/petphoto_lost"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="20dp"
+                android:id="@+id/petphoto_found"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Change Pet's Photo"
-                android:id="@+id/changepetphoto_lost"
-                android:layout_below="@+id/petphoto_lost"
+                android:id="@+id/changepetphoto_found"
+                android:layout_below="@+id/petphoto_found"
+                android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/link"
                 android:textSize="16sp"/>
 
-            <!-- pet name section -->
+            <!-- pet type section -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/changepetphoto_lost"
-                android:layout_marginTop="30dp"
+                android:layout_below="@+id/changepetphoto_found"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/grey_border_bottom"
                 android:id="@+id/relLayout1">
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_baseline_pets_24"
+                    android:src="@drawable/ic_pets"
                     android:layout_centerVertical="true"/>
-
-                <EditText
-                    android:id="@+id/petname_lost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="50dp"
-                    android:background="@null"
-                    android:hint="Pet's Name"
-                    android:inputType="textNoSuggestions" />
-
-            </RelativeLayout>
-
-            <!-- pet gender section -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/relLayout1"
-                android:background="@drawable/grey_border_bottom"
-                android:id="@+id/relLayout2"
-                android:layout_marginTop="15dp">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/gender"
-                    app:tint="@color/icon_grey"
-                    android:layout_centerVertical="true"/>
-
-<!--                <EditText-->
-<!--                    android:id="@+id/petgender_lost"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_centerVertical="true"-->
-<!--                    android:layout_marginStart="50dp"-->
-<!--                    android:background="@null"-->
-<!--                    android:hint="Pet's Gender"-->
-<!--                    android:inputType="textNoSuggestions" />-->
 
                 <Spinner
-                    android:id="@+id/genderspinner_lost"
+                    android:id="@+id/pettypespinner_found"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -104,10 +58,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relLayout2"
+                android:layout_below="@+id/relLayout1"
                 android:background="@drawable/grey_border_bottom"
-                android:id="@+id/relLayout3"
-                android:layout_marginTop="15dp">
+                android:id="@+id/relLayout2_found"
+                android:layout_marginTop="10dp">
 
                 <ImageView
                     android:layout_width="35dp"
@@ -116,13 +70,13 @@
                     android:layout_centerVertical="true"/>
 
                 <TextView
-                    android:id="@+id/datemissing_lost"
+                    android:id="@+id/date_found"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
                     android:background="@null"
-                    android:text="Select the date the pet went missing"
+                    android:text="Select the date the pet was found"
                     android:textColor="#9E9E9E"
                     android:textSize="18sp" />
 
@@ -132,25 +86,25 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relLayout3"
+                android:layout_below="@+id/relLayout2_found"
                 android:background="@drawable/grey_border_bottom"
-                android:id="@+id/relLayout4"
-                android:layout_marginTop="15dp">
+                android:id="@+id/relLayout3"
+                android:layout_marginTop="10dp">
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_baseline_location_on_24"
+                    android:src="@drawable/ic_location"
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/areamissing_lost"
+                    android:id="@+id/area_found"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
                     android:background="@null"
-                    android:hint="Area where the pet disappeared"
+                    android:hint="Area where the pet was found"
                     android:inputType="textNoSuggestions" />
 
             </RelativeLayout>
@@ -159,10 +113,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relLayout4"
+                android:layout_below="@+id/relLayout3"
                 android:background="@drawable/grey_border_bottom"
-                android:id="@+id/relLayout5"
-                android:layout_marginTop="15dp">
+                android:id="@+id/relLayout4"
+                android:layout_marginTop="10dp">
 
                 <ImageView
                     android:layout_width="35dp"
@@ -171,7 +125,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/message_lost"
+                    android:id="@+id/message_found"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -187,9 +141,9 @@
                 android:id="@+id/textContactInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/relLayout5"
+                android:layout_below="@id/relLayout4"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/grey_border_bottom"
                 android:text="CONTACT INFORMATION"
                 android:textColor="@color/black"
@@ -202,8 +156,8 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/textContactInfo"
                 android:background="@drawable/grey_border_bottom"
-                android:id="@+id/relLayout6"
-                android:layout_marginTop="15dp">
+                android:id="@+id/relLayout5"
+                android:layout_marginTop="10dp">
 
                 <ImageView
                     android:layout_width="35dp"
@@ -212,7 +166,7 @@
                     android:layout_centerVertical="true"/>
 
                 <EditText
-                    android:id="@+id/email_lost"
+                    android:id="@+id/email_found"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -227,10 +181,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@+id/relLayout6"
+                android:layout_below="@+id/relLayout5"
                 android:background="@drawable/grey_border_bottom"
-                android:id="@+id/relLayout7"
-                android:layout_marginTop="15dp"
+                android:id="@+id/relLayout6"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="50dp">
 
                 <ImageView
@@ -242,7 +196,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/phonenumber_lost"
+                    android:id="@+id/phonenumber_found"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
                     android:background="@null"

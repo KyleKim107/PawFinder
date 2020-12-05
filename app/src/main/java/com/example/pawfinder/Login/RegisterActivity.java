@@ -56,12 +56,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        Button mRegister = (Button) findViewById(R.id.btn_register);
-        TextView mLoginTxt = (TextView) findViewById(R.id.logintxt_register);
-        mFirstName = (EditText) findViewById(R.id.firstName_register);
-        mLastName = (EditText) findViewById(R.id.lastName_register);
-        mEmail = (EditText) findViewById(R.id.email_register);
-        mPassword = (EditText) findViewById(R.id.password_register);
+        Button mRegister = findViewById(R.id.btn_register);
+        TextView mLoginTxt = findViewById(R.id.logintxt_register);
+        mFirstName = findViewById(R.id.firstName_register);
+        mLastName = findViewById(R.id.lastName_register);
+        mEmail = findViewById(R.id.email_register);
+        mPassword = findViewById(R.id.password_register);
 
         mRegister.setOnClickListener(new View.OnClickListener() {
             @Override

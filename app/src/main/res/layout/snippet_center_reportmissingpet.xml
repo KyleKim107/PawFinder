@@ -1,0 +1,262 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="20dp">
+
+        <ImageView
+                android:id="@+id/petphoto_missing"
+                android:layout_width="175dp"
+                android:layout_height="175dp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Pet's Photo"
+                android:id="@+id/changepetphoto_missing"
+                android:layout_below="@+id/petphoto_missing"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/link"
+                android:textSize="16sp"/>
+
+            <!-- pet name section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/changepetphoto_missing"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout1">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_pet_name"
+                    android:layout_centerVertical="true"/>
+
+                <EditText
+                    android:id="@+id/petname_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:background="@null"
+                    android:hint="Pet's Name"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+            <!-- pet type section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout1"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout2">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_pets"
+                    android:layout_centerVertical="true"/>
+
+                <Spinner
+                    android:id="@+id/pettypespinner_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="46dp"
+                    android:background="@null"/>
+
+            </RelativeLayout>
+
+            <!-- pet gender section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout2"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout3"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/gender"
+                    app:tint="@color/icon_grey"
+                    android:layout_centerVertical="true"/>
+
+                <Spinner
+                    android:id="@+id/genderspinner_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="46dp"
+                    android:background="@null"/>
+
+            </RelativeLayout>
+
+            <!-- date missing section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout3"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout4"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_calendar"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/date_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:background="@null"
+                    android:text="Select the date the pet went missing"
+                    android:textColor="#9E9E9E"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <!-- area missing section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout4"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout5"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_location"
+                    android:layout_centerVertical="true"/>
+
+                <EditText
+                    android:id="@+id/area_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:background="@null"
+                    android:hint="Area where the pet disappeared"
+                    android:inputType="textNoSuggestions" />
+
+            </RelativeLayout>
+
+            <!-- message section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout5"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout6"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_message"
+                    android:layout_centerVertical="true"/>
+
+                <EditText
+                    android:id="@+id/message_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:background="@null"
+                    android:gravity="start|top"
+                    android:hint="Message (Optional)"
+                    android:inputType="textMultiLine" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textContactInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relLayout6"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/grey_border_bottom"
+                android:text="CONTACT INFORMATION"
+                android:textColor="@color/black"
+                android:textSize="25sp" />
+
+
+            <!-- email section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/textContactInfo"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout7"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_email"
+                    android:layout_centerVertical="true"/>
+
+                <EditText
+                    android:id="@+id/email_missing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:background="@null"
+                    android:hint="Email address"
+                    android:inputType="textEmailAddress" />
+
+            </RelativeLayout>
+
+            <!-- phone number section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/relLayout7"
+                android:background="@drawable/grey_border_bottom"
+                android:id="@+id/relLayout8"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_phone"
+                    android:layout_centerVertical="true"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/phonenumber_missing"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:background="@null"
+                    android:inputType="phone"
+                    android:hint="Phone Number (Optional)"/>
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</merge>
