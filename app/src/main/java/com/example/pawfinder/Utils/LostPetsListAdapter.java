@@ -3,13 +3,17 @@ package com.example.pawfinder.Utils;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.R;
@@ -112,7 +116,24 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
             holder.ellipses.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: Show menu for delete pet or edit pet
+                    PopupMenu pm = new PopupMenu(mContext, holder.ellipses);
+                    pm.getMenuInflater().inflate(R.menu.lostpet_menu, pm.getMenu());
+                    pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()){
+                                case R.id.edit_lostpet:
+                                    Toast.makeText(mContext, "Clicked First Menu Item", Toast.LENGTH_SHORT).show();
+                                    return true;
+
+                                case R.id.delete_lostpet:
+                                    Toast.makeText(mContext, "Clicked Second Menu Item", Toast.LENGTH_SHORT).show();
+                                    return true;
+                            }
+                            return true;
+                        }
+                    });
+                    pm.show();
                 }
             });
         }
@@ -121,9 +142,10 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
         holder.petStatus.setText(getItem(position).getStatus().toUpperCase());
 
         // Set the pet image
-        final ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
-        imageLoader.displayImage(getItem(position).getImage_path(), holder.image);
+        Glide.with(mContext)
+                .asBitmap()
+                .load(getItem(position).getImage_path())
+                .into(holder.image);
 
         // Set the pet name
         holder.petName.setText(getItem(position).getPet_name().toUpperCase());
