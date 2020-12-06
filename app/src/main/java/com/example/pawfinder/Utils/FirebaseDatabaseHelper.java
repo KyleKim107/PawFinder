@@ -26,7 +26,9 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
@@ -157,6 +159,20 @@ public class FirebaseDatabaseHelper {
                         dataStatus.DataIsDeleted();
                     }
                 });
+        // delete photo in storage
+        StorageReference photoRef = mStorageReference.child("photos").child("users").child(user.getUid()).child(key);
+        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
     }
 
     public void readAllLost(final DataStatusLost dataStatusLost) {
@@ -198,18 +214,6 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    // TODO: figure out how to add to both my lost and all lost
-    public void addMyLost(Pet pet, final DataStatus dataStatus) {
-        String key = mReferenceFavorites.push().getKey();
-        mReferenceFavorites.child(key).setValue(pet)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        dataStatus.DataIsInserted();
-                    }
-                });
-    }
-
     public int getLostPetCount(DataSnapshot dataSnapshot){
         int count = 0;
         for(DataSnapshot ds: dataSnapshot.child("MyLostPets").child(user.getUid()).getChildren()){
@@ -218,15 +222,16 @@ public class FirebaseDatabaseHelper {
         return count;
     }
 
-    public void uploadNewLostPet(final String status, int count, final String petName, final String petType,
+    public void uploadNewLostPet(final String status, final String petName, final String petType,
                                  final String petGender, final String date, final String area,
                                  final String message, final String email, final String phone, final Bitmap bm) {
 
         Log.d(TAG, "uploadNewLostPet: uploading new pet photo: ");
 
         String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String newLostPetKey = mReferenceAllLost.push().getKey();
         StorageReference storageReference = mStorageReference
-                .child("photos/users/" + user_id + "/pet_photo" + (count + 1));
+                .child("photos/users/" + user_id + "/" + newLostPetKey);
 
         // Get bytes from bitmap
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -243,7 +248,7 @@ public class FirebaseDatabaseHelper {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         String firebaseUrl = task.getResult().toString();
-                        addLostPetToDatabase(status, firebaseUrl, petName, petType, petGender, date, area,
+                        addLostPetToDatabase(newLostPetKey, status, firebaseUrl, petName, petType, petGender, date, area,
                                 message, email, phone);
                     }
                 });
@@ -262,17 +267,16 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    private void addLostPetToDatabase(String status, String url, String petName, String petType,
-                                      String petGender, String date, String area, String message,
-                                      String email, String phone) {
+    private void addLostPetToDatabase(String lostPetKey, String status, String url, String petName,
+                                      String petType, String petGender, String date, String area,
+                                      String message, String email, String phone) {
         Log.d(TAG, "addPhotoToDatabase: adding lost pet to database.");
 
-        String newLostPetKey = mReferenceAllLost.push().getKey();
         LostPet lostPet = new LostPet();
         lostPet.setStatus(status);
         lostPet.setDate_posted(getTimestamp());
         lostPet.setImage_path(url);
-        lostPet.setLost_pet_id(newLostPetKey);
+        lostPet.setLost_pet_id(lostPetKey);
         lostPet.setUser_id(user.getUid());
         lostPet.setPet_name(petName);
         lostPet.setPet_type(petType);
@@ -284,8 +288,97 @@ public class FirebaseDatabaseHelper {
         lostPet.setPhone(phone);
 
         //insert into database
-        mReferenceMyLost.child(newLostPetKey).setValue(lostPet);
-        mReferenceAllLost.child(newLostPetKey).setValue(lostPet);
+        mReferenceMyLost.child(lostPetKey).setValue(lostPet);
+        mReferenceAllLost.child(lostPetKey).setValue(lostPet);
+    }
+
+    public void updateLostPet(final LostPet lostPet, final Bitmap bm) {
+
+        Log.d(TAG, "updateLostPet: updating pet photo: ");
+
+        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (bm != null) {
+            // delete old photo
+            StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(lostPet.getImage_path());
+            photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(TAG, "onSuccess: deleted file");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Uh-oh, an error occurred!
+                    Log.d(TAG, "onFailure: did not delete file");
+                }
+            });
+
+            // add new photo
+            StorageReference storageReference = mStorageReference
+                    .child("photos/users/" + user_id + "/" + lostPet.getLost_pet_id());
+
+            // Get bytes from bitmap
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] bytes = stream.toByteArray();
+
+            UploadTask uploadTask;
+            uploadTask = storageReference.putBytes(bytes);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            String firebaseUrl = task.getResult().toString();
+                            editLostPetInDatabase(lostPet, firebaseUrl);
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: Photo upload failed.");
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    Log.d(TAG, "onProgress: upload progress: " + progress + "% done");
+                }
+            });
+        } else {
+            editLostPetInDatabase(lostPet, "");
+        }
+    }
+
+    private void editLostPetInDatabase(LostPet lostPet, String url) {
+        Log.d(TAG, "addPhotoToDatabase: adding lost pet to database.");
+
+        if (!url.equals("")) {
+            lostPet.setImage_path(url);
+        }
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("user_id", lostPet.getUser_id());
+        updates.put("lost_pet_id", lostPet.getLost_pet_id());
+        updates.put("date_posted", lostPet.getDate_posted());
+        updates.put("status", lostPet.getStatus());
+        updates.put("image_path", lostPet.getImage_path());
+        updates.put("pet_name", lostPet.getPet_name());
+        updates.put("pet_type", lostPet.getPet_type());
+        updates.put("pet_gender", lostPet.getPet_gender());
+        updates.put("date_missing", lostPet.getDate_missing());
+        updates.put("area_missing", lostPet.getArea_missing());
+        updates.put("email", lostPet.getEmail());
+        updates.put("phone", lostPet.getPhone());
+        updates.put("message", lostPet.getMessage());
+
+        // update database
+        mReferenceMyLost.child(lostPet.getLost_pet_id()).updateChildren(updates);
+        mReferenceAllLost.child(lostPet.getLost_pet_id()).updateChildren(updates);
     }
 
     private String getTimestamp(){

@@ -1,6 +1,7 @@
 package com.example.pawfinder.Utils;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.pawfinder.Lost.EditFoundPetFragment;
+import com.example.pawfinder.Lost.EditMissingPetFragment;
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
@@ -40,6 +43,7 @@ import java.util.TimeZone;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 
 public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
 
@@ -125,8 +129,26 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()){
                                 case R.id.edit_lostpet:
-                                    // TODO: EDIT PET
-                                    Toast.makeText(mContext, "Clicked First Menu Item", Toast.LENGTH_SHORT).show();
+                                    // Navigate to edit missing or found pet
+                                    if (holder.lostPet.getStatus().equals("missing")) {
+                                        EditMissingPetFragment fragment = new EditMissingPetFragment();
+                                        Bundle args = new Bundle();
+                                        args.putParcelable("editPet", holder.lostPet);
+                                        fragment.setArguments(args);
+                                        FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
+                                        transaction.replace(R.id.main_activity_container, fragment);
+                                        transaction.addToBackStack("Edit"); // TODO: or (null) ????
+                                        transaction.commit();
+                                    } else {
+                                        EditFoundPetFragment fragment = new EditFoundPetFragment();
+                                        Bundle args = new Bundle();
+                                        args.putParcelable("editPet", holder.lostPet);
+                                        fragment.setArguments(args);
+                                        FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
+                                        transaction.replace(R.id.main_activity_container, fragment);
+                                        transaction.addToBackStack("Edit"); // TODO: or (null) ????
+                                        transaction.commit();
+                                    }
                                     return true;
 
                                 case R.id.delete_lostpet:

@@ -1,5 +1,6 @@
 package com.example.pawfinder.Lost;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -223,7 +225,26 @@ public class ViewLostPetFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.edit_lostpet:
-                        Toast.makeText(getActivity(), "Clicked First Menu Item", Toast.LENGTH_SHORT).show();
+                        // Navigate to edit missing or found pet
+                        if (mLostPet.getStatus().equals("missing")) {
+                            EditMissingPetFragment fragment = new EditMissingPetFragment();
+                            Bundle args = new Bundle();
+                            args.putParcelable("editPet", mLostPet);
+                            fragment.setArguments(args);
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.main_activity_container, fragment);
+                            transaction.addToBackStack("Edit"); // TODO: or (null) ????
+                            transaction.commit();
+                        } else {
+                            EditFoundPetFragment fragment = new EditFoundPetFragment();
+                            Bundle args = new Bundle();
+                            args.putParcelable("editPet", mLostPet);
+                            fragment.setArguments(args);
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.main_activity_container, fragment);
+                            transaction.addToBackStack("Edit"); // TODO: or (null) ????
+                            transaction.commit();
+                        }
                         return true;
 
                     case R.id.delete_lostpet:
