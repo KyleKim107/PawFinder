@@ -8,10 +8,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pawfinder.MainActivity;
@@ -70,10 +73,20 @@ public class ViewLostPetFragment extends Fragment {
         mAdditionalInfo = root.findViewById(R.id.additional_info_view);
         mMessage = root.findViewById(R.id.message_view);
 
-        // Toolbar
-        mEllipses = root.findViewById(R.id.viewLostPetEllipses);
-        mBackArrow = root.findViewById(R.id.backArrow_viewLostPet);
+        try {
+            mLostPet = getLostPetFromBundle();
+            Glide.with(getActivity())
+                    .asBitmap()
+                    .load(mLostPet.getImage_path())
+                    .into(mPetImage);
+        } catch (NullPointerException e) {
+            Log.e(TAG, "onCreateView: NullPointerException: lost pet was null from bundle " + e.getMessage());
+        }
 
+        setupWidgets();
+
+        // Toolbar
+        mBackArrow = root.findViewById(R.id.backArrow_viewLostPet);
         mBackArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,18 +100,16 @@ public class ViewLostPetFragment extends Fragment {
                 transaction.commit();
             }
         });
-
-        try {
-            mLostPet = getLostPetFromBundle();
-            Glide.with(getActivity())
-                    .asBitmap()
-                    .load(mLostPet.getImage_path())
-                    .into(mPetImage);
-        } catch (NullPointerException e) {
-            Log.e(TAG, "onCreateView: NullPointerException: lost pet was null from bundle " + e.getMessage());
+        mEllipses = root.findViewById(R.id.viewLostPetEllipses);
+        if (!myLost) {
+            mEllipses.setVisibility(View.GONE);
         }
-
-        setupWidgets();
+        mEllipses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPopupMenu();
+            }
+        });
 
         return root;
     }
@@ -200,6 +211,27 @@ public class ViewLostPetFragment extends Fragment {
             difference = "0";
         }
         return difference;
+    }
+
+    private void createPopupMenu() {
+        PopupMenu pm = new PopupMenu(getActivity(), mEllipses);
+        pm.getMenuInflater().inflate(R.menu.lostpet_menu, pm.getMenu());
+        pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.edit_lostpet:
+                        Toast.makeText(getActivity(), "Clicked First Menu Item", Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    case R.id.delete_lostpet:
+                        Toast.makeText(getActivity(), "Clicked Second Menu Item", Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+                return true;
+            }
+        });
+        pm.show();
     }
 
     private LostPet getLostPetFromBundle() {
