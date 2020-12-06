@@ -168,7 +168,7 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
 
                                         }
                                     });
-                                    Toast.makeText(mContext, "Post successfully deleted", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, "Successfully deleted", Toast.LENGTH_SHORT).show();
                                     return true;
                             }
                             return true;
