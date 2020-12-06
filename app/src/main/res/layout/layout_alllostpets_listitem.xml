@@ -6,13 +6,13 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="53dp"
-            android:id="@+id/relLayout1">
+            android:id="@+id/relLayout1"
+            android:background="@color/white">
 
             <ImageView
                 android:layout_width="30dp"
@@ -20,7 +20,7 @@
                 android:src="@drawable/ic_warning"
                 android:layout_marginTop="20dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
                 android:id="@+id/warning_sign"
                 app:tint="@color/remove_background" />
 
@@ -29,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/warning_sign"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/warning_sign"
                 android:text="MISSING PET"
                 android:textColor="@color/black"
                 android:textSize="26sp"
@@ -41,8 +41,8 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ic_ellipses"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/ivEllipses"/>
         </RelativeLayout>
 
@@ -64,13 +64,12 @@
                android:id="@+id/relLayout3"
                android:layout_below="@+id/post_image"
                android:padding="15dp"
-               android:layout_marginBottom="50dp"
-               android:background="@color/white">
+               android:layout_marginBottom="20dp">
 
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="SWEETIE"
+                   android:text="NAME"
                    android:textColor="@color/black"
                    android:textStyle="bold"
                    android:textSize="30sp"
@@ -79,7 +78,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="Madison, Wisconsin"
+                   android:text="Location"
                    android:textColor="@color/black"
                    android:textSize="20sp"
                    android:id="@+id/pet_area"
@@ -89,7 +88,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="3 DAYS AGO"
+                   android:text="DATE POSTED"
                    android:textColor="@color/icon_grey"
                    android:textSize="18sp"
                    android:layout_below="@+id/pet_area"

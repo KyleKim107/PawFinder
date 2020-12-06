@@ -81,13 +81,13 @@ public class AllLostPetsFragment extends Fragment {
                                 return lostPet2.getDate_posted().compareTo(lostPet1.getDate_posted());
                             }
                         });
-                        mAdapter = new LostPetsListAdapter(getActivity(), R.layout.layout_alllostpets_listitem, mAllLostPets);
-                        mAdapter.setEllipsesInvisible();
-                        mListView.setAdapter(mAdapter);
                     } else {
                         mAllLostPetsText.setText("No lost pets have been reported.");
                         mAllLostPetsText.setVisibility(View.VISIBLE);
                     }
+                    mAdapter = new LostPetsListAdapter(getActivity(), R.layout.layout_alllostpets_listitem, mAllLostPets);
+                    mAdapter.setEllipsesInvisible();
+                    mListView.setAdapter(mAdapter);
                 }
 
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -65,7 +65,6 @@ public class ReportFoundPetFragment extends Fragment {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
 
-    private int lostPetCount = 0;
     private String imgUrl;
     private Bitmap bitmap;
 
@@ -102,16 +101,6 @@ public class ReportFoundPetFragment extends Fragment {
         mFirebaseDatabaseHelper = new FirebaseDatabaseHelper();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                lostPetCount = mFirebaseDatabaseHelper.getLostPetCount(dataSnapshot);
-                Log.d(TAG, "LOST PET COUNT = " + lostPetCount);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
 
         mPetPhoto = root.findViewById(R.id.petphoto_found);
         mChangePetPhoto = root.findViewById(R.id.changepetphoto_found);
@@ -190,7 +179,7 @@ public class ReportFoundPetFragment extends Fragment {
                 }
 
                 Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
-                mFirebaseDatabaseHelper.uploadNewLostPet("found", lostPetCount, "Unknown",
+                mFirebaseDatabaseHelper.uploadNewLostPet("found", "Unknown",
                         petType_text, "", dateFound_text, areaFound_text,
                         message_text, email_text, phoneNumber_text, bitmap);
 

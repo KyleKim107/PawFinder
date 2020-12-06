@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
@@ -39,10 +40,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pawfinder.MainActivity;
+import com.bumptech.glide.Glide;
+import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.R;
 import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
-import com.example.pawfinder.Utils.UniversalImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,21 +51,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class ReportMissingPetFragment extends Fragment {
+public class EditMissingPetFragment extends Fragment {
 
-    private static final String TAG = "ReportMisingPetFragment";
+    private static final String TAG = "EditMissingPetFragment";
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
+    private LostPet mLostPet;
+
     private FirebaseDatabaseHelper mFirebaseDatabaseHelper;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference myRef;
 
     private String imgUrl;
     private Bitmap bitmap;
@@ -81,27 +79,18 @@ public class ReportMissingPetFragment extends Fragment {
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-    public ReportMissingPetFragment() {
+    public EditMissingPetFragment() {
         // Required empty public constructor
-    }
-
-    public static ReportMissingPetFragment newInstance() {
-        ReportMissingPetFragment fragment = new ReportMissingPetFragment();
-        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_report_missing_pet, container, false);
+        View root = inflater.inflate(R.layout.fragment_edit_missing_pet, container, false);
 
         // Firebase
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
         mFirebaseDatabaseHelper = new FirebaseDatabaseHelper();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
 
         mPetPhoto = root.findViewById(R.id.petphoto_missing);
         mChangePetPhoto = root.findViewById(R.id.changepetphoto_missing);
@@ -115,22 +104,34 @@ public class ReportMissingPetFragment extends Fragment {
         mPhoneNumber = root.findViewById(R.id.phonenumber_missing);
         mDateLayout = root.findViewById(R.id.relLayout4);
 
-        // Set email
-        mEmail.setText(user.getEmail());
+        try {
+            mLostPet = getLostPetFromBundle();
+            setupWidgets();
+        } catch (NullPointerException e) {
+            Log.e(TAG, "onCreateView: NullPointerException: lost pet was null from bundle " + e.getMessage());
+        }
 
-        // Set up back arrow for navigating back to Report Activity
-        ImageView backArrow_reportMissingPet = root.findViewById(R.id.backArrow_reportMissingPet);
-        backArrow_reportMissingPet.setOnClickListener(new View.OnClickListener() {
+        // TODO: Set up back arrow for navigating back to View Lost Pet Fragment
+        ImageView backArrow_editMissingPet = root.findViewById(R.id.backArrow_editMissingPet);
+        backArrow_editMissingPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: navigating back to Report Activity");
-                getActivity().onBackPressed();
+                Log.d(TAG, "onClick: navigating back to View Lost Pet Fragment");
+                // Navigate back to all lost pets
+                LostFragment fragment = new LostFragment();
+                Bundle args = new Bundle();
+                args.putBoolean("isMyLost", true);
+                fragment.setArguments(args);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_activity_container, fragment);
+                transaction.addToBackStack("Lost"); // TODO: or (null) ????
+                transaction.commit();
             }
         });
 
-        // Set up check mark for uploading to database and returning to Lost Fragment
-        ImageView reportMissingPetCheckmark = root.findViewById(R.id.reportMissingPetCheckmark);
-        reportMissingPetCheckmark.setOnClickListener(new View.OnClickListener() {
+        // TODO: Set up check mark for updating database and returning to Lost Fragment
+        ImageView editMissingPetCheckmark = root.findViewById(R.id.editMissingPetCheckmark);
+        editMissingPetCheckmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String petName_text = mPetName.getText().toString().trim();
@@ -142,41 +143,10 @@ public class ReportMissingPetFragment extends Fragment {
                 final String email_text = mEmail.getText().toString().trim();
                 final String phoneNumber_text = mPhoneNumber.getText().toString().trim();
 
-                if(imgUrl != null && imgUrl.equals("https://tameme.ru/static/img/catalog/default_pet.jpg")) {
-                    mChangePetPhoto.setError("");
-                    return;
-                } else {
-                    mChangePetPhoto.setError(null);
-                }
                 if (petName_text.isEmpty()) {
                     mPetName.setError("Pet's name required.");
                     mPetName.requestFocus();
                     return;
-                }
-                if (petType_text.equals("Pet Type")) {
-                    TextView errorText = (TextView)mPetType.getSelectedView();
-                    errorText.setError("");
-                    errorText.setTextColor(Color.RED);
-                    errorText.setText("Pet type required.");
-                    mPetType.requestFocus();
-                    return;
-                }
-                if (petGender_text.equals("Pet's Gender")) {
-                    TextView errorText = (TextView)mPetGender.getSelectedView();
-                    errorText.setError("");
-                    errorText.setTextColor(Color.RED);
-                    errorText.setText("Pet's gender required.");
-                    mPetGender.requestFocus();
-                    return;
-                }
-                if (dateMissing_text.equals("Select the date the pet went missing")) {
-                    mDateMissing.setError("");
-                    mDateMissing.setTextColor(Color.RED);
-                    mDateMissing.setText("Date missing required.");
-                    mDateMissing.requestFocus();
-                    return;
-                } else {
-                    mDateMissing.setError(null);
                 }
                 if (areaMissing_text.isEmpty()) {
                     mAreaMissing.setError("Area missing required.");
@@ -196,13 +166,29 @@ public class ReportMissingPetFragment extends Fragment {
                     }
                 }
 
-                Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
-                mFirebaseDatabaseHelper.uploadNewLostPet("missing", petName_text,
-                        petType_text, petGender_text, dateMissing_text, areaMissing_text,
-                        message_text, email_text, phoneNumber_text, bitmap);
+                mLostPet.setPet_name(petName_text);
+                mLostPet.setPet_type(petType_text);
+                mLostPet.setPet_gender(petGender_text);
+                mLostPet.setDate_missing(dateMissing_text);
+                mLostPet.setArea_missing(areaMissing_text);
+                mLostPet.setMessage(message_text);
+                mLostPet.setEmail(email_text);
+                mLostPet.setPhone(phoneNumber_text);
 
+                // TODO
+                Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
+                mFirebaseDatabaseHelper.updateLostPet(mLostPet, bitmap);
+
+                // Navigate back to all lost pets
                 Log.d(TAG, "onClick: navigating back to Lost Fragment");
-                getActivity().finish();
+                LostFragment fragment = new LostFragment();
+                Bundle args = new Bundle();
+                args.putBoolean("isMyLost", true);
+                fragment.setArguments(args);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_activity_container, fragment);
+                transaction.addToBackStack("Lost"); // TODO: or (null) ????
+                transaction.commit();
             }
         });
 
@@ -218,14 +204,42 @@ public class ReportMissingPetFragment extends Fragment {
         setGenderSpinner();
         setCalendar();
 
-        initImageLoader();
-        setPetImage();
-
         return root;
     }
 
+    private void setupWidgets() {
+        // Image
+        Glide.with(getActivity())
+                .asBitmap()
+                .load(mLostPet.getImage_path())
+                .into(mPetPhoto);
+
+        // Name
+        mPetName.setText(mLostPet.getPet_name());
+
+        // Type is selected in setTypeSpinner()
+
+        // Gender is selected in setGenderSpinner()
+
+        // Date
+        mDateMissing.setText( mLostPet.getDate_missing());
+        mDateMissing.setTextColor(Color.BLACK);
+
+        // Area
+        mAreaMissing.setText(mLostPet.getArea_missing());
+
+        // Email
+        mEmail.setText(mLostPet.getEmail());
+
+        // Phone
+        mPhoneNumber.setText(mLostPet.getPhone());
+
+        // Message
+        mMessage.setText(mLostPet.getMessage());
+    }
+
     private void selectImage(Context context) {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery", "Cancel" };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -377,18 +391,9 @@ public class ReportMissingPetFragment extends Fragment {
             }
         };
         mPetType.setAdapter(adapter);
-        final boolean[] isSpinnerTouched = {false};
-        mPetType.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isSpinnerTouched[0] = true;
-                return false;
-            }
-        });
         mPetType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View arg1, int arg2, long arg3) {
-                if (!isSpinnerTouched[0]) return;
                 TextView selectedText = (TextView) adapter.getChildAt(0);
                 if (selectedText != null) {
                     selectedText.setTextColor(Color.BLACK);
@@ -396,13 +401,19 @@ public class ReportMissingPetFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+        int typeSelection = 1;
+        if (mLostPet.getPet_type().equals("Cat")) {
+            typeSelection = 2;
+        } else if (mLostPet.getPet_type().equals("Other")) {
+            typeSelection = 3;
+        }
+        mPetType.setSelection(typeSelection);
     }
 
     private void setGenderSpinner() {
-        String [] values = {"Pet's Gender", "Male","Female"};
+        String [] values = {"Pet's Gender", "Male", "Female"};
         ArrayAdapter<String> adapter = new ArrayAdapter(this.getActivity(), R.layout.spinner_item, values) {
             @Override
             public boolean isEnabled(int position) {
@@ -425,18 +436,9 @@ public class ReportMissingPetFragment extends Fragment {
             }
         };
         mPetGender.setAdapter(adapter);
-        final boolean[] isSpinnerTouched = {false};
-        mPetGender.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isSpinnerTouched[0] = true;
-                return false;
-            }
-        });
         mPetGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapter, View arg1, int arg2, long arg3) {
-                if (!isSpinnerTouched[0]) return;
                 TextView selectedText = (TextView) adapter.getChildAt(0);
                 if (selectedText != null) {
                     selectedText.setTextColor(Color.BLACK);
@@ -444,19 +446,24 @@ public class ReportMissingPetFragment extends Fragment {
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+        int genderSelection = 1;
+        if (mLostPet.getPet_gender().equals("Female")) {
+            genderSelection = 2;
+        }
+        mPetGender.setSelection(genderSelection);
     }
 
-    private void initImageLoader() {
-        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
-        ImageLoader.getInstance().init(universalImageLoader.getConfig());
-    }
+    private LostPet getLostPetFromBundle() {
+        Log.d(TAG, "getLostPetFromBundle: arguments " + getArguments());
 
-    private void setPetImage() {
-        Log.d(TAG, "setPetImage: Setting pet image.");
-        imgUrl = "https://tameme.ru/static/img/catalog/default_pet.jpg";
-        UniversalImageLoader.setImage(imgUrl, mPetPhoto, null, "");
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            // Find out if this is myLost or allLost
+            return bundle.getParcelable("editPet");
+        } else {
+            return null;
+        }
     }
 }
