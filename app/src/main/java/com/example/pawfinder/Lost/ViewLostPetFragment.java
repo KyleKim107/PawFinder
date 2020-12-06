@@ -19,10 +19,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.LostPet;
+import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.R;
+import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -79,11 +82,10 @@ public class ViewLostPetFragment extends Fragment {
                     .asBitmap()
                     .load(mLostPet.getImage_path())
                     .into(mPetImage);
+            setupWidgets();
         } catch (NullPointerException e) {
             Log.e(TAG, "onCreateView: NullPointerException: lost pet was null from bundle " + e.getMessage());
         }
-
-        setupWidgets();
 
         // Toolbar
         mBackArrow = root.findViewById(R.id.backArrow_viewLostPet);
@@ -225,7 +227,33 @@ public class ViewLostPetFragment extends Fragment {
                         return true;
 
                     case R.id.delete_lostpet:
-                        Toast.makeText(getActivity(), "Clicked Second Menu Item", Toast.LENGTH_SHORT).show();
+                        String pet_id = mLostPet.getLost_pet_id();
+                        new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatus() {
+                            @Override
+                            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                            }
+                            @Override
+                            public void DataIsInserted() {
+                            }
+                            @Override
+                            public void DataIsUpdated() {
+                            }
+                            @Override
+                            public void DataIsDeleted() {
+
+                            }
+                        });
+                        Toast.makeText(getActivity(), "Post successfully deleted", Toast.LENGTH_SHORT).show();
+
+                        // Navigate back to all lost pets
+                        LostFragment fragment = new LostFragment();
+                        Bundle args = new Bundle();
+                        args.putBoolean("isMyLost", true);
+                        fragment.setArguments(args);
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.main_activity_container, fragment);
+                        transaction.addToBackStack("Lost"); // TODO: or (null) ????
+                        transaction.commit();
                         return true;
                 }
                 return true;
