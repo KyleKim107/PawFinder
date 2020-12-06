@@ -264,7 +264,7 @@ public class ViewLostPetFragment extends Fragment {
 
                             }
                         });
-                        Toast.makeText(getActivity(), "Post successfully deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Successfully deleted", Toast.LENGTH_SHORT).show();
 
                         // Navigate back to all lost pets
                         LostFragment fragment = new LostFragment();
