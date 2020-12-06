@@ -46,11 +46,18 @@ public class FirebaseDatabaseHelper {
 
     private ArrayList<Pet> pets = new ArrayList<>();
     private ArrayList<Pet> favorites = new ArrayList<>();
-    private ArrayList<Pet> allLost = new ArrayList<>();
-    private ArrayList<Pet> myLost = new ArrayList<>();
+    private ArrayList<LostPet> allLost = new ArrayList<>();
+    private ArrayList<LostPet> myLost = new ArrayList<>();
 
     public interface DataStatus {
         void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys);
+        void DataIsInserted();
+        void DataIsUpdated();
+        void DataIsDeleted();
+    }
+
+    public interface DataStatusLost {
+        void DataIsLoaded(ArrayList<LostPet> lostPets, ArrayList<String> keys);
         void DataIsInserted();
         void DataIsUpdated();
         void DataIsDeleted();
@@ -135,7 +142,24 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-    public void readAllLost(final DataStatus dataStatus) {
+    public void deleteLost(String key, final DataStatus dataStatus) {
+        mReferenceAllLost.child(key).setValue(null)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        dataStatus.DataIsDeleted();
+                    }
+                });
+        mReferenceMyLost.child(key).setValue(null)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        dataStatus.DataIsDeleted();
+                    }
+                });
+    }
+
+    public void readAllLost(final DataStatusLost dataStatusLost) {
         mReferenceAllLost.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -143,12 +167,11 @@ public class FirebaseDatabaseHelper {
                 ArrayList<String> keys = new ArrayList<>();
                 for (DataSnapshot keyNode : snapshot.getChildren()) {
                     keys.add(keyNode.getKey());
-                    Pet pet = keyNode.getValue(Pet.class);
-                    allLost.add(pet);
+                    LostPet lostPet = keyNode.getValue(LostPet.class);
+                    allLost.add(lostPet);
                 }
-                dataStatus.DataIsLoaded(allLost, keys);
+                dataStatusLost.DataIsLoaded(allLost, keys);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -156,7 +179,7 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void readMyLost(final DataStatus dataStatus) {
+    public void readMyLost(final DataStatusLost dataStatusLost) {
         mReferenceMyLost.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -164,15 +187,13 @@ public class FirebaseDatabaseHelper {
                 ArrayList<String> keys = new ArrayList<>();
                 for (DataSnapshot keyNode : snapshot.getChildren()) {
                     keys.add(keyNode.getKey());
-                    Pet pet = keyNode.getValue(Pet.class);
-                    myLost.add(pet);
+                    LostPet lostPet = keyNode.getValue(LostPet.class);
+                    myLost.add(lostPet);
                 }
-                dataStatus.DataIsLoaded(myLost, keys);
+                dataStatusLost.DataIsLoaded(myLost, keys);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

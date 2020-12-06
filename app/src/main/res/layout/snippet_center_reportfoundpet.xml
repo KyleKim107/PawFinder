@@ -44,6 +44,14 @@
                     android:src="@drawable/ic_pets"
                     android:layout_centerVertical="true"/>
 
+                <Spinner
+                    android:id="@+id/pettypespinner_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="46dp"
+                    android:background="@null" />
+
             </RelativeLayout>
 
             <!-- date missing section -->
@@ -196,13 +204,6 @@
                     android:hint="Phone Number (Optional)"/>
 
             </RelativeLayout>
-
-            <Spinner
-                android:id="@+id/pettypespinner_found"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="46dp"
-                android:background="@null" />
         </RelativeLayout>
     </ScrollView>
 </merge>

@@ -16,8 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.pawfinder.Models.LostPet;
+import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.R;
+import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
 import com.example.pawfinder.Utils.LostPetsListAdapter;
+import com.example.pawfinder.Utils.RecyclerViewConfig;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -61,12 +64,49 @@ public class AllLostPetsFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_all_lost_pets, container, false);
 
         mAllLostPetsText = root.findViewById(R.id.allLostPetsText);
-        mAllLostPetsText.setVisibility(View.VISIBLE);
-
         mListView = root.findViewById(R.id.listView_all);
         mAllLostPets = new ArrayList<>();
 
-        setUpListView();
+        new FirebaseDatabaseHelper().readAllLost(new FirebaseDatabaseHelper.DataStatusLost() {
+            @Override
+            public void DataIsLoaded(ArrayList<LostPet> allLost, ArrayList<String> keys) {
+                mAllLostPets = allLost;
+
+                if (mAllLostPets != null) {
+                    if (mAllLostPets.size() > 0) {
+                        mAllLostPetsText.setVisibility(View.GONE);
+                        Collections.sort(mAllLostPets, new Comparator<LostPet>() {
+                            @Override
+                            public int compare(LostPet lostPet1, LostPet lostPet2) {
+                                return lostPet2.getDate_posted().compareTo(lostPet1.getDate_posted());
+                            }
+                        });
+                        mAdapter = new LostPetsListAdapter(getActivity(), R.layout.layout_alllostpets_listitem, mAllLostPets);
+                        mAdapter.setEllipsesInvisible();
+                        mListView.setAdapter(mAdapter);
+                    } else {
+                        mAllLostPetsText.setText("No lost pets have been reported.");
+                        mAllLostPetsText.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        mOnAllLostPetSelectedListener.onAllLostPetSelected(mAllLostPets.get(i));
+                    }
+                });
+            }
+            @Override
+            public void DataIsInserted() {
+            }
+            @Override
+            public void DataIsUpdated() {
+            }
+            @Override
+            public void DataIsDeleted() {
+            }
+        });
 
         return root;
     }
@@ -79,55 +119,5 @@ public class AllLostPetsFragment extends Fragment {
             Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
         }
         super.onAttach(context);
-    }
-
-    private void setUpListView() {
-        Log.d(TAG, "setUpListView: Setting up all lost pet list.");
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        Query query = reference
-                .child("AllLostPets");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getChildrenCount() == 0) {
-                    mAllLostPetsText.setVisibility(View.VISIBLE);
-                }
-                else {
-                    mAllLostPetsText.setVisibility(View.GONE);
-                }
-                for (DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
-                    LostPet lostPet = singleSnapshot.getValue(LostPet.class);
-                    mAllLostPets.add(lostPet);
-                }
-                displayLostPets();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "onCancelled: query cancelled.");
-            }
-        });
-    }
-
-    private void displayLostPets() {
-        if (mAllLostPets != null) {
-            Collections.sort(mAllLostPets, new Comparator<LostPet>() {
-                @Override
-                public int compare(LostPet lostPet1, LostPet lostPet2) {
-                    return lostPet2.getDate_posted().compareTo(lostPet1.getDate_posted());
-                }
-            });
-            mAdapter = new LostPetsListAdapter(getActivity(), R.layout.layout_alllostpets_listitem, mAllLostPets);
-            mAdapter.setEllipsesInvisible();
-            mListView.setAdapter(mAdapter);
-
-            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    mOnAllLostPetSelectedListener.onAllLostPetSelected(mAllLostPets.get(i));
-                }
-            });
-        }
     }
 }

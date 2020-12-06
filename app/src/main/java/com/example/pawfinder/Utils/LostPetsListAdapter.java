@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.LostPet;
+import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +30,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -123,11 +125,28 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()){
                                 case R.id.edit_lostpet:
+                                    // TODO: EDIT PET
                                     Toast.makeText(mContext, "Clicked First Menu Item", Toast.LENGTH_SHORT).show();
                                     return true;
 
                                 case R.id.delete_lostpet:
-                                    Toast.makeText(mContext, "Clicked Second Menu Item", Toast.LENGTH_SHORT).show();
+                                    String pet_id = holder.lostPet.getLost_pet_id();
+                                    new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatus() {
+                                        @Override
+                                        public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                                        }
+                                        @Override
+                                        public void DataIsInserted() {
+                                        }
+                                        @Override
+                                        public void DataIsUpdated() {
+                                        }
+                                        @Override
+                                        public void DataIsDeleted() {
+
+                                        }
+                                    });
+                                    Toast.makeText(mContext, "Post successfully deleted", Toast.LENGTH_SHORT).show();
                                     return true;
                             }
                             return true;

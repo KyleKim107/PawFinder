@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupWithNavController(navView, navController);
         navView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
                 new PetsFragment()).commit();
@@ -104,22 +102,6 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                     return true;
                 }
             };
-
-//    public void onLostPetSelected(LostPet lostPet, Boolean myLost, String callingActivity) {
-//        Log.d(TAG, "onLostPetSelected: Selected a lost pet");
-//
-//        ViewLostPetFragment fragment = new ViewLostPetFragment();
-//        Bundle args = new Bundle();
-//        args.putParcelable("LOSTPET", lostPet);
-//        args.putString("MAINACTIVITY", callingActivity);
-//        args.putBoolean("isMyLost", myLost);
-//        fragment.setArguments(args);
-//
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.main_activity_container, fragment);
-//        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
-//        transaction.commit();
-//    }
 
     public void onFavoritePetSelected(Pet pet, String callingActivity) {
         Log.d(TAG, "onLostPetSelected: Selected a lost pet");
