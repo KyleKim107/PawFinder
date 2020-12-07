@@ -49,6 +49,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
@@ -70,7 +71,7 @@ public class ReportFoundPetFragment extends Fragment {
 
     private EditText mPetName, mAreaFound, mMessage, mEmail, mPhoneNumber;
     private TextView mDateFound, mChangePetPhoto;
-    private ImageView mPetPhoto;
+    private RoundedImageView mPetPhoto;
     private Spinner mPetType;
     private RelativeLayout mDateLayout;
 

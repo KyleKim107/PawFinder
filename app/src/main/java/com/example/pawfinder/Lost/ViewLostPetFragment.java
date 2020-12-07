@@ -24,6 +24,7 @@ import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.R;
 import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,7 @@ public class ViewLostPetFragment extends Fragment {
     private final String TAG = "ViewLostPetFragment";
 
     private LostPet mLostPet;
-    private CircleImageView mPetImage;
+    private RoundedImageView mPetImage;
     private ImageView mEllipses, mBackArrow;
     private TextView mPetName, mPetPosted, mPetGender, mPetType, mLastSeen, mPetArea, mPetDate,
                         mEmail, mPhone, mAdditionalInfo, mMessage;
