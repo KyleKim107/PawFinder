@@ -14,25 +14,31 @@
     android:id="@+id/item_layout"
     app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/LinLayout"
-        android:layout_gravity="bottom"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/item_image"
-            android:layout_width="match_parent"
-            android:layout_height="430dp"
-            android:scaleType="centerCrop"/>
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="20dp">
+            android:layout_above="@id/relLay2"
+            android:id="@+id/relLay1">
+
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relLay2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp">
 
             <TextView
                 android:id="@+id/item_id"
@@ -53,21 +59,21 @@
                 android:id="@+id/item_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
                 android:layout_below="@id/item_name"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/item_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
                 android:layout_below="@id/item_age"
+                android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/left_overlay"
