@@ -33,11 +33,7 @@ public class ViewFavoritePetFragment extends Fragment {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProfileFragment fragment = new ProfileFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_activity_container, fragment);
-                transaction.addToBackStack("Profile"); // TODO: or (null) ????
-                transaction.commit();
+                getActivity().onBackPressed();
             }
         });
         return root;

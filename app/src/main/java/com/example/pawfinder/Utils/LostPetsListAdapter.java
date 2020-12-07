@@ -136,7 +136,7 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
                                         args.putParcelable("editPet", holder.lostPet);
                                         fragment.setArguments(args);
                                         FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
-                                        transaction.replace(R.id.main_activity_container, fragment);
+                                        transaction.add(R.id.main_activity_container, fragment);
                                         transaction.addToBackStack("Edit"); // TODO: or (null) ????
                                         transaction.commit();
                                     } else {
@@ -145,7 +145,7 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
                                         args.putParcelable("editPet", holder.lostPet);
                                         fragment.setArguments(args);
                                         FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
-                                        transaction.replace(R.id.main_activity_container, fragment);
+                                        transaction.add(R.id.main_activity_container, fragment);
                                         transaction.addToBackStack("Edit"); // TODO: or (null) ????
                                         transaction.commit();
                                     }

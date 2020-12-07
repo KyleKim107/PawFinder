@@ -108,7 +108,7 @@ public class RecyclerViewConfig {
                     Log.d("FavoriteItemView", "onClick: clicked on: " + pet.getName());
                     Log.d(TAG, "onClick: Loading more pet information.");
                     ((MainActivity)mContext).onFavoritePetSelected(pet, "MAINACTIVITY");
-                    ((MainActivity)mContext).hideLayout();
+//                    ((MainActivity)mContext).hideLayout();
                 }
             });
         }

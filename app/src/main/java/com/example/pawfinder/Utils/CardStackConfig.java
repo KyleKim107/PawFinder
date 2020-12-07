@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -211,8 +212,8 @@ public class CardStackConfig {
                 @Override
                 public void onClick(View view) {
                     Log.d("PetItemView", "onClick: clicked on: " + pet.getName());
-
-                    Toast.makeText(mContext, pet.getName() + "!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Loading more pet information.");
+                    ((MainActivity)mContext).onPetSelected(pet, "MAINACTIVITY");
                 }
             });
         }

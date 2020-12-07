@@ -54,7 +54,6 @@ public class PetsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_pets, container, false);
-
         mCardStackView = (CardStackView) root.findViewById(R.id.card_stack_view);
 
         new FirebaseDatabaseHelper().readPets(new FirebaseDatabaseHelper.DataStatus() {
