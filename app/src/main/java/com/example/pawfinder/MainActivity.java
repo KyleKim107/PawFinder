@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pawfinder.Login.LoginActivity;
@@ -24,6 +25,10 @@ import com.example.pawfinder.Lost.MyLostPetsFragment;
 import com.example.pawfinder.Lost.ViewLostPetFragment;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.PetfinderAPI.Entities.PetfinderResponse;
+import com.example.pawfinder.PetfinderAPI.Network.ApiService;
+import com.example.pawfinder.PetfinderAPI.Network.RetrofitBuilder;
+import com.example.pawfinder.PetfinderAPI.TokenManager;
 import com.example.pawfinder.Pets.FilterActivity;
 import com.example.pawfinder.Pets.PetsFragment;
 import com.example.pawfinder.Pets.ViewPetFragment;
@@ -37,6 +42,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.io.IOException;
 
@@ -46,17 +54,12 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
     final static String TAG = "MainActivity";
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf=8");
-    OkHttpClient client = new OkHttpClient();
+    ApiService service;
+    TokenManager tokenManager;
+    Call<PetfinderResponse> call;
 
-    FrameLayout mFrameLayout;
-    View mFragment;
-
-    String post(String url, String json) throws IOException{
-
-
-        return "";
-    }
+//    public static final MediaType JSON = MediaType.parse("application/json; charset=utf=8");
+//    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +70,18 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
                 new PetsFragment()).commit();
 
-        mFrameLayout = findViewById(R.id.main_activity_container);
-//        mFragment = findViewById(R.id.nav_host_fragment);
+        tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
 
-        String url = "https://api.petfinder.com/v2/oauth2/token";
+        if(tokenManager.getToken() == null){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
+
+        service = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
+
+        getAnimals();
+
+//        String url = "https://api.petfinder.com/v2/oauth2/token";
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -97,6 +108,28 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                     return true;
                 }
             };
+
+    public void getAnimals() {
+        call = service.animals();
+        call.enqueue(new Callback<PetfinderResponse>() {
+            @Override
+            public void onResponse(Call<PetfinderResponse> call, Response<PetfinderResponse> response) {
+                Log.w(TAG, "onResponse: " + response );
+
+                if(response.isSuccessful()){
+                    Log.e(TAG, "onResponse: " + response.body().getAnimals().get(0).getName());
+                }else {
+                    tokenManager.deleteToken();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+            @Override
+            public void onFailure(Call<PetfinderResponse> call, Throwable t) {
+                Log.w(TAG, "onFailure: " + t.getMessage() );
+            }
+        });
+    }
 
     public void onFavoritePetSelected(Pet pet, String callingActivity) {
         Log.d(TAG, "onLostPetSelected: Selected a lost pet");
