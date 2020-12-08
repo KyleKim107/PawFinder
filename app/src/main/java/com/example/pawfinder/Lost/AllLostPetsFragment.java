@@ -6,8 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,4 +122,30 @@ public class AllLostPetsFragment extends Fragment {
         }
         super.onAttach(context);
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        final Fragment f = new ViewLostPetFragment();
+//
+//        if(getView() == null){
+//            return;
+//        }
+//        getView().setFocusableInTouchMode(true);
+//        getView().requestFocus();
+//        getView().setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+//                    FragmentTransaction trans = requireActivity().getSupportFragmentManager().beginTransaction();
+//                    trans.replace(R.id.main_activity_container, f);
+//                    trans.addToBackStack(null);
+//                    trans.commit();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//    }
 }

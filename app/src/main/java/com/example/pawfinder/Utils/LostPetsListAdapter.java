@@ -20,6 +20,7 @@ import com.example.pawfinder.Lost.EditMissingPetFragment;
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -136,7 +137,7 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
                                         args.putParcelable("editPet", holder.lostPet);
                                         fragment.setArguments(args);
                                         FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
-                                        transaction.replace(R.id.main_activity_container, fragment);
+                                        transaction.add(R.id.main_activity_container, fragment);
                                         transaction.addToBackStack("Edit"); // TODO: or (null) ????
                                         transaction.commit();
                                     } else {
@@ -145,7 +146,7 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
                                         args.putParcelable("editPet", holder.lostPet);
                                         fragment.setArguments(args);
                                         FragmentTransaction transaction = ((MainActivity)mContext).getSupportFragmentManager().beginTransaction();
-                                        transaction.replace(R.id.main_activity_container, fragment);
+                                        transaction.add(R.id.main_activity_container, fragment);
                                         transaction.addToBackStack("Edit"); // TODO: or (null) ????
                                         transaction.commit();
                                     }
@@ -153,9 +154,9 @@ public class LostPetsListAdapter extends ArrayAdapter<LostPet> {
 
                                 case R.id.delete_lostpet:
                                     String pet_id = holder.lostPet.getLost_pet_id();
-                                    new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatus() {
+                                    new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatusLost() {
                                         @Override
-                                        public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                                        public void DataIsLoaded(ArrayList<LostPet> favorites, ArrayList<String> keys) {
                                         }
                                         @Override
                                         public void DataIsInserted() {

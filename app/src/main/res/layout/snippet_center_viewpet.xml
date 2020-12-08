@@ -1,0 +1,292 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:id="@+id/relLayout">
+
+            <ImageView
+                android:id="@+id/pet_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/backArrow_viewPet"
+                android:src="@drawable/ic_downarrow"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relLayoutInfo"
+                android:background="@drawable/white_grey_border_bottom"
+                android:layout_below="@+id/pet_image_view"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp">
+
+                <!--title-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relLayoutTitle">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sweetie"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="30sp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/pet_name_view"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="POSTED 3 DAYS AGO"
+                        android:textColor="@color/icon_grey"
+                        android:textSize="16sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/pet_name_view"
+                        android:id="@+id/pet_posted_view"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <!--breed-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relLayoutTitle"
+                    android:id="@+id/relLayoutBreed">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BREED"
+                        android:textStyle="bold"
+                        android:textColor="@color/icon_grey"
+                        android:textSize="20sp"
+                        android:id="@+id/text_breed_view"
+                        android:layout_marginTop="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Domestic Short Hair"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/pet_breed_view"
+                        android:layout_below="@+id/text_breed_view"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <!--physical characteristics-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relLayoutBreed"
+                    android:id="@+id/relLayoutPhysical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PHYSICAL CHARACTERISTICS"
+                        android:textStyle="bold"
+                        android:textColor="@color/icon_grey"
+                        android:textSize="20sp"
+                        android:id="@+id/text_physical_view"
+                        android:layout_marginTop="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Size: Medium"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/petsize_view"
+                        android:layout_below="@+id/text_physical_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gender: Male"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/petgender_view"
+                        android:layout_below="@+id/petsize_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Age: Baby"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/petage_view"
+                        android:layout_below="@+id/petgender_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Coat: Short"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/petcoat_view"
+                        android:layout_below="@+id/petage_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Color: Tabby (Brown/Chocolate)"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/petcolor_view"
+                        android:layout_below="@+id/petcoat_view"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <!--health-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relLayoutPhysical"
+                    android:id="@+id/relLayoutHealth">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HEALTH"
+                        android:textStyle="bold"
+                        android:textColor="@color/icon_grey"
+                        android:textSize="20sp"
+                        android:id="@+id/text_health_view"
+                        android:layout_marginTop="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Spayed/Neutered"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/spayedneutered_view"
+                        android:layout_below="@+id/text_health_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Declawed"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/declawed_view"
+                        android:layout_below="@+id/spayedneutered_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Special Needs"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/specialneeds_view"
+                        android:layout_below="@+id/declawed_view"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vaccinations up-to-date"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/vaccinations_view"
+                        android:layout_below="@+id/specialneeds_view"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+                <!--behavior characteristics-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relLayoutHealth"
+                    android:id="@+id/relLayoutBehavioral">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BEHAVIORAL CHARACTERISTICS"
+                        android:textStyle="bold"
+                        android:textColor="@color/icon_grey"
+                        android:textSize="20sp"
+                        android:id="@+id/text_behavioral_view"
+                        android:layout_marginTop="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="House trained"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:id="@+id/housetrained_view"
+                        android:layout_below="@+id/text_behavioral_view"
+                        android:layout_marginTop="5dp"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <!--meet the pet-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relLayoutInfo"
+                android:background="@color/white"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="20dp"
+                android:id="@+id/relLayoutDescription">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MEET SWEETIE"
+                    android:textStyle="bold"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="20sp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/text_meet_view"
+                    android:layout_marginTop="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/petdescription_view"
+                    android:layout_below="@+id/text_meet_view"
+                    android:layout_marginTop="5dp"/>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</merge>

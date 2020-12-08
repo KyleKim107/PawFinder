@@ -13,9 +13,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -29,7 +31,7 @@ public class RecyclerViewConfig {
     private Context mContext;
     private FavoritesAdapter mAdapter;
 
-    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<Pet> favorites, ArrayList<String> keys) {
+    public void setConfig(RecyclerView recyclerView, Context context, List<PetfinderPet> favorites, ArrayList<String> keys) {
         mContext = context;
         mAdapter = new FavoritesAdapter(favorites, keys);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -38,10 +40,10 @@ public class RecyclerViewConfig {
 
     public class FavoritesAdapter extends RecyclerView.Adapter<FavoriteItemView> {
 
-        private ArrayList<Pet> mFavorites;
+        private List<PetfinderPet> mFavorites;
         private ArrayList<String> mKeys;
 
-        public FavoritesAdapter(ArrayList<Pet> favorites, ArrayList<String> keys) {
+        public FavoritesAdapter(List<PetfinderPet> favorites, ArrayList<String> keys) {
             this.mFavorites = favorites;
             this.mKeys = keys;
         }
@@ -84,19 +86,12 @@ public class RecyclerViewConfig {
             layout = itemView.findViewById(R.id.recyclerLayout);
             viewBackground = itemView.findViewById(R.id.view_background);
             viewForeground = itemView.findViewById(R.id.view_foreground);
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                }
-//            });
         }
 
-        public void bind(final Pet pet, String key) {
+        public void bind(final PetfinderPet pet, String key) {
             Glide.with(mContext)
                     .asBitmap()
-                    .load(pet.getImage())
+                    .load(pet.getPhotos().get(0).getFull())
                     .into(image);
             name.setText(pet.getName());
             age.setText(pet.getAge());
@@ -107,8 +102,7 @@ public class RecyclerViewConfig {
                 public void onClick(View view) {
                     Log.d("FavoriteItemView", "onClick: clicked on: " + pet.getName());
                     Log.d(TAG, "onClick: Loading more pet information.");
-                    ((MainActivity)mContext).onFavoritePetSelected(pet, "MAINACTIVITY");
-                    ((MainActivity)mContext).hideLayout();
+                    ((MainActivity)mContext).onFavoritePetSelected(pet);
                 }
             });
         }

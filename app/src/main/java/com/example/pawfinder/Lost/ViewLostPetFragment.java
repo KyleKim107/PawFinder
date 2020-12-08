@@ -9,6 +9,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class ViewLostPetFragment extends Fragment {
@@ -95,14 +97,7 @@ public class ViewLostPetFragment extends Fragment {
         mBackArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LostFragment fragment = new LostFragment();
-                Bundle args = new Bundle();
-                args.putBoolean("isMyLost", myLost);
-                fragment.setArguments(args);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_activity_container, fragment);
-                transaction.addToBackStack("Lost"); // TODO: or (null) ????
-                transaction.commit();
+                getActivity().onBackPressed();
             }
         });
         mEllipses = root.findViewById(R.id.viewLostPetEllipses);
@@ -233,7 +228,7 @@ public class ViewLostPetFragment extends Fragment {
                             args.putParcelable("editPet", mLostPet);
                             fragment.setArguments(args);
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.main_activity_container, fragment);
+                            transaction.add(R.id.main_activity_container, fragment);
                             transaction.addToBackStack("Edit"); // TODO: or (null) ????
                             transaction.commit();
                         } else {
@@ -242,7 +237,7 @@ public class ViewLostPetFragment extends Fragment {
                             args.putParcelable("editPet", mLostPet);
                             fragment.setArguments(args);
                             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.main_activity_container, fragment);
+                            transaction.add(R.id.main_activity_container, fragment);
                             transaction.addToBackStack("Edit"); // TODO: or (null) ????
                             transaction.commit();
                         }
@@ -250,9 +245,9 @@ public class ViewLostPetFragment extends Fragment {
 
                     case R.id.delete_lostpet:
                         String pet_id = mLostPet.getLost_pet_id();
-                        new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatus() {
+                        new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatusLost() {
                             @Override
-                            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                            public void DataIsLoaded(ArrayList<LostPet> favorites, ArrayList<String> keys) {
                             }
                             @Override
                             public void DataIsInserted() {
@@ -268,14 +263,7 @@ public class ViewLostPetFragment extends Fragment {
                         Toast.makeText(getActivity(), "Successfully deleted", Toast.LENGTH_SHORT).show();
 
                         // Navigate back to all lost pets
-                        LostFragment fragment = new LostFragment();
-                        Bundle args = new Bundle();
-                        args.putBoolean("isMyLost", true);
-                        fragment.setArguments(args);
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.main_activity_container, fragment);
-                        transaction.addToBackStack("Lost"); // TODO: or (null) ????
-                        transaction.commit();
+                        getActivity().onBackPressed();
                         return true;
                 }
                 return true;

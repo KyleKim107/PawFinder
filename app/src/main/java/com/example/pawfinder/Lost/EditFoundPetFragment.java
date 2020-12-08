@@ -104,14 +104,7 @@ public class EditFoundPetFragment extends Fragment {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: navigating back to View Lost Pet Fragment");
                 // Navigate back to all lost pets
-                LostFragment fragment = new LostFragment();
-                Bundle args = new Bundle();
-                args.putBoolean("isMyLost", true);
-                fragment.setArguments(args);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_activity_container, fragment);
-                transaction.addToBackStack("Lost"); // TODO: or (null) ????
-                transaction.commit();
+                getActivity().onBackPressed();
             }
         });
 
@@ -157,15 +150,7 @@ public class EditFoundPetFragment extends Fragment {
                 mFirebaseDatabaseHelper.updateLostPet(mLostPet, bitmap);
 
                 // Navigate back to my lost pets
-                Log.d(TAG, "onClick: navigating back to Lost Fragment");
-                LostFragment fragment = new LostFragment();
-                Bundle args = new Bundle();
-                args.putBoolean("isMyLost", true);
-                fragment.setArguments(args);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_activity_container, fragment);
-                transaction.addToBackStack("Lost"); // TODO: or (null) ????
-                transaction.commit();
+                getActivity().onBackPressed();
             }
         });
 

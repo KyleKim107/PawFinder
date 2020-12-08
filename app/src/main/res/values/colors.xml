@@ -7,6 +7,7 @@
     <color name="black">#000000</color>
     <color name="grey">#222222</color>
     <color name="icon_grey">#6A6A6A</color>
+    <color name="middle_grey">#C8C8C8</color>
     <color name="lightgrey">#EDEDED</color>
     <color name="link">#0645AD</color>
     <color name="remove_background">#fa315b</color>
