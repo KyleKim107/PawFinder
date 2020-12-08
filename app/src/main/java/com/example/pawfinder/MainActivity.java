@@ -49,13 +49,11 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
-                new PetsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_activity_container,
+                new PetsFragment(), "navigation_pets").addToBackStack("navigation_pets").commit();
 
 //        tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
-//
 //        service = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
-//
 //        getAnimals();
 
 //        String url = "https://api.petfinder.com/v2/oauth2/token";
@@ -66,22 +64,31 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selected = null;
+                    String addToBS = "";
                     switch (item.getItemId()) {
                         case R.id.navigation_pets:
                             selected = new PetsFragment();
+                            addToBS = "navigation_pets";
                             break;
                         case R.id.navigation_shelters:
                             selected = new SheltersFragment();
+                            addToBS = "navigation_shelters";
                             break;
                         case R.id.navigation_lost:
                             selected = new LostFragment();
+                            addToBS = "navigation_lost";
                             break;
                         case R.id.navigation_profile:
                             selected = new ProfileFragment();
+                            addToBS = "navigation_profile";
                             break;
                     }
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
-                            selected).commit();
+                    if(getSupportFragmentManager().findFragmentByTag(addToBS) != null) {
+                        getSupportFragmentManager().popBackStackImmediate(addToBS, 0);
+                    } else {
+                        getSupportFragmentManager().beginTransaction().add(R.id.main_activity_container,
+                                selected, addToBS).addToBackStack(addToBS).commit();
+                    }
                     return true;
                 }
             };

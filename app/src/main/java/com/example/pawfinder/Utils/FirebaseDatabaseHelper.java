@@ -104,7 +104,8 @@ public class FirebaseDatabaseHelper {
 
     public void addFavorite(PetfinderPet pet, final DataStatus dataStatus) {
         if (!CardStackConfig.ids.contains(pet.getId())) {
-            mReferenceFavorites.child(pet.getId()).setValue(pet)
+            String key = mReferenceFavorites.push().getKey();
+            mReferenceFavorites.child(key).setValue(pet)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
