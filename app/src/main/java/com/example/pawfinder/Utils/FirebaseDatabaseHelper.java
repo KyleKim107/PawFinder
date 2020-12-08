@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
@@ -46,13 +48,13 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference mReferenceMyLost;
     private StorageReference mStorageReference;
 
-    private ArrayList<Pet> pets = new ArrayList<>();
-    private ArrayList<Pet> favorites = new ArrayList<>();
+    private List<PetfinderPet> pets = new ArrayList<>();
+    private List<PetfinderPet> favorites = new ArrayList<>();
     private ArrayList<LostPet> allLost = new ArrayList<>();
     private ArrayList<LostPet> myLost = new ArrayList<>();
 
     public interface DataStatus {
-        void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys);
+        void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys);
         void DataIsInserted();
         void DataIsUpdated();
         void DataIsDeleted();
@@ -77,27 +79,6 @@ public class FirebaseDatabaseHelper {
         mReferenceMyLost = mDatabase.getReference().child("MyLostPets").child(user.getUid());
     }
 
-    public void readPets(final DataStatus dataStatus) {
-        mReferencePets.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pets.clear();
-                ArrayList<String> keys = new ArrayList<>();
-                for (DataSnapshot keyNode : snapshot.getChildren()) {
-                    keys.add(keyNode.getKey());
-                    Pet pet = keyNode.getValue(Pet.class);
-                    pets.add(pet);
-                }
-                dataStatus.DataIsLoaded(pets, keys);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     public void readFavorites(final DataStatus dataStatus) {
         mReferenceFavorites.addValueEventListener(new ValueEventListener() {
             @Override
@@ -107,7 +88,7 @@ public class FirebaseDatabaseHelper {
                 ArrayList<String> keys = new ArrayList<>();
                 for (DataSnapshot keyNode : snapshot.getChildren()) {
                     keys.add(keyNode.getKey());
-                    Pet pet = keyNode.getValue(Pet.class);
+                    PetfinderPet pet = keyNode.getValue(PetfinderPet.class);
                     favorites.add(pet);
                     CardStackConfig.ids.add(pet.getId());
                 }
@@ -121,10 +102,9 @@ public class FirebaseDatabaseHelper {
         });
     }
 
-    public void addFavorite(Pet pet, final DataStatus dataStatus) {
+    public void addFavorite(PetfinderPet pet, final DataStatus dataStatus) {
         if (!CardStackConfig.ids.contains(pet.getId())) {
-            String key = mReferenceFavorites.push().getKey();
-            mReferenceFavorites.child(key).setValue(pet)
+            mReferenceFavorites.child(pet.getId()).setValue(pet)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -144,19 +124,19 @@ public class FirebaseDatabaseHelper {
                 });
     }
 
-    public void deleteLost(String key, final DataStatus dataStatus) {
+    public void deleteLost(String key, final DataStatusLost dataStatusLost) {
         mReferenceAllLost.child(key).setValue(null)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        dataStatus.DataIsDeleted();
+                        dataStatusLost.DataIsDeleted();
                     }
                 });
         mReferenceMyLost.child(key).setValue(null)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        dataStatus.DataIsDeleted();
+                        dataStatusLost.DataIsDeleted();
                     }
                 });
         // delete photo in storage
@@ -212,14 +192,6 @@ public class FirebaseDatabaseHelper {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-    }
-
-    public int getLostPetCount(DataSnapshot dataSnapshot){
-        int count = 0;
-        for(DataSnapshot ds: dataSnapshot.child("MyLostPets").child(user.getUid()).getChildren()){
-            count++;
-        }
-        return count;
     }
 
     public void uploadNewLostPet(final String status, final String petName, final String petType,

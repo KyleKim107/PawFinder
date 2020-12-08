@@ -19,6 +19,7 @@ import com.example.pawfinder.Lost.EditMissingPetFragment;
 import com.example.pawfinder.Lost.LostFragment;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
 import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -38,11 +39,14 @@ public class ViewPetFragment extends Fragment {
 
     private final String TAG = "ViewPetFragment";
 
-    private Pet mPet;
-    private ImageView mPetImage, mBackArrow;
-    private TextView mPetName, mPetPosted, mPetGender, mPetType, mLastSeen, mPetArea, mPetDate,
-                        mEmail, mPhone, mAdditionalInfo, mMessage;
-    private Boolean myLost;
+    private PetfinderPet mPet;
+    private ImageView mImage, mBackArrow;
+    private TextView mName, mPosted;
+    private TextView mBreedText, mBreed;
+    private TextView mPhysicalText, mSize, mGender, mAge, mCoat, mColor;
+    private TextView mHealthText, mSpayedNeutered, mDeclawed, mSpecialNeeds, mVaccinations;
+    private TextView mBehavioralText, mHouseTrained;
+    private TextView mMeetPetText, mDescription;
 
     public ViewPetFragment() {
         // Required empty public constructor
@@ -56,27 +60,33 @@ public class ViewPetFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_view_pet, container, false);
 
-        // Main Info
-        mPetImage = root.findViewById(R.id.pet_image_view);
-        mPetName = root.findViewById(R.id.pet_name_view);
-        mPetPosted = root.findViewById(R.id.pet_posted_view);
+        // Title Info
+        mImage = root.findViewById(R.id.pet_image_view);
+        mName = root.findViewById(R.id.pet_name_view);
+        mPosted = root.findViewById(R.id.pet_posted_view);
 
-        // Characteristics
-        mPetGender = root.findViewById(R.id.pet_gender_view);
-        mPetType = root.findViewById(R.id.pet_type_view);
+        // Physical Characteristics
+        mPhysicalText = root.findViewById(R.id.text_physical_view);
+        mSize = root.findViewById(R.id.petsize_view);
+        mGender = root.findViewById(R.id.petgender_view);
+        mAge = root.findViewById(R.id.petage_view);
+        mCoat = root.findViewById(R.id.petcoat_view);
+        mColor = root.findViewById(R.id.petcolor_view);
 
-        // Last Seen
-        mLastSeen = root.findViewById(R.id.last_seen_view);
-        mPetArea = root.findViewById(R.id.pet_area_view);
-        mPetDate = root.findViewById(R.id.pet_date_view);
+        // Health
+        mHealthText = root.findViewById(R.id.text_health_view);
+        mSpayedNeutered = root.findViewById(R.id.spayedneutered_view);
+        mDeclawed = root.findViewById(R.id.declawed_view);
+        mSpecialNeeds = root.findViewById(R.id.specialneeds_view);
+        mVaccinations = root.findViewById(R.id.vaccinations_view);
 
-        // Contact Info
-        mEmail = root.findViewById(R.id.contact_email_view);
-        mPhone = root.findViewById(R.id.contact_phone_view);
+        // Behavioral Characteristics
+        mBehavioralText = root.findViewById(R.id.text_behavioral_view);
+        mHouseTrained = root.findViewById(R.id.housetrained_view);
 
-        // Additional Info
-        mAdditionalInfo = root.findViewById(R.id.additional_info_view);
-        mMessage = root.findViewById(R.id.message_view);
+        // Description
+        mMeetPetText = root.findViewById(R.id.text_meet_view);
+        mDescription = root.findViewById(R.id.petdescription_view);
 
         try {
             mPet = getPetFromBundle();
@@ -105,113 +115,180 @@ public class ViewPetFragment extends Fragment {
         display.getSize(size);
         int windowWidth = size.x;
         int windowHeight = size.y;
-        mPetImage.getLayoutParams().height = windowHeight / 2;
-        mPetImage.requestLayout();
+        mImage.getLayoutParams().height = windowHeight / 2;
+        mImage.requestLayout();
 
         Glide.with(getActivity())
                 .asBitmap()
-                .load("https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/49972595/1/?bust=1607226943")
-                .into(mPetImage);
+                .load(mPet.getPhotos().get(0).getFull())
+                .into(mImage);
 
-//        // Name
-//        mPetName.setText(mPet.getPet_name());
-//
-//        // Date posted
-//        String timestampDiff = getTimestampDifference();
-//        if(!timestampDiff.equals("0")){
-//            if(timestampDiff.equals("1")) {
-//                mPetPosted.setText(timestampDiff + " DAY AGO");
-//            } else {
-//                mPetPosted.setText(timestampDiff + " DAYS AGO");
-//            }
-//        } else{
-//            mPetPosted.setText("TODAY");
-//        }
-//
-//        // Gender
-//        if (mPet.getPet_gender().equals("")) {
-//            mPetGender.setVisibility(View.GONE);
-//        } else {
-//            mPetGender.setText("Gender: " + mPet.getPet_gender());
-//        }
-//
-//        // Type
-//        mPetType.setText("Type: " + mPet.getPet_type());
-//
-//        // Last Seen / Recently Found
-//        if (mPet.getStatus().equals("missing")) {
-//            mLastSeen.setText("LAST SEEN");
-//        } else {
-//            mLastSeen.setText("RECENTLY FOUND");
-//        }
-//
-//        // Area
-//        mPetArea.setText("Area: " + mPet.getArea_missing());
-//
-//        // Date
-//        mPetDate.setText("Date: " + mPet.getDate_missing());
-//
-//        // Email
-//        if (myLost) {
-//            mEmail.setText("Email: " + mPet.getEmail());
-//        } else {
-//            mEmail.setText("Email: Tap to view");
-//            mEmail.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    mEmail.setText("Email: " + mPet.getEmail());
-//                }
-//            });
-//        }
-//
-//        // Phone
-//        if (mPet.getPhone().equals("")) {
-//            mPhone.setVisibility(View.GONE);
-//        } else {
-//            if (myLost) {
-//                mPhone.setText("Phone: " + mPet.getPhone());
-//            } else {
-//                mPhone.setText("Phone: Tap to view");
-//                mPhone.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        mPhone.setText("Phone: " + mPet.getPhone());
-//                    }
-//                });
-//            }
-//        }
-//
-//        // Message
-//        if (mPet.getMessage().equals("")) {
-//            mAdditionalInfo.setVisibility(View.GONE);
-//            mMessage.setVisibility(View.GONE);
-//        } else {
-//            mMessage.setText("Message: " + mPet.getMessage());
-//        }
+        // Name
+        if (mPet.getName() != null) {
+            mName.setText(mPet.getName());
+        }
+
+        // Date posted
+        String timestampDiff = getTimestampDifference();
+        if(!timestampDiff.equals("0")){
+            if(timestampDiff.equals("1")) {
+                mPosted.setText("POSTED " + timestampDiff + " DAY AGO");
+            } else {
+                mPosted.setText("POSTED " + timestampDiff + " DAYS AGO");
+            }
+        } else{
+            mPosted.setText("POSTED TODAY");
+        }
+
+        // Physical Characteristics
+        int physical_gone = 0;
+        if (mPet.getSize() != null) {
+            mSize.setText("Size: " + mPet.getSize());
+        } else {
+            mSize.setVisibility(View.GONE);
+            physical_gone++;
+        }
+
+        if (mPet.getGender() != null) {
+            mGender.setText("Gender: " + mPet.getGender());
+        } else {
+            mGender.setVisibility(View.GONE);
+            physical_gone++;
+        }
+
+        if (mPet.getAge() != null) {
+            mAge.setText("Age: " + mPet.getAge());
+        } else {
+            mAge.setVisibility(View.GONE);
+            physical_gone++;
+        }
+
+        if (mPet.getCoat() != null) {
+            mCoat.setText("Coat: " + mPet.getCoat());
+        } else {
+            mCoat.setVisibility(View.GONE);
+            physical_gone++;
+        }
+
+        PetfinderPet.PetfinderPetColors colors = mPet.getColors();
+        if (colors.getPrimary() != null) {
+            if (colors.getSecondary() != null) {
+                if (colors.getTertiary() != null) {
+                    mColor.setText("Colors: " + colors.getPrimary() + ", " + colors.getSecondary()
+                            + ", and " + colors.getTertiary());
+                } else {
+                    mColor.setText("Colors: " + colors.getPrimary() + " and " + colors.getSecondary());
+                }
+            } else {
+                mColor.setText("Color: " + colors.getPrimary());
+            }
+        } else {
+            mColor.setVisibility(View.GONE);
+            physical_gone++;
+        }
+        if (physical_gone == 5) {
+            mPhysicalText.setVisibility(View.GONE);
+        }
+
+        // Health
+        int health_gone = 0;
+        PetfinderPet.PetfinderPetAttributes attributes = mPet.getAttributes();
+        if (attributes.getSpayed_neutered() != null) {
+            if (attributes.getSpayed_neutered().equals("false")) {
+                mSpayedNeutered.setText("Not Spayed/Neutered");
+            } else {
+                mSpayedNeutered.setText("Spayed/Neutered");
+            }
+        } else {
+            mSpayedNeutered.setVisibility(View.GONE);
+            health_gone++;
+        }
+
+        if (attributes.getDeclawed() != null) {
+            if (attributes.getDeclawed().equals("true")) {
+                mDeclawed.setText("Declawed");
+            } else {
+                mDeclawed.setVisibility(View.GONE);
+                health_gone++;
+            }
+        } else {
+            mDeclawed.setVisibility(View.GONE);
+            health_gone++;
+        }
+
+        if (attributes.getSpecial_needs() != null) {
+            if (attributes.getSpecial_needs().equals("true")) {
+                mSpecialNeeds.setText("Special Needs");
+            } else {
+                mSpecialNeeds.setVisibility(View.GONE);
+                health_gone++;
+            }
+        } else {
+            mSpecialNeeds.setVisibility(View.GONE);
+            health_gone++;
+        }
+
+        if (attributes.getShots_current() != null) {
+            if (attributes.getShots_current().equals("true")) {
+                mVaccinations.setText("Vaccinations up-to-date");
+            } else {
+                mVaccinations.setText("Vaccinations not up-to-date");
+            }
+        } else {
+            mVaccinations.setVisibility(View.GONE);
+            health_gone++;
+        }
+
+        if (health_gone == 4) {
+            mHealthText.setVisibility(View.GONE);
+        }
+
+        // Behavioral Characteristics
+        if (attributes.getHouse_trained() != null) {
+            if (attributes.getHouse_trained().equals("true")) {
+                mHouseTrained.setText("House trained");
+            } else {
+                mHouseTrained.setText("Not house trained");
+            }
+        } else {
+            mHouseTrained.setVisibility(View.GONE);
+            mBehavioralText.setVisibility(View.GONE);
+        }
+
+        // Description
+        if (mPet.getDescription() != null) {
+            if (mPet.getName() != null) {
+                mMeetPetText.setText("MEET " + mPet.getName().toUpperCase());
+                mDescription.setText(mPet.getDescription());
+            }
+        } else {
+            mMeetPetText.setVisibility(View.GONE);
+            mDescription.setVisibility(View.GONE);
+        }
     }
 
-//    private String getTimestampDifference(){
-//        Log.d(TAG, "getTimestampDifference: getting timestamp difference.");
-//
-//        String difference = "";
-//        Calendar c = Calendar.getInstance();
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-//        sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
-//        Date today = c.getTime();
-//        sdf.format(today);
-//        Date timestamp;
-//        final String photoTimestamp = mPet.getDate_posted();
-//        try{
-//            timestamp = sdf.parse(photoTimestamp);
-//            difference = String.valueOf(Math.round(((today.getTime() - timestamp.getTime()) / 1000 / 60 / 60 / 24 )));
-//        }catch (ParseException e){
-//            Log.e(TAG, "getTimestampDifference: ParseException: " + e.getMessage());
-//            difference = "0";
-//        }
-//        return difference;
-//    }
+    private String getTimestampDifference(){
+        Log.d(TAG, "getTimestampDifference: getting timestamp difference.");
 
-    private Pet getPetFromBundle() {
+        String difference = "";
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("US/Central"));
+        Date today = c.getTime();
+        sdf.format(today);
+        Date timestamp;
+        final String photoTimestamp = mPet.getPublished_at();
+        try{
+            timestamp = sdf.parse(photoTimestamp);
+            difference = String.valueOf(Math.round(((today.getTime() - timestamp.getTime()) / 1000 / 60 / 60 / 24 )));
+        }catch (ParseException e){
+            Log.e(TAG, "getTimestampDifference: ParseException: " + e.getMessage());
+            difference = "0";
+        }
+        return difference;
+    }
+
+    private PetfinderPet getPetFromBundle() {
         Log.d(TAG, "getLostPetFromBundle: arguments " + getArguments());
 
         Bundle bundle = this.getArguments();

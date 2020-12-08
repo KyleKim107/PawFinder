@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.pawfinder.MainActivity;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +28,7 @@ import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeableMethod;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -45,14 +47,14 @@ public class CardStackConfig {
     private DatabaseReference mReferencePets;
     public static ArrayList<String> ids = new ArrayList<>();
 
-    public void setConfig(CardStackView cardStackView, Context context, ArrayList<Pet> pets, ArrayList<String> keys) {
+    public void setConfig(CardStackView cardStackView, Context context, final List<PetfinderPet> pets) {
         // Firebase
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
         final View[] root = new View[1];
         mContext = context;
-        mAdapter = new PetAdapter(pets, keys);
+        mAdapter = new PetAdapter(pets);
         mCardStackView = cardStackView;
         manager = new CardStackLayoutManager(mContext, new CardStackListener() {
             @Override
@@ -64,43 +66,31 @@ public class CardStackConfig {
             public void onCardSwiped(Direction direction) {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
                 if (direction == Direction.Right){
-//                    Toast.makeText(mContext, "Added to favorites!", Toast.LENGTH_SHORT).show();
-
-                    final TextView id_tv = root[0].findViewById(R.id.item_id);
-                    final TextView name_tv = root[0].findViewById(R.id.item_name);
-                    final TextView age_tv = root[0].findViewById(R.id.item_age);
-                    final TextView gender_tv = root[0].findViewById(R.id.item_gender);
-
+                    TextView id_tv = root[0].findViewById(R.id.item_id);
                     String id = id_tv.getText().toString();
-                    mReferencePets = mDatabase.getReference("Pets").child(id);
-                    mReferencePets.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
-                        @Override
-                        public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
-                                String id = id_tv.getText().toString();
-                                String image = (String) dataSnapshot.child("image").getValue();
-                                String name = name_tv.getText().toString();
-                                String age = age_tv.getText().toString();
-                                String gender = gender_tv.getText().toString();
 
-                                Pet favorite = new Pet(id, image, name, age, gender);
-                                new FirebaseDatabaseHelper().addFavorite(favorite, new FirebaseDatabaseHelper.DataStatus() {
-                                    @Override
-                                    public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
-                                    }
-                                    @Override
-                                    public void DataIsInserted() {
-                                        Log.d(TAG, "Pet added to favorites.");
-                                    }
-                                    @Override
-                                    public void DataIsUpdated() {
-                                    }
-                                    @Override
-                                    public void DataIsDeleted() {
-                                    }
-                                });
+                    PetfinderPet favorite = pets.get(0);
+
+                    for (PetfinderPet pet : pets) {
+                        if (pet.getId().equals(id)) {
+                            favorite = pet;
+                            break;
+                        }
+                    }
+
+                    new FirebaseDatabaseHelper().addFavorite(favorite, new FirebaseDatabaseHelper.DataStatus() {
+                        @Override
+                        public void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys) {
                         }
                         @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                        public void DataIsInserted() {
+                            Log.d(TAG, "Pet added to favorites.");
+                        }
+                        @Override
+                        public void DataIsUpdated() {
+                        }
+                        @Override
+                        public void DataIsDeleted() {
                         }
                     });
                 }
@@ -150,12 +140,13 @@ public class CardStackConfig {
 
     class PetAdapter extends RecyclerView.Adapter<PetItemView> {
 
-        private ArrayList<Pet> mPets;
-        private ArrayList<String> mKeys;
+        private List<PetfinderPet> mPets;
+//        private ArrayList<String> mKeys;
 
-        public PetAdapter(ArrayList<Pet> pets, ArrayList<String> keys) {
+//        public PetAdapter(List<PetfinderPet> pets, ArrayList<String> keys) {
+        public PetAdapter(List<PetfinderPet> pets) {
             this.mPets = pets;
-            this.mKeys = keys;
+//            this.mKeys = keys;
         }
 
         @NonNull
@@ -169,7 +160,8 @@ public class CardStackConfig {
         @Override
         public void onBindViewHolder(PetItemView holder, int position) {
             Log.d("PetAdapter", "onBindViewHolder: called.");
-            holder.bind(mPets.get(position), mKeys.get(position));
+            holder.bind(mPets.get(position));
+//            holder.bind(mPets.get(position), mKeys.get(position));
         }
 
         @Override
@@ -182,7 +174,7 @@ public class CardStackConfig {
 
         ImageView image;
         TextView id, name, age, gender;
-        String key;
+//        String key;
         CardView layout;
 
         public PetItemView(View itemView) {
@@ -196,9 +188,10 @@ public class CardStackConfig {
             layout = itemView.findViewById(R.id.item_layout);
         }
 
-        public void bind(final Pet pet, String key) {
+//        public void bind(final PetfinderPet pet, String key) {
+        public void bind(final PetfinderPet pet) {
             Picasso.get()
-                    .load(pet.getImage())
+                    .load(pet.getPhotos().get(0).getFull())
                     .fit()
                     .centerCrop()
                     .into(image);
@@ -206,14 +199,14 @@ public class CardStackConfig {
             name.setText(pet.getName());
             age.setText(pet.getAge());
             gender.setText(pet.getGender());
-            this.key = key;
+//            this.key = key;
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.d("PetItemView", "onClick: clicked on: " + pet.getName());
                     Log.d(TAG, "onClick: Loading more pet information.");
-                    ((MainActivity)mContext).onPetSelected(pet, "MAINACTIVITY");
+                    ((MainActivity)mContext).onPetSelected(pet);
                 }
             });
         }

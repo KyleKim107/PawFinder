@@ -2,20 +2,14 @@ package com.example.pawfinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.pawfinder.Login.LoginActivity;
@@ -25,10 +19,7 @@ import com.example.pawfinder.Lost.MyLostPetsFragment;
 import com.example.pawfinder.Lost.ViewLostPetFragment;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
-import com.example.pawfinder.PetfinderAPI.Entities.PetfinderResponse;
-import com.example.pawfinder.PetfinderAPI.Network.ApiService;
-import com.example.pawfinder.PetfinderAPI.Network.RetrofitBuilder;
-import com.example.pawfinder.PetfinderAPI.TokenManager;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.Pets.FilterActivity;
 import com.example.pawfinder.Pets.PetsFragment;
 import com.example.pawfinder.Pets.ViewPetFragment;
@@ -39,15 +30,6 @@ import com.example.pawfinder.Utils.LostPetsListAdapter;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import java.io.IOException;
-
 
 
 public class MainActivity extends AppCompatActivity implements AllLostPetsFragment.OnAllLostPetSelectedListener, MyLostPetsFragment.OnMyLostPetSelectedListener, LostPetsListAdapter.OnLoadMoreItemsListener {
@@ -104,35 +86,12 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                 }
             };
 
-//    public void getAnimals() {
-//        call = service.animals();
-//        call.enqueue(new Callback<PetfinderResponse>() {
-//            @Override
-//            public void onResponse(Call<PetfinderResponse> call, Response<PetfinderResponse> response) {
-//                Log.w(TAG, "onResponse: " + response );
-//
-//                if(response.isSuccessful()){
-//                    Log.e(TAG, "onResponse: " + response.body().getAnimals().get(0).getName());
-//                }else {
-//                    tokenManager.deleteToken();
-//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//                    finish();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<PetfinderResponse> call, Throwable t) {
-//                Log.w(TAG, "onFailure: " + t.getMessage() );
-//            }
-//        });
-//    }
-
-    public void onFavoritePetSelected(Pet pet, String callingActivity) {
+    public void onFavoritePetSelected(PetfinderPet pet) {
         Log.d(TAG, "onLostPetSelected: Selected a lost pet");
 
         ViewFavoritePetFragment fragment = new ViewFavoritePetFragment();
         Bundle args = new Bundle();
         args.putParcelable("LOSTPET", pet);
-        args.putString("MAINACTIVITY", callingActivity);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -141,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         transaction.commit();
     }
 
-    public void onPetSelected(Pet pet, String callingActivity) {
+    public void onPetSelected(PetfinderPet pet) {
         Log.d(TAG, "onPetSelected: Selected a pet");
 
         ViewPetFragment fragment = new ViewPetFragment();

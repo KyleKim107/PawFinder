@@ -17,8 +17,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="30dp"
+                android:textColor="@color/icon_grey"
                 android:text="Type"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <ToggleButton
                 android:id="@+id/type_dog"
@@ -103,8 +104,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="30dp"
+                android:textColor="@color/icon_grey"
                 android:text="Size"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <ToggleButton
                 android:id="@+id/size_small"
@@ -212,8 +214,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="30dp"
+                android:textColor="@color/icon_grey"
                 android:text="Gender"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <ToggleButton
                 android:id="@+id/gender_male"
@@ -275,8 +278,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="30dp"
+                android:textColor="@color/icon_grey"
                 android:text="Age"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <ToggleButton
                 android:id="@+id/age_baby"
@@ -370,18 +374,6 @@
 <!--                android:text="Senior" />-->
 
         </RelativeLayout>
-
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:id="@+id/filterButton"
-            android:layout_below="@+id/relLayoutAge"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="30dp"
-            android:text="Done"
-            android:textSize="15sp"
-            android:background="@color/middle_grey"/>
 
     </RelativeLayout>
 

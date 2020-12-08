@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.Profile.ProfileViewModel;
 import com.example.pawfinder.R;
 import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -31,7 +33,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
 
     //vars
-    private ArrayList<Pet> mFavorites = new ArrayList<>();
+    private List<PetfinderPet> mFavorites = new ArrayList<>();
     private ArrayList<String> mKeys = new ArrayList<>();
 
     RecyclerView mRecyclerView;
@@ -40,7 +42,6 @@ public class ProfileFragment extends Fragment {
     private FirebaseUser user;
 
     TextView name;
-//    private String key;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class ProfileFragment extends Fragment {
 
         new FirebaseDatabaseHelper().readFavorites(new FirebaseDatabaseHelper.DataStatus() {
             @Override
-            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+            public void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys) {
                 root.findViewById(R.id.loadingFavorites).setVisibility(View.GONE);
                 new RecyclerViewConfig().setConfig(mRecyclerView, getActivity(), favorites, keys);
                 mFavorites = favorites;
@@ -90,14 +91,14 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-            Pet fav = mFavorites.get(viewHolder.getAdapterPosition());
+            PetfinderPet fav = mFavorites.get(viewHolder.getAdapterPosition());
             String key = mKeys.get(viewHolder.getAdapterPosition());
             mFavorites.remove(fav);
             mKeys.remove(key);
 
             new FirebaseDatabaseHelper().deleteFavorite(key, new FirebaseDatabaseHelper.DataStatus() {
                 @Override
-                public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                public void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys) {
                 }
                 @Override
                 public void DataIsInserted() {

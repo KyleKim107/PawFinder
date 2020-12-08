@@ -1,9 +1,12 @@
 
-package com.example.pawfinder.PetfinderAPI.Entities;
+package com.example.pawfinder.Models;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 
-public class PetfinderPet {
+public class PetfinderPet implements Parcelable {
     private String id;
     private String organization_id;
     private String type;
@@ -18,11 +21,13 @@ public class PetfinderPet {
     private String name;
     private String description;
     private List<PetfinderPetPhotos> photos;
-    private List<String> videos;
     private String status;
     private String published_at;
 
-    private static class PetfinderPetBreeds {
+    public PetfinderPet() {
+    }
+
+    public static class PetfinderPetBreeds {
         private String primary;
         private String secondary;
         private String mixed;
@@ -45,7 +50,7 @@ public class PetfinderPet {
         }
     }
 
-    private static class PetfinderPetColors {
+    public static class PetfinderPetColors {
         private String primary;
         private String secondary;
         private String tertiary;
@@ -63,7 +68,7 @@ public class PetfinderPet {
         }
     }
 
-    private static class PetfinderPetAttributes {
+    public static class PetfinderPetAttributes {
         private String spayed_neutered;
         private String house_trained;
         private String declawed;
@@ -91,7 +96,7 @@ public class PetfinderPet {
         }
     }
 
-    private static class PetfinderPetPhotos {
+    public static class PetfinderPetPhotos {
         private String small;
         private String medium;
         private String large;
@@ -170,15 +175,59 @@ public class PetfinderPet {
         return photos;
     }
 
-    public List<String> getVideos() {
-        return videos;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public String getPublished_at() {
         return published_at;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(organization_id);
+        parcel.writeString(type);
+        parcel.writeString(age);
+        parcel.writeString(gender);
+        parcel.writeString(size);
+        parcel.writeString(coat);
+        parcel.writeStringList(tags);
+        parcel.writeString(name);
+        parcel.writeString(description);
+        parcel.writeString(status);
+        parcel.writeString(published_at);
+    }
+
+    protected PetfinderPet(Parcel in) {
+        id = in.readString();
+        organization_id = in.readString();
+        type = in.readString();
+        age = in.readString();
+        gender = in.readString();
+        size = in.readString();
+        coat = in.readString();
+        tags = in.createStringArrayList();
+        name = in.readString();
+        description = in.readString();
+        status = in.readString();
+        published_at = in.readString();
+    }
+
+    public static final Creator<PetfinderPet> CREATOR = new Creator<PetfinderPet>() {
+        @Override
+        public PetfinderPet createFromParcel(Parcel in) {
+            return new PetfinderPet(in);
+        }
+
+        @Override
+        public PetfinderPet[] newArray(int size) {
+            return new PetfinderPet[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

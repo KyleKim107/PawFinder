@@ -245,9 +245,9 @@ public class ViewLostPetFragment extends Fragment {
 
                     case R.id.delete_lostpet:
                         String pet_id = mLostPet.getLost_pet_id();
-                        new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatus() {
+                        new FirebaseDatabaseHelper().deleteLost(pet_id, new FirebaseDatabaseHelper.DataStatusLost() {
                             @Override
-                            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                            public void DataIsLoaded(ArrayList<LostPet> favorites, ArrayList<String> keys) {
                             }
                             @Override
                             public void DataIsInserted() {

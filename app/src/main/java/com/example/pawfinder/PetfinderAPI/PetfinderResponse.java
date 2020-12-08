@@ -1,4 +1,6 @@
-package com.example.pawfinder.PetfinderAPI.Entities;
+package com.example.pawfinder.PetfinderAPI;
+
+import com.example.pawfinder.Models.PetfinderPet;
 
 import java.util.List;
 
