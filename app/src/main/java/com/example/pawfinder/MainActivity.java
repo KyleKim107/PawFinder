@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
     final static String TAG = "MainActivity";
 
-    ApiService service;
-    TokenManager tokenManager;
-    Call<PetfinderResponse> call;
+//    ApiService service;
+//    TokenManager tokenManager;
+//    Call<PetfinderResponse> call;
 
 //    public static final MediaType JSON = MediaType.parse("application/json; charset=utf=8");
 //    OkHttpClient client = new OkHttpClient();
@@ -70,16 +70,11 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
                 new PetsFragment()).commit();
 
-        tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
-
-        if(tokenManager.getToken() == null){
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
-        }
-
-        service = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
-
-        getAnimals();
+//        tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
+//
+//        service = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
+//
+//        getAnimals();
 
 //        String url = "https://api.petfinder.com/v2/oauth2/token";
     }
@@ -109,27 +104,27 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                 }
             };
 
-    public void getAnimals() {
-        call = service.animals();
-        call.enqueue(new Callback<PetfinderResponse>() {
-            @Override
-            public void onResponse(Call<PetfinderResponse> call, Response<PetfinderResponse> response) {
-                Log.w(TAG, "onResponse: " + response );
-
-                if(response.isSuccessful()){
-                    Log.e(TAG, "onResponse: " + response.body().getAnimals().get(0).getName());
-                }else {
-                    tokenManager.deleteToken();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-            @Override
-            public void onFailure(Call<PetfinderResponse> call, Throwable t) {
-                Log.w(TAG, "onFailure: " + t.getMessage() );
-            }
-        });
-    }
+//    public void getAnimals() {
+//        call = service.animals();
+//        call.enqueue(new Callback<PetfinderResponse>() {
+//            @Override
+//            public void onResponse(Call<PetfinderResponse> call, Response<PetfinderResponse> response) {
+//                Log.w(TAG, "onResponse: " + response );
+//
+//                if(response.isSuccessful()){
+//                    Log.e(TAG, "onResponse: " + response.body().getAnimals().get(0).getName());
+//                }else {
+//                    tokenManager.deleteToken();
+//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//                    finish();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<PetfinderResponse> call, Throwable t) {
+//                Log.w(TAG, "onFailure: " + t.getMessage() );
+//            }
+//        });
+//    }
 
     public void onFavoritePetSelected(Pet pet, String callingActivity) {
         Log.d(TAG, "onLostPetSelected: Selected a lost pet");

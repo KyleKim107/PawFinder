@@ -110,7 +110,7 @@ public class ViewPetFragment extends Fragment {
 
         Glide.with(getActivity())
                 .asBitmap()
-                .load("https://firebasestorage.googleapis.com/v0/b/pawfinder-b450a.appspot.com/o/photos%2Fusers%2FxuiXEyZqg7S2vmJW06j4UH0GMGW2%2F-MNtflfOrnaCu7Ne5ERL?alt=media&token=df626f73-6b20-4dc1-b111-08eadb40c9f1")
+                .load("https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/49972595/1/?bust=1607226943")
                 .into(mPetImage);
 
 //        // Name

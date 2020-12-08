@@ -42,9 +42,9 @@ public class PetsFragment extends Fragment {
 
     //private List<ItemModel> MyPets;
 
-    OkHttpClient client = new OkHttpClient();
-    String token;
-    ArrayList<String> list = new ArrayList<String>();
+//    OkHttpClient client = new OkHttpClient();
+//    String token;
+//    ArrayList<String> list = new ArrayList<String>();
 
     public static PetsFragment newInstance() {
         PetsFragment fragment = new PetsFragment();
@@ -90,50 +90,51 @@ public class PetsFragment extends Fragment {
             }
         });
 
-        try {
-            HttpUrl httpUrl = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("api.petfinder.com")
-                    .addPathSegment("v2/oauth2/token")
-                    .build();
-
-            RequestBody body = new FormBody.Builder()
-                    .add("grant_type", "client_credentials")
-                    .add("client_id", "Ru1hdjxh6Sa8uF7Ubconob19BRan9ZquO2VKeDAeWagiqAVziQ")
-                    .add("client_secret", "zW9bRfZLJRHyupME3Z7qs0pgWqq9EFDF2vYnSSBb")
-                    .build();
-            Request request = new Request.Builder()
-                    .url("https://api.petfinder.com/v2/oauth2/token")
-                    .addHeader("Accept", "application/json")
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(callbackAfterRequest);
-        }catch(Exception e){
-        }
+//        try {
+//            HttpUrl httpUrl = new HttpUrl.Builder()
+//                    .scheme("http")
+//                    .host("api.petfinder.com")
+//                    .addPathSegment("v2/oauth2/token")
+//                    .build();
+//
+//            RequestBody body = new FormBody.Builder()
+//                    .add("grant_type", "client_credentials")
+//                    .add("client_id", "Ru1hdjxh6Sa8uF7Ubconob19BRan9ZquO2VKeDAeWagiqAVziQ")
+//                    .add("client_secret", "zW9bRfZLJRHyupME3Z7qs0pgWqq9EFDF2vYnSSBb")
+//                    .build();
+//            Request request = new Request.Builder()
+//                    .url("https://api.petfinder.com/v2/oauth2/token")
+//                    .addHeader("Accept", "application/json")
+//                    .post(body)
+//                    .build();
+//            client.newCall(request).enqueue(callbackAfterRequest);
+//        }catch(Exception e){
+//        }
         return root;
     }
 
-    private Callback callbackAfterRequest = new Callback(){
+//    private Callback callbackAfterRequest = new Callback(){
+//
+//        @Override
+//        public void onFailure(Call call, IOException e) {
+//            String mMessage = e.getMessage().toString();
+//            Log.w("failure Response", mMessage);
+//        }
+//
+//        @Override
+//        public void onResponse(Call call, Response response) throws IOException {
+//            try{
+//                String mMessage = response.body().string();
+//                JSONObject object =(JSONObject) new JSONObject(mMessage);
+//               String value = object.getString("access_token");
+//                Log.e("RESPONSE-1", value);
+//            }
+//            catch(Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+//    };
 
-        @Override
-        public void onFailure(Call call, IOException e) {
-            String mMessage = e.getMessage().toString();
-            Log.w("failure Response", mMessage);
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            try{
-                String mMessage = response.body().string();
-                JSONObject object =(JSONObject) new JSONObject(mMessage);
-               String value = object.getString("access_token");
-                Log.e("RESPONSE-1", value);
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    };
 //    private void paginate() {
 //        List<ItemModel> old = adapter.getItems();
 //        List<ItemModel> current = new ArrayList<>(createSpots());

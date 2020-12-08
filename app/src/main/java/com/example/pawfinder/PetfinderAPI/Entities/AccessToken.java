@@ -1,17 +1,20 @@
 package com.example.pawfinder.PetfinderAPI.Entities;
 
-import com.squareup.moshi.Json;
+import com.google.gson.annotations.SerializedName;
 
 public class AccessToken {
 
-    @Json(name = "token_type")
-    String tokenType;
-    @Json(name = "expires_in")
-    int expiresIn;
-    @Json(name = "access_token")
-    String accessToken;
-    @Json(name = "refresh_token")
-    String refreshToken;
+    @SerializedName("token_type")
+    private String tokenType;
+
+    @SerializedName("expires_in")
+    private int expiresIn;
+
+    @SerializedName("access_token")
+    private String accessToken;
+
+    @SerializedName("refresh_token")
+    private String refreshToken;
 
     public String getTokenType() {
         return tokenType;
