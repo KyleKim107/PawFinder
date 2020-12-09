@@ -47,7 +47,7 @@ public class CardStackConfig {
     private DatabaseReference mReferencePets;
     public static ArrayList<String> ids = new ArrayList<>();
 
-    public void setConfig(CardStackView cardStackView, Context context, final List<PetfinderPet> pets) {
+    public void setConfig(CardStackView cardStackView, Context context, final ArrayList<PetfinderPet> pets) {
         // Firebase
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -80,7 +80,7 @@ public class CardStackConfig {
 
                     new FirebaseDatabaseHelper().addFavorite(favorite, new FirebaseDatabaseHelper.DataStatus() {
                         @Override
-                        public void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys) {
+                        public void DataIsLoaded(ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
                         }
                         @Override
                         public void DataIsInserted() {
@@ -140,11 +140,10 @@ public class CardStackConfig {
 
     class PetAdapter extends RecyclerView.Adapter<PetItemView> {
 
-        private List<PetfinderPet> mPets;
+        private ArrayList<PetfinderPet> mPets;
 //        private ArrayList<String> mKeys;
 
-//        public PetAdapter(List<PetfinderPet> pets, ArrayList<String> keys) {
-        public PetAdapter(List<PetfinderPet> pets) {
+        public PetAdapter(ArrayList<PetfinderPet> pets) {
             this.mPets = pets;
 //            this.mKeys = keys;
         }
@@ -188,10 +187,19 @@ public class CardStackConfig {
             layout = itemView.findViewById(R.id.item_layout);
         }
 
-//        public void bind(final PetfinderPet pet, String key) {
         public void bind(final PetfinderPet pet) {
+            String url = "https://tameme.ru/static/img/catalog/default_pet.jpg";
+            if (pet.getPhotos().get(0).getFull() == null) {
+                if (pet.getPhotos().get(0).getLarge() == null) {
+                    if (pet.getPhotos().get(0).getMedium() == null) {
+                        if (pet.getPhotos().get(0).getSmall() != null) {
+                            url = pet.getPhotos().get(0).getSmall();
+                        }
+                    } else { url = pet.getPhotos().get(0).getMedium(); }
+                } else { url = pet.getPhotos().get(0).getLarge(); }
+            } else { url = pet.getPhotos().get(0).getFull(); }
             Picasso.get()
-                    .load(pet.getPhotos().get(0).getFull())
+                    .load(url)
                     .fit()
                     .centerCrop()
                     .into(image);

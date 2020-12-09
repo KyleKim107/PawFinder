@@ -31,7 +31,7 @@ public class RecyclerViewConfig {
     private Context mContext;
     private FavoritesAdapter mAdapter;
 
-    public void setConfig(RecyclerView recyclerView, Context context, List<PetfinderPet> favorites, ArrayList<String> keys) {
+    public void setConfig(RecyclerView recyclerView, Context context, ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
         mContext = context;
         mAdapter = new FavoritesAdapter(favorites, keys);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -40,10 +40,10 @@ public class RecyclerViewConfig {
 
     public class FavoritesAdapter extends RecyclerView.Adapter<FavoriteItemView> {
 
-        private List<PetfinderPet> mFavorites;
+        private ArrayList<PetfinderPet> mFavorites;
         private ArrayList<String> mKeys;
 
-        public FavoritesAdapter(List<PetfinderPet> favorites, ArrayList<String> keys) {
+        public FavoritesAdapter(ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
             this.mFavorites = favorites;
             this.mKeys = keys;
         }

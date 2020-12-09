@@ -5,35 +5,23 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.pawfinder.Lost.EditFoundPetFragment;
-import com.example.pawfinder.Lost.EditMissingPetFragment;
-import com.example.pawfinder.Lost.LostFragment;
-import com.example.pawfinder.Models.LostPet;
-import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
-import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 public class ViewPetFragment extends Fragment {
 
@@ -64,6 +52,10 @@ public class ViewPetFragment extends Fragment {
         mImage = root.findViewById(R.id.pet_image_view);
         mName = root.findViewById(R.id.pet_name_view);
         mPosted = root.findViewById(R.id.pet_posted_view);
+
+        // Breed
+        mBreedText = root.findViewById(R.id.text_breed_view);
+        mBreed = root.findViewById(R.id.petbreed_view);
 
         // Physical Characteristics
         mPhysicalText = root.findViewById(R.id.text_physical_view);
@@ -118,9 +110,22 @@ public class ViewPetFragment extends Fragment {
         mImage.getLayoutParams().height = windowHeight / 2;
         mImage.requestLayout();
 
+        String url = "https://tameme.ru/static/img/catalog/default_pet.jpg";
+        if (mPet.getPhotos().size() > 0) {
+            if (mPet.getPhotos().get(0).getFull() == null) {
+                if (mPet.getPhotos().get(0).getLarge() == null) {
+                    if (mPet.getPhotos().get(0).getMedium() == null) {
+                        if (mPet.getPhotos().get(0).getSmall() != null) {
+                            url = mPet.getPhotos().get(0).getSmall();
+                        }
+                    } else { url = mPet.getPhotos().get(0).getMedium(); }
+                } else { url = mPet.getPhotos().get(0).getLarge(); }
+            } else { url = mPet.getPhotos().get(0).getFull(); }
+        }
+
         Glide.with(getActivity())
                 .asBitmap()
-                .load(mPet.getPhotos().get(0).getFull())
+                .load(url)
                 .into(mImage);
 
         // Name
@@ -138,6 +143,31 @@ public class ViewPetFragment extends Fragment {
             }
         } else{
             mPosted.setText("POSTED TODAY");
+        }
+
+        // Breed
+        PetfinderPet.PetfinderPetBreeds breeds = mPet.getBreeds();
+        if (breeds.getUnknown().equals("true")) {
+            mBreed.setText("Breed: Unknown");
+        } else {
+            if (breeds.getMixed().equals("true")) {
+                if (breeds.getPrimary() != null) {
+                    if (breeds.getSecondary() != null) {
+                        mBreed.setText("Breed: " + breeds.getPrimary() + " & " + breeds.getSecondary() + " Mix");
+                    } else {
+                        mBreed.setText("Breed: " + breeds.getPrimary());
+                    }
+                } else {
+                    mBreed.setText("Breed: Mix");
+                }
+            } else {
+                if (breeds.getPrimary() != null) {
+                    mBreed.setText("Breed: " + breeds.getPrimary());
+                } else {
+                    mBreed.setVisibility(View.GONE);
+                    mBreedText.setVisibility(View.GONE);
+                }
+            }
         }
 
         // Physical Characteristics
@@ -175,9 +205,9 @@ public class ViewPetFragment extends Fragment {
             if (colors.getSecondary() != null) {
                 if (colors.getTertiary() != null) {
                     mColor.setText("Colors: " + colors.getPrimary() + ", " + colors.getSecondary()
-                            + ", and " + colors.getTertiary());
+                            + ", & " + colors.getTertiary());
                 } else {
-                    mColor.setText("Colors: " + colors.getPrimary() + " and " + colors.getSecondary());
+                    mColor.setText("Colors: " + colors.getPrimary() + " & " + colors.getSecondary());
                 }
             } else {
                 mColor.setText("Color: " + colors.getPrimary());

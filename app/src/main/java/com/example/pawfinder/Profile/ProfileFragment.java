@@ -33,7 +33,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
 
     //vars
-    private List<PetfinderPet> mFavorites = new ArrayList<>();
+    private ArrayList<PetfinderPet> mFavorites = new ArrayList<>();
     private ArrayList<String> mKeys = new ArrayList<>();
 
     RecyclerView mRecyclerView;
@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
 
         new FirebaseDatabaseHelper().readFavorites(new FirebaseDatabaseHelper.DataStatus() {
             @Override
-            public void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys) {
+            public void DataIsLoaded(ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
                 root.findViewById(R.id.loadingFavorites).setVisibility(View.GONE);
                 new RecyclerViewConfig().setConfig(mRecyclerView, getActivity(), favorites, keys);
                 mFavorites = favorites;
@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment {
 
             new FirebaseDatabaseHelper().deleteFavorite(key, new FirebaseDatabaseHelper.DataStatus() {
                 @Override
-                public void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys) {
+                public void DataIsLoaded(ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
                 }
                 @Override
                 public void DataIsInserted() {
