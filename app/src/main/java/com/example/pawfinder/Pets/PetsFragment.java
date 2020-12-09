@@ -67,6 +67,7 @@ public class PetsFragment extends Fragment {
     private View root;
     private ImageView mFilter;
     private ProgressBar mLoadingPets;
+    private TextView mNoPets;
     private TextView mReachedEnd;
     private Button mViewPetsAgain;
 
@@ -91,9 +92,11 @@ public class PetsFragment extends Fragment {
 
         mCardStackView = root.findViewById(R.id.card_stack_view);
         mLoadingPets = root.findViewById(R.id.loadingPets);
+        mNoPets = root.findViewById(R.id.textNoPets);
         mReachedEnd = root.findViewById(R.id.textReachedEnd);
         mViewPetsAgain = root.findViewById(R.id.buttonViewPetsAgain);
 
+        mNoPets.setVisibility(View.GONE);
         mReachedEnd.setVisibility(View.GONE);
         mViewPetsAgain.setVisibility(View.GONE);
         mViewPetsAgain.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +176,11 @@ public class PetsFragment extends Fragment {
     }
 
     private void setUpRetrofit() {
+        // Hide any messages
+        mNoPets.setVisibility(View.GONE);
+        mReachedEnd.setVisibility(View.GONE);
+        mViewPetsAgain.setVisibility(View.GONE);
+
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.petfinder.com/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -218,6 +226,9 @@ public class PetsFragment extends Fragment {
                         }
                         mPets = PetAdapter.mPets;
                         mFilter.setVisibility(View.VISIBLE);
+                        if (mPets.size() == 0) {
+                            mNoPets.setVisibility(View.VISIBLE);
+                        }
                     }
                     @Override
                     public void onFailure(Call<PetfinderResponse> call, Throwable t) {
@@ -242,6 +253,10 @@ public class PetsFragment extends Fragment {
             @Override
             public void onCardSwiped(Direction direction) {
                 Log.d(TAG, "onCardSwiped: p=" + manager.getTopPosition() + " d=" + direction);
+                if (manager.getTopPosition() == mAdapter.getItemCount()){
+                    mReachedEnd.setVisibility(View.VISIBLE);
+                    mViewPetsAgain.setVisibility(View.VISIBLE);
+                }
                 if (direction == Direction.Right) {
                     TextView id_tv = root[0].findViewById(R.id.item_id);
                     String id = id_tv.getText().toString();
@@ -265,11 +280,6 @@ public class PetsFragment extends Fragment {
                         @Override
                         public void DataIsDeleted() { }
                     });
-
-                    if (manager.getTopPosition() == mAdapter.getItemCount()){
-                        mReachedEnd.setVisibility(View.VISIBLE);
-                        mViewPetsAgain.setVisibility(View.VISIBLE);
-                    }
                 }
             }
             @Override
