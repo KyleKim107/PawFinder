@@ -23,7 +23,7 @@
 
             <ToggleButton
                 android:id="@+id/type_dog"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/typeText"
                 android:layout_marginStart="25dp"
@@ -34,18 +34,9 @@
                 android:textOn="Dog"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/type_dog"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/typeText"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:text="Dog" />-->
-
             <ToggleButton
                 android:id="@+id/type_cat"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/typeText"
                 android:layout_marginStart="10dp"
@@ -56,18 +47,8 @@
                 android:textOn="Cat"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/type_cat"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/typeText"-->
-<!--                android:layout_toEndOf="@+id/type_dog"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Cat" />-->
-
             <ToggleButton
-                android:id="@+id/type_other"
+                android:id="@+id/type_rabbit"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/typeText"
@@ -75,19 +56,73 @@
                 android:layout_marginTop="20dp"
                 android:layout_toEndOf="@+id/type_cat"
                 android:background="@drawable/toggle_selector"
-                android:textOff="Other"
-                android:textOn="Other"
+                android:textOff="Rabbit"
+                android:textOn="Rabbit"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/type_other"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/typeText"-->
-<!--                android:layout_toEndOf="@+id/type_cat"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Other" />-->
+            <ToggleButton
+                android:id="@+id/type_furry"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/typeText"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/type_rabbit"
+                android:background="@drawable/toggle_selector"
+                android:textOff="Small/Furry"
+                android:textOn="Small/Furry"
+                android:textSize="15sp" />
+
+            <ToggleButton
+                android:id="@+id/type_horse"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/type_dog"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/toggle_selector"
+                android:textOff="Horse"
+                android:textOn="Horse"
+                android:textSize="15sp" />
+
+            <ToggleButton
+                android:id="@+id/type_bird"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/type_cat"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/type_horse"
+                android:background="@drawable/toggle_selector"
+                android:textOff="Bird"
+                android:textOn="Bird"
+                android:textSize="15sp" />
+
+            <ToggleButton
+                android:id="@+id/type_scales"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/type_cat"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/type_bird"
+                android:background="@drawable/toggle_selector"
+                android:textOff="Scales/Fins"
+                android:textOn="Scales/Fins"
+                android:textSize="15sp" />
+
+            <ToggleButton
+                android:id="@+id/type_barnyard"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/type_rabbit"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/type_scales"
+                android:background="@drawable/toggle_selector"
+                android:textOff="Barnyard"
+                android:textOn="Barnyard"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
@@ -121,15 +156,6 @@
                 android:textOn="Small"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/size_small"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/sizeText"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:text="Small" />-->
-
             <ToggleButton
                 android:id="@+id/size_medium"
                 android:layout_width="80dp"
@@ -142,16 +168,6 @@
                 android:textOff="Medium"
                 android:textOn="Medium"
                 android:textSize="15sp" />
-
-<!--            <CheckBox-->
-<!--                android:id="@+id/size_medium"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/sizeText"-->
-<!--                android:layout_toEndOf="@+id/size_small"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Medium" />-->
 
             <ToggleButton
                 android:id="@+id/size_large"
@@ -166,16 +182,6 @@
                 android:textOn="Large"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/size_large"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/sizeText"-->
-<!--                android:layout_toEndOf="@+id/size_medium"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Large" />-->
-
             <ToggleButton
                 android:id="@+id/size_xlarge"
                 android:layout_width="80dp"
@@ -188,16 +194,6 @@
                 android:textOff="X-Large"
                 android:textOn="X-Large"
                 android:textSize="15sp" />
-
-<!--            <CheckBox-->
-<!--                android:id="@+id/size_xlarge"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/sizeText"-->
-<!--                android:layout_toEndOf="@+id/size_large"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="X-Large" />-->
 
         </RelativeLayout>
 
@@ -231,15 +227,6 @@
                 android:textOn="Male"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/gender_male"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/genderText"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:text="Male" />-->
-
             <ToggleButton
                 android:id="@+id/gender_female"
                 android:layout_width="80dp"
@@ -252,16 +239,6 @@
                 android:textOff="Female"
                 android:textOn="Female"
                 android:textSize="15sp" />
-
-<!--            <CheckBox-->
-<!--                android:id="@+id/gender_female"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/genderText"-->
-<!--                android:layout_toEndOf="@+id/gender_male"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Female" />-->
 
         </RelativeLayout>
 
@@ -295,15 +272,6 @@
                 android:textOn="Baby"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/age_baby"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/ageText"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="30dp"-->
-<!--                android:text="Baby" />-->
-
             <ToggleButton
                 android:id="@+id/age_young"
                 android:layout_width="80dp"
@@ -316,16 +284,6 @@
                 android:textOff="Young"
                 android:textOn="Young"
                 android:textSize="15sp" />
-
-<!--            <CheckBox-->
-<!--                android:id="@+id/age_young"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/ageText"-->
-<!--                android:layout_toEndOf="@+id/age_baby"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Young" />-->
 
             <ToggleButton
                 android:id="@+id/age_adult"
@@ -340,16 +298,6 @@
                 android:textOn="Adult"
                 android:textSize="15sp" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/age_adult"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/ageText"-->
-<!--                android:layout_toEndOf="@+id/age_young"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Adult" />-->
-
             <ToggleButton
                 android:id="@+id/age_senior"
                 android:layout_width="80dp"
@@ -362,16 +310,6 @@
                 android:textOff="Senior"
                 android:textOn="Senior"
                 android:textSize="15sp" />
-
-<!--            <CheckBox-->
-<!--                android:id="@+id/age_senior"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/ageText"-->
-<!--                android:layout_toEndOf="@+id/age_adult"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Senior" />-->
 
         </RelativeLayout>
 

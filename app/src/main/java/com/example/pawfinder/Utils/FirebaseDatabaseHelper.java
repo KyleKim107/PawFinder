@@ -48,13 +48,13 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference mReferenceMyLost;
     private StorageReference mStorageReference;
 
-    private List<PetfinderPet> pets = new ArrayList<>();
-    private List<PetfinderPet> favorites = new ArrayList<>();
+    private ArrayList<PetfinderPet> pets = new ArrayList<>();
+    private ArrayList<PetfinderPet> favorites = new ArrayList<>();
     private ArrayList<LostPet> allLost = new ArrayList<>();
     private ArrayList<LostPet> myLost = new ArrayList<>();
 
     public interface DataStatus {
-        void DataIsLoaded(List<PetfinderPet> favorites, ArrayList<String> keys);
+        void DataIsLoaded(ArrayList<PetfinderPet> favorites, ArrayList<String> keys);
         void DataIsInserted();
         void DataIsUpdated();
         void DataIsDeleted();

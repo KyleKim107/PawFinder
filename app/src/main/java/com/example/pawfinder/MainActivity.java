@@ -18,7 +18,6 @@ import com.example.pawfinder.Lost.LostFragment;
 import com.example.pawfinder.Lost.MyLostPetsFragment;
 import com.example.pawfinder.Lost.ViewLostPetFragment;
 import com.example.pawfinder.Models.LostPet;
-import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.Pets.FilterActivity;
 import com.example.pawfinder.Pets.PetsFragment;
@@ -36,13 +35,6 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
     final static String TAG = "MainActivity";
 
-//    ApiService service;
-//    TokenManager tokenManager;
-//    Call<PetfinderResponse> call;
-
-//    public static final MediaType JSON = MediaType.parse("application/json; charset=utf=8");
-//    OkHttpClient client = new OkHttpClient();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +43,9 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         navView.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().add(R.id.main_activity_container,
                 new PetsFragment(), "navigation_pets").addToBackStack("navigation_pets").commit();
-
-//        tokenManager = TokenManager.getInstance(getSharedPreferences("prefs", MODE_PRIVATE));
-//        service = RetrofitBuilder.createServiceWithAuth(ApiService.class, tokenManager);
-//        getAnimals();
-
-//        String url = "https://api.petfinder.com/v2/oauth2/token";
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -103,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Favorite Pet"); // TODO: or (null) ????
+        transaction.addToBackStack("View Favorite Pet");
         transaction.commit();
     }
 
@@ -117,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Pet"); // TODO: or (null) ????
+        transaction.addToBackStack("View Pet");
         transaction.commit();
     }
 
@@ -156,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack(null); // TODO: or (null) ????
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -171,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack(null); // TODO: or (null) ????
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

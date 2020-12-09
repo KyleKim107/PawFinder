@@ -89,7 +89,7 @@
                         android:text="Domestic Short Hair"
                         android:textColor="@color/black"
                         android:textSize="20sp"
-                        android:id="@+id/pet_breed_view"
+                        android:id="@+id/petbreed_view"
                         android:layout_below="@+id/text_breed_view"
                         android:layout_marginTop="5dp"/>
 
