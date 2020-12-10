@@ -8,16 +8,37 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingBottom="20dp"
             android:id="@+id/relLayout">
 
-            <ImageView
-                android:id="@+id/pet_image_view"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"/>
+                android:layout_height="400dp"
+                android:orientation="vertical"
+                android:weightSum="100"
+                android:background="#fff"
+                android:id="@+id/linLayout">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/view_pager"
+                    android:layout_weight="99">
+
+                </androidx.viewpager.widget.ViewPager>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    app:tabBackground="@drawable/tab_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="10dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="50dp"
@@ -33,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/relLayoutInfo"
                 android:background="@drawable/white_grey_border_bottom"
-                android:layout_below="@+id/pet_image_view"
+                android:layout_below="@+id/linLayout"
                 android:paddingHorizontal="30dp"
                 android:paddingVertical="20dp">
 

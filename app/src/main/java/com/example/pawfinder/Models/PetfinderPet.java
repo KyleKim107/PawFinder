@@ -96,7 +96,7 @@ public class PetfinderPet implements Parcelable {
         }
     }
 
-    public static class PetfinderPetPhotos {
+    public static class PetfinderPetPhotos implements Parcelable{
         private String small;
         private String medium;
         private String large;
@@ -116,6 +116,34 @@ public class PetfinderPet implements Parcelable {
 
         public String getFull() {
             return full;
+        }
+
+        protected PetfinderPetPhotos(Parcel in) {
+            small = in.readString();
+            medium = in.readString();
+            large = in.readString();
+            full = in.readString();
+        }
+        public static final Creator<PetfinderPetPhotos> CREATOR = new Creator<PetfinderPetPhotos>() {
+            @Override
+            public PetfinderPetPhotos createFromParcel(Parcel in) {
+                return new PetfinderPetPhotos(in);
+            }
+            @Override
+            public PetfinderPetPhotos[] newArray(int size) {
+                return new PetfinderPetPhotos[size];
+            }
+        };
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(small);
+            parcel.writeString(medium);
+            parcel.writeString(large);
+            parcel.writeString(full);
         }
     }
 

@@ -181,6 +181,9 @@ public class PetsFragment extends Fragment {
         mReachedEnd.setVisibility(View.GONE);
         mViewPetsAgain.setVisibility(View.GONE);
 
+        // Show loading
+        mLoadingPets.setVisibility(View.VISIBLE);
+
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.petfinder.com/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -204,7 +207,7 @@ public class PetsFragment extends Fragment {
                         .build();
 
                 ApiService client = retrofit.create(ApiService.class);
-                //TODO: if response from filter = null do this, else do filter call
+
                 Call<PetfinderResponse> getPetsCall;
                 if (params == null || allFiltersApplied) {
                     getPetsCall = client.getPetfinderPets(tokenType + " " + accessToken, currentPage + "");
@@ -335,7 +338,6 @@ public class PetsFragment extends Fragment {
                     PetfinderResponse petfinderResponse = response.body();
                     ArrayList<PetfinderPet> more = petfinderResponse.getAnimals();
                     PetAdapter.mPets.addAll(more);
-//                    cardStackConfig();
                 }
                 @Override
                 public void onFailure(Call<PetfinderResponse> call, Throwable t) {
