@@ -118,6 +118,9 @@ public class PetfinderPet implements Parcelable {
             return full;
         }
 
+        public PetfinderPetPhotos() {
+        }
+
         protected PetfinderPetPhotos(Parcel in) {
             small = in.readString();
             medium = in.readString();

@@ -63,6 +63,13 @@
             android:scrollbars="vertical"
             tools:listitem="@layout/favorite_pets_view" />
 
+        <TextView
+            android:id="@+id/noPetsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You do not have any favorite pets."
+            android:layout_gravity="center_horizontal|center_vertical" />
+
         <ProgressBar
             android:id="@+id/loadingFavorites"
             style="?android:attr/progressBarStyle"
