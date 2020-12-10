@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack(null);
+        transaction.add(R.id.main_activity_container, fragment, "view_lost_pet");
+        transaction.addToBackStack("view_lost_pet");
         transaction.commit();
     }
 
@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack(null);
+        transaction.add(R.id.main_activity_container, fragment, "view_lost_pet");
+        transaction.addToBackStack("view_lost_pet");
         transaction.commit();
     }
 
