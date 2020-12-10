@@ -43,102 +43,24 @@ import okhttp3.Response;
 
 public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
-    private SheltersViewModel sheltersViewModel;
-
     GoogleMap mGoogleMap;
     String structure;
     MapView mMapView;
-    View mView;
-    String mMessage;
-    OkHttpClient client = new OkHttpClient();
-    String token;
+    View root;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        sheltersViewModel =
-                ViewModelProviders.of(this).get(SheltersViewModel.class);
-        mView = inflater.inflate(R.layout.fragment_shelters, container, false);
-
-
-        try {
-
-            HttpUrl httpUrl = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("api.petfinder.com")
-                    .addPathSegment("v2/oauth2/token")
-                    .build();
-
-            RequestBody body = new FormBody.Builder()
-                    .add("grant_type", "client_credentials")
-                    .add("client_id", "Ru1hdjxh6Sa8uF7Ubconob19BRan9ZquO2VKeDAeWagiqAVziQ")
-                    .add("client_secret", "zW9bRfZLJRHyupME3Z7qs0pgWqq9EFDF2vYnSSBb")
-                    .build();
-            Request request = new Request.Builder()
-                    .url("https://api.petfinder.com/v2/oauth2/token")
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(callbackAfterRequest);
-
-
-
-
-        }catch(Exception e){
-
-        }
-
-
-        return mView;
+        root = inflater.inflate(R.layout.fragment_shelters, container, false);
+        return root;
     }
-
-    String getShelters(String token) throws IOException {
-        String url = "https://api.petfinder.com/v2/organizations?state=WI&location=53703";
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("Authorization", "Bearer "+token)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            String res = response.body().string();
-            Log.w("shelter" , res);
-
-
-            return response.body().string();
-        }
-    }
-    private Callback callbackAfterRequest = new Callback(){
-
-        @Override
-        public void onFailure(Call call, IOException e) {
-            String mMessage = e.getMessage().toString();
-            Log.w("failure Response", mMessage);
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            mMessage = response.body().string();
-            Log.i("RESPONSE-1", mMessage);
-            try{
-                JSONObject obj = new JSONObject(mMessage);
-
-                token = obj.getString("access_token");
-                structure = getShelters(token);
-
-            }catch (Exception e){
-
-            }
-            Log.w("777" ,token );
-
-        }
-    };
-
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMapView = mView.findViewById(R.id.google_map);
+        mMapView = root.findViewById(R.id.google_map);
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
