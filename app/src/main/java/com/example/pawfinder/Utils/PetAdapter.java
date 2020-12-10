@@ -43,7 +43,6 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetItemView> {
     public void onBindViewHolder(PetItemView holder, int position) {
         Log.d("PetAdapter", "onBindViewHolder: called.");
         holder.bind(mPets.get(position));
-//            holder.bind(mPets.get(position), mKeys.get(position));
     }
 
     @Override
@@ -90,7 +89,6 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetItemView> {
             name.setText(pet.getName());
             age.setText(pet.getAge());
             gender.setText(pet.getGender());
-//            this.key = key;
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override

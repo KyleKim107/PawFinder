@@ -13,15 +13,22 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
+import com.example.pawfinder.Utils.ImagePagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 public class ViewPetFragment extends Fragment {
 
@@ -36,6 +43,11 @@ public class ViewPetFragment extends Fragment {
     private TextView mBehavioralText, mHouseTrained;
     private TextView mMeetPetText, mDescription;
 
+    private ViewPager mMyViewPager;
+    private TabLayout mTabLayout;
+
+    private View root;
+
     public ViewPetFragment() {
         // Required empty public constructor
         super();
@@ -46,10 +58,12 @@ public class ViewPetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_view_pet, container, false);
+        root = inflater.inflate(R.layout.fragment_view_pet, container, false);
+
+        mTabLayout = root.findViewById(R.id.tab_layout);
+        mMyViewPager = root.findViewById(R.id.view_pager);
 
         // Title Info
-        mImage = root.findViewById(R.id.pet_image_view);
         mName = root.findViewById(R.id.pet_name_view);
         mPosted = root.findViewById(R.id.pet_posted_view);
 
@@ -82,11 +96,11 @@ public class ViewPetFragment extends Fragment {
 
         try {
             mPet = getPetFromBundle();
-            setupWidgets();
+//            setupWidgets();
         } catch (NullPointerException e) {
-            Log.e(TAG, "onCreateView: NullPointerException: lost pet was null from bundle " + e.getMessage());
+            Log.e(TAG, "onCreateView: NullPointerException: pet was null from bundle " + e.getMessage());
         }
-
+        setupWidgets();
         // Toolbar
         mBackArrow = root.findViewById(R.id.backArrow_viewPet);
         mBackArrow.setRotation(90);
@@ -102,31 +116,7 @@ public class ViewPetFragment extends Fragment {
 
     private void setupWidgets() {
         // Image
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int windowWidth = size.x;
-        int windowHeight = size.y;
-        mImage.getLayoutParams().height = windowHeight / 2;
-        mImage.requestLayout();
-
-        String url = "https://tameme.ru/static/img/catalog/default_pet.jpg";
-        if (mPet.getPhotos().size() > 0) {
-            if (mPet.getPhotos().get(0).getFull() == null) {
-                if (mPet.getPhotos().get(0).getLarge() == null) {
-                    if (mPet.getPhotos().get(0).getMedium() == null) {
-                        if (mPet.getPhotos().get(0).getSmall() != null) {
-                            url = mPet.getPhotos().get(0).getSmall();
-                        }
-                    } else { url = mPet.getPhotos().get(0).getMedium(); }
-                } else { url = mPet.getPhotos().get(0).getLarge(); }
-            } else { url = mPet.getPhotos().get(0).getFull(); }
-        }
-
-        Glide.with(getActivity())
-                .asBitmap()
-                .load(url)
-                .into(mImage);
+        initImages();
 
         // Name
         if (mPet.getName() != null) {
@@ -295,6 +285,23 @@ public class ViewPetFragment extends Fragment {
             mMeetPetText.setVisibility(View.GONE);
             mDescription.setVisibility(View.GONE);
         }
+    }
+
+    private void initImages() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        List<PetfinderPet.PetfinderPetPhotos> photos = mPet.getPhotos();
+        for(PetfinderPet.PetfinderPetPhotos photo : photos){
+            ViewPagerImageFragment fragment = ViewPagerImageFragment.getInstance(photo);
+            fragments.add(fragment);
+        }
+        if (photos.size() == 0) {
+            String url = "https://tameme.ru/static/img/catalog/default_pet.jpg";
+            ViewPagerImageFragment fragment = ViewPagerImageFragment.getInstance(url);
+            fragments.add(fragment);
+        }
+        ImagePagerAdapter pagerAdapter = new ImagePagerAdapter(requireActivity().getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, fragments);
+        mMyViewPager.setAdapter(pagerAdapter);
+        mTabLayout.setupWithViewPager(mMyViewPager, true);
     }
 
     private String getTimestampDifference(){
