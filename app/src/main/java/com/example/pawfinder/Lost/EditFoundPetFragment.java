@@ -45,7 +45,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 public class EditFoundPetFragment extends Fragment {
 
@@ -55,7 +54,7 @@ public class EditFoundPetFragment extends Fragment {
 
     private LostPet mLostPet;
     private Bitmap bitmap;
-    private EditText mAreaFound, mMessage, mEmail, mPhoneNumber;
+    private EditText mPetName, mAreaFound, mMessage, mEmail, mPhoneNumber;
     private TextView mDateFound, mChangePetPhoto;
     private ImageView mPetPhoto;
     private Spinner mPetType;
@@ -82,13 +81,14 @@ public class EditFoundPetFragment extends Fragment {
 
         mPetPhoto = root.findViewById(R.id.petphoto_found);
         mChangePetPhoto = root.findViewById(R.id.changepetphoto_found);
+        mPetName = root.findViewById(R.id.petname_found);
         mPetType = root.findViewById(R.id.pettypespinner_found);
         mDateFound = root.findViewById(R.id.date_found);
         mAreaFound = root.findViewById(R.id.area_found);
         mMessage = root.findViewById(R.id.message_found);
         mEmail = root.findViewById(R.id.email_found);
         mPhoneNumber = root.findViewById(R.id.phonenumber_found);
-        mDateLayout = root.findViewById(R.id.relLayout2_found);
+        mDateLayout = root.findViewById(R.id.relLayout3_found);
 
         try {
             mLostPet = getLostPetFromBundle();
@@ -97,22 +97,21 @@ public class EditFoundPetFragment extends Fragment {
             Log.e(TAG, "onCreateView: NullPointerException: lost pet was null from bundle " + e.getMessage());
         }
 
-        // TODO: Set up back arrow for navigating back to View Lost Pet Fragment
         ImageView backArrow_editMissingPet = root.findViewById(R.id.backArrow_editFoundPet);
         backArrow_editMissingPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: navigating back to View Lost Pet Fragment");
                 // Navigate back to all lost pets
-                getActivity().onBackPressed();
+                requireActivity().onBackPressed();
             }
         });
 
-        // TODO: Set up check mark for updating database and returning to Lost Fragment
         ImageView editMissingPetCheckmark = root.findViewById(R.id.editFoundPetCheckmark);
         editMissingPetCheckmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String petName_text = mPetName.getText().toString().trim();
                 final String petType_text = mPetType.getSelectedItem().toString().trim();
                 final String dateMissing_text = mDateFound.getText().toString().trim();
                 final String areaMissing_text = mAreaFound.getText().toString().trim();
@@ -137,7 +136,11 @@ public class EditFoundPetFragment extends Fragment {
                         return;
                     }
                 }
-
+                if (petName_text.isEmpty()) {
+                    mLostPet.setPet_name("Unknown");
+                } else {
+                    mLostPet.setPet_name(petName_text);
+                }
                 mLostPet.setPet_type(petType_text);
                 mLostPet.setDate_missing(dateMissing_text);
                 mLostPet.setArea_missing(areaMissing_text);
@@ -145,12 +148,11 @@ public class EditFoundPetFragment extends Fragment {
                 mLostPet.setEmail(email_text);
                 mLostPet.setPhone(phoneNumber_text);
 
-                // TODO
                 Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
                 mFirebaseDatabaseHelper.updateLostPet(mLostPet, bitmap);
 
                 // Navigate back to my lost pets
-                getActivity().onBackPressed();
+                requireActivity().onBackPressed();
             }
         });
 
@@ -170,10 +172,15 @@ public class EditFoundPetFragment extends Fragment {
 
     private void setupWidgets() {
         // Image
-        Glide.with(getActivity())
+        Glide.with(requireActivity())
                 .asBitmap()
                 .load(mLostPet.getImage_path())
                 .into(mPetPhoto);
+
+        // Area
+        if (!mLostPet.getPet_name().equals("Unknown")) {
+            mPetName.setText(mLostPet.getPet_name());
+        }
 
         // Type is selected in setTypeSpinner()
 
@@ -216,8 +223,8 @@ public class EditFoundPetFragment extends Fragment {
     }
 
     private void askCameraPermissions() {
-        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(),new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+        if(ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(requireActivity(),new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
             dispatchTakePictureIntent();
         }
@@ -265,11 +272,11 @@ public class EditFoundPetFragment extends Fragment {
     private void getRealPathFromURI(Uri contentURI) {
         String thePath;
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getActivity().getContentResolver().query(contentURI, filePathColumn, null, null, null);
+        Cursor cursor = requireActivity().getContentResolver().query(contentURI, filePathColumn, null, null, null);
         if(cursor.moveToFirst()){
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             if (Build.VERSION.SDK_INT >= 29) {
-                try (ParcelFileDescriptor pfd = getActivity().getContentResolver().openFileDescriptor(contentURI, "r")) {
+                try (ParcelFileDescriptor pfd = requireActivity().getContentResolver().openFileDescriptor(contentURI, "r")) {
                     if (pfd != null) {
                         bitmap = BitmapFactory.decodeFileDescriptor(pfd.getFileDescriptor());
                     }
@@ -302,7 +309,7 @@ public class EditFoundPetFragment extends Fragment {
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog dialog = new DatePickerDialog(
-                        getActivity(),
+                        requireActivity(),
                         R.style.DialogTheme,
                         mDateSetListener,
                         year, month, day);
@@ -323,7 +330,7 @@ public class EditFoundPetFragment extends Fragment {
 
     private void setTypeSpinner() {
         String [] values = {"Pet Type", "Dog", "Cat", "Other"};
-        ArrayAdapter<String> adapter = new ArrayAdapter(this.getActivity(), R.layout.spinner_item, values) {
+        ArrayAdapter<String> adapter = new ArrayAdapter(this.requireActivity(), R.layout.spinner_item, values) {
             @Override
             public boolean isEnabled(int position) {
                 if (position == 0) {

@@ -60,11 +60,7 @@ public class ReportFoundPetFragment extends Fragment {
 
     private static final String TAG = "ReportFoundPetFragment";
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
     private FirebaseDatabaseHelper mFirebaseDatabaseHelper;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference myRef;
 
     private String imgUrl;
     private Bitmap bitmap;
@@ -86,8 +82,7 @@ public class ReportFoundPetFragment extends Fragment {
     }
 
     public static ReportFoundPetFragment newInstance() {
-        ReportFoundPetFragment fragment = new ReportFoundPetFragment();
-        return fragment;
+        return new ReportFoundPetFragment();
     }
 
     @Override
@@ -97,21 +92,20 @@ public class ReportFoundPetFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_report_found_pet, container, false);
 
         // Firebase
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
         mFirebaseDatabaseHelper = new FirebaseDatabaseHelper();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
 
         mPetPhoto = root.findViewById(R.id.petphoto_found);
         mChangePetPhoto = root.findViewById(R.id.changepetphoto_found);
+        mPetName = root.findViewById(R.id.petname_found);
         mPetType = root.findViewById(R.id.pettypespinner_found);
         mDateFound = root.findViewById(R.id.date_found);
         mAreaFound = root.findViewById(R.id.area_found);
         mMessage = root.findViewById(R.id.message_found);
         mEmail = root.findViewById(R.id.email_found);
         mPhoneNumber = root.findViewById(R.id.phonenumber_found);
-        mDateLayout = root.findViewById(R.id.relLayout2_found);
+        mDateLayout = root.findViewById(R.id.relLayout3_found);
 
         // Set email
         mEmail.setText(user.getEmail());
@@ -122,7 +116,7 @@ public class ReportFoundPetFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: navigating back to Report Activity");
-                getActivity().onBackPressed();
+                requireActivity().onBackPressed();
             }
         });
 
@@ -131,6 +125,7 @@ public class ReportFoundPetFragment extends Fragment {
         reportFoundPetCheckmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final String petName_text = mPetName.getText().toString().trim();
                 final String petType_text = mPetType.getSelectedItem().toString().trim();
                 final String dateFound_text = mDateFound.getText().toString().trim();
                 final String areaFound_text = mAreaFound.getText().toString().trim();
@@ -179,10 +174,17 @@ public class ReportFoundPetFragment extends Fragment {
                     }
                 }
 
-                Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
-                mFirebaseDatabaseHelper.uploadNewLostPet("found", "Unknown",
-                        petType_text, "", dateFound_text, areaFound_text,
-                        message_text, email_text, phoneNumber_text, bitmap);
+                if (petName_text.isEmpty()) {
+                    Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
+                    mFirebaseDatabaseHelper.uploadNewLostPet("found", "Unknown",
+                            petType_text, "", dateFound_text, areaFound_text,
+                            message_text, email_text, phoneNumber_text, bitmap);
+                } else {
+                    Log.d(TAG, "onClick: uploading to Firebase Database + Storage");
+                    mFirebaseDatabaseHelper.uploadNewLostPet("found", petName_text,
+                            petType_text, "", dateFound_text, areaFound_text,
+                            message_text, email_text, phoneNumber_text, bitmap);
+                }
 
                 Log.d(TAG, "onClick: navigating back to Lost Fragment");
                 getActivity().finish();
