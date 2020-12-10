@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.Models.PetfinderPet;
-import com.example.pawfinder.Profile.ProfileViewModel;
 import com.example.pawfinder.R;
 import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
 import com.example.pawfinder.Utils.RecyclerViewConfig;
@@ -17,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,12 +33,12 @@ public class ProfileFragment extends Fragment {
     private ArrayList<PetfinderPet> mFavorites = new ArrayList<>();
     private ArrayList<String> mKeys = new ArrayList<>();
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
-    TextView name;
+    private TextView name, noPetsText;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +54,9 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.userName);
         name.setText(user.getDisplayName());
 
+        noPetsText = root.findViewById(R.id.noPetsText);
+        noPetsText.setVisibility(View.GONE);
+
         mRecyclerView = root.findViewById(R.id.recyclerView);
 
         new FirebaseDatabaseHelper().readFavorites(new FirebaseDatabaseHelper.DataStatus() {
@@ -65,6 +65,11 @@ public class ProfileFragment extends Fragment {
                 root.findViewById(R.id.loadingFavorites).setVisibility(View.GONE);
                 new RecyclerViewConfig().setConfig(mRecyclerView, getActivity(), favorites, keys);
                 mFavorites = favorites;
+                if (mFavorites.size() == 0) {
+                    noPetsText.setVisibility(View.VISIBLE);
+                } else {
+                    noPetsText.setVisibility(View.GONE);
+                }
                 mKeys = keys;
             }
             @Override
