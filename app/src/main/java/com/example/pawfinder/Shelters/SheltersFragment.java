@@ -35,62 +35,23 @@ import okhttp3.Response;
 
 public class SheltersFragment extends Fragment implements OnMapReadyCallback {
 
-    private SheltersViewModel sheltersViewModel;
-
     GoogleMap mGoogleMap;
     MapView mMapView;
-    View mView;
-
-    OkHttpClient client = new OkHttpClient();
+    View root;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        sheltersViewModel =
-                ViewModelProviders.of(this).get(SheltersViewModel.class);
-        mView = inflater.inflate(R.layout.fragment_shelters, container, false);
-
-        try {
-            HttpUrl httpUrl = new HttpUrl.Builder()
-                    .scheme("http")
-                    .host("api.petfinder.com")
-                    .addPathSegment("v2/oauth2/token")
-                    .build();
-
-            RequestBody body = new FormBody.Builder()
-                    .add("grant_type", "client_credentials")
-                    .add("client_id", "Ru1hdjxh6Sa8uF7Ubconob19BRan9ZquO2VKeDAeWagiqAVziQ")
-                    .add("client_secret", "zW9bRfZLJRHyupME3Z7qs0pgWqq9EFDF2vYnSSBb")
-                    .build();
-            Request request = new Request.Builder()
-                    .url("https://api.petfinder.com/v2/oauth2/token")
-                    .post(body)
-                    .build();
-            client.newCall(request).enqueue(callbackAfterRequest);
-        }catch(Exception e){
-        }
-        return mView;
+        root = inflater.inflate(R.layout.fragment_shelters, container, false);
+        return root;
     }
-    private Callback callbackAfterRequest = new Callback(){
-
-        @Override
-        public void onFailure(Call call, IOException e) {
-            String mMessage = e.getMessage().toString();
-            Log.w("failure Response", mMessage);
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            String mMessage = response.body().string();
-            Log.i("RESPONSE-1", mMessage);        }
-    };
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMapView = mView.findViewById(R.id.google_map);
+        mMapView = root.findViewById(R.id.google_map);
         if (mMapView != null) {
             mMapView.onCreate(null);
             mMapView.onResume();
