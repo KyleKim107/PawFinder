@@ -20,7 +20,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -36,13 +35,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class eLostPetReportFoundTest {
+public class fLostPetPageTest {
 
     @Rule
     public ActivityTestRule<LoadingActivity> mActivityTestRule = new ActivityTestRule<>(LoadingActivity.class);
 
     @Test
-    public void eLostPetReportFoundTest() throws InterruptedException {
+    public void dLostPetPageTest() throws InterruptedException {
 
         Thread.sleep(2000);
 
@@ -58,26 +57,64 @@ public class eLostPetReportFoundTest {
 
         Thread.sleep(2000);
 
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.pet_name), withText("UNKNOWN"),
+                        withParent(allOf(withId(R.id.relLayout3),
+                                withParent(withId(R.id.relLayoutClick)))),
+                        isDisplayed()));
+        textView.check(matches(withText("UNKNOWN")));
+
+        Thread.sleep(2000);
+
+        ViewInteraction tabView = onView(
+                allOf(withContentDescription("My Lost Pets"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.tablayout),
+                                        0),
+                                1),
+                        isDisplayed()));
+        tabView.perform(click());
+
+        Thread.sleep(2000);
+
+        ViewInteraction imageButton = onView(
+                allOf(withId(R.id.reportPetFloatingButton),
+                        withParent(withParent(withId(R.id.main_activity_container))),
+                        isDisplayed()));
+        imageButton.check(matches(isDisplayed()));
+
+        Thread.sleep(2000);
 
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.reportPetFloatingButton),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.nav_host_fragment),
-                                        0),
+                                        withId(R.id.main_activity_container),
+                                        1),
                                 1),
                         isDisplayed()));
         floatingActionButton.perform(click());
 
         Thread.sleep(2000);
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.reportFoundPetButton), withText("REPORT FOUND PET"),
-                        withParent(allOf(withId(R.id.relLayout5),
-                                withParent(withId(R.id.relLayout3)))),
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.reportPetText), withText("Report Pet"),
+                        withParent(withParent(withId(R.id.reportPetToolBar))),
                         isDisplayed()));
-        button.check(matches(isDisplayed()));
+        textView2.check(matches(withText("Report Pet")));
 
+        Thread.sleep(2000);
+
+        ViewInteraction appCompatImageView = onView(
+                allOf(withId(R.id.backArrow_reportPet),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.reportPetToolBar),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatImageView.perform(click());
 
     }
 

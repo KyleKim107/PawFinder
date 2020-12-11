@@ -85,13 +85,5 @@ public class LostFragment extends Fragment {
         return root;
     }
 
-//    private void paginate() {
-//        List<Pet> old = adapter.getItems();
-//        List<Pet> current = new ArrayList<>(createSpots());
-//        CardStackCallback callback = new CardStackCallback(old, current);
-//        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-//        adapter.setItems(current);
-//        result.dispatchUpdatesTo(adapter);
-//    }
 
 }

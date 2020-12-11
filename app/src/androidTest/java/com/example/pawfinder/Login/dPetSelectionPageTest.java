@@ -15,16 +15,19 @@ import com.example.pawfinder.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -33,57 +36,83 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class kCreateAccountTest {
+public class dPetSelectionPageTest {
 
     @Rule
     public ActivityTestRule<LoadingActivity> mActivityTestRule = new ActivityTestRule<>(LoadingActivity.class);
 
     @Test
-    public void createAccountTest() throws InterruptedException {
+    public void dPetSelectionPageTest() throws InterruptedException {
 
         Thread.sleep(2000);
 
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.registertxt_login), withText("CREATE A NEW ACCOUNT"),
+        ViewInteraction bottomNavigationItemView2 = onView(
+                allOf(withId(R.id.navigation_pets), withContentDescription("Pets"),
                         childAtPosition(
-                                allOf(withId(R.id.registercard),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0),
+                                0),
+                        isDisplayed()));
+        bottomNavigationItemView2.perform(click());
+
+        Thread.sleep(2000);
+
+        ViewInteraction cardView = onView(
+                allOf(withId(R.id.item_layout),
+                        childAtPosition(
+                                allOf(withId(R.id.card_stack_view),
                                         childAtPosition(
                                                 withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                1)),
-                                3),
+                                                0)),
+                                2),
                         isDisplayed()));
-        appCompatTextView.perform(click());
+        cardView.perform(click());
 
         Thread.sleep(2000);
 
-        ViewInteraction button = onView(
-                allOf(withId(R.id.btn_register), withText("SIGN UP"),
-                        withParent(allOf(withId(R.id.registercard),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        button.check(matches(isDisplayed()));
-
-        Thread.sleep(2000);
-
-        ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(R.id.logintxt_register), withText("SIGN IN WITH AN EXISTING ACOUNT"),
+        ViewInteraction appCompatImageView = onView(
+                allOf(withId(R.id.backArrow_viewPet),
                         childAtPosition(
-                                allOf(withId(R.id.registercard),
+                                allOf(withId(R.id.relLayout),
+                                        childAtPosition(
+                                                withId(R.id.scrollView_view),
+                                                0)),
+                                1)));
+        appCompatImageView.perform(scrollTo(), click());
+
+        Thread.sleep(2000);
+
+        ViewInteraction imageView = onView(
+                allOf(withId(R.id.filter_icon),
+                        withParent(withParent(withId(R.id.main_activity_container))),
+                        isDisplayed()));
+        imageView.check(matches(isDisplayed()));
+
+        Thread.sleep(2000);
+
+        ViewInteraction cardView2 = onView(
+                allOf(withId(R.id.item_layout),
+                        childAtPosition(
+                                allOf(withId(R.id.card_stack_view),
                                         childAtPosition(
                                                 withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                                1)),
-                                5),
+                                                0)),
+                                2),
                         isDisplayed()));
-        appCompatTextView2.perform(click());
+        cardView2.perform(click());
 
         Thread.sleep(2000);
 
-        ViewInteraction button2 = onView(
-                allOf(withId(R.id.btn_login), withText("SIGN IN"),
-                        withParent(allOf(withId(R.id.registercard),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        button2.check(matches(isDisplayed()));
+        ViewInteraction appCompatImageView2 = onView(
+                allOf(withId(R.id.backArrow_viewPet),
+                        childAtPosition(
+                                allOf(withId(R.id.relLayout),
+                                        childAtPosition(
+                                                withId(R.id.scrollView_view),
+                                                0)),
+                                1)));
+        appCompatImageView2.perform(scrollTo(), click());
     }
 
     private static Matcher<View> childAtPosition(
