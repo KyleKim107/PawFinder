@@ -50,6 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    android:background="@drawable/white_rounded_button"
+                    android:padding="15dp"
                     android:text="Report Missing Pet"
                     android:layout_below="@+id/textMissingPet"/>
 
@@ -77,6 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
+                    android:background="@drawable/white_rounded_button"
+                    android:padding="15dp"
                     android:text="Report Found Pet"
                     android:layout_below="@+id/textFoundPet"/>
 

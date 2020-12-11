@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:id="@+id/relLayout1"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_warning"
+                android:layout_marginTop="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:id="@+id/warning_sign"
+                app:tint="@color/remove_background" />
+
+            <TextView
+                android:id="@+id/pet_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_toEndOf="@+id/warning_sign"
+                android:text="MISSING PET"
+                android:textColor="@color/black"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_ellipses"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/ivEllipses"/>
+        </RelativeLayout>
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/relLayoutClick"
+           android:layout_below="@id/relLayout1">
+
+           <com.example.pawfinder.Utils.SquareImageView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/post_image"
+               android:scaleType="centerCrop"/>
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/relLayout3"
+               android:layout_below="@+id/post_image"
+               android:padding="15dp"
+               android:layout_marginBottom="20dp">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="NAME"
+                   android:textColor="@color/black"
+                   android:textStyle="bold"
+                   android:textSize="30sp"
+                   android:id="@+id/pet_name"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Location"
+                   android:textColor="@color/black"
+                   android:textSize="20sp"
+                   android:id="@+id/pet_area"
+                   android:layout_below="@+id/pet_name"
+                   android:layout_marginTop="5dp"/>
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="DATE POSTED"
+                   android:textColor="@color/icon_grey"
+                   android:textSize="18sp"
+                   android:layout_below="@+id/pet_area"
+                   android:id="@+id/image_time_posted"
+                   android:layout_marginTop="15dp"/>
+           </RelativeLayout>
+       </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -7,8 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.pawfinder.Models.Pet;
-import com.example.pawfinder.Profile.ProfileViewModel;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.R;
 import com.example.pawfinder.Utils.FirebaseDatabaseHelper;
 import com.example.pawfinder.Utils.RecyclerViewConfig;
@@ -31,31 +30,21 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
 
     //vars
-    private ArrayList<Pet> mFavorites = new ArrayList<>();
+    private ArrayList<PetfinderPet> mFavorites = new ArrayList<>();
     private ArrayList<String> mKeys = new ArrayList<>();
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
-    TextView name;
-//    private String key;
+    private TextView name, noPetsText;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         root = inflater.inflate(R.layout.fragment_profile, container, false);
-//        final TextView textView = root.findViewById(R.id.text_profile);
-//        profileViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-
-//        key = getArguments().getString("key");
 
         // Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -65,14 +54,22 @@ public class ProfileFragment extends Fragment {
         name = root.findViewById(R.id.userName);
         name.setText(user.getDisplayName());
 
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        noPetsText = root.findViewById(R.id.noPetsText);
+        noPetsText.setVisibility(View.GONE);
+
+        mRecyclerView = root.findViewById(R.id.recyclerView);
 
         new FirebaseDatabaseHelper().readFavorites(new FirebaseDatabaseHelper.DataStatus() {
             @Override
-            public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+            public void DataIsLoaded(ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
                 root.findViewById(R.id.loadingFavorites).setVisibility(View.GONE);
                 new RecyclerViewConfig().setConfig(mRecyclerView, getActivity(), favorites, keys);
                 mFavorites = favorites;
+                if (mFavorites.size() == 0) {
+                    noPetsText.setVisibility(View.VISIBLE);
+                } else {
+                    noPetsText.setVisibility(View.GONE);
+                }
                 mKeys = keys;
             }
             @Override
@@ -99,14 +96,14 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-            Pet fav = mFavorites.get(viewHolder.getAdapterPosition());
+            PetfinderPet fav = mFavorites.get(viewHolder.getAdapterPosition());
             String key = mKeys.get(viewHolder.getAdapterPosition());
             mFavorites.remove(fav);
             mKeys.remove(key);
 
             new FirebaseDatabaseHelper().deleteFavorite(key, new FirebaseDatabaseHelper.DataStatus() {
                 @Override
-                public void DataIsLoaded(ArrayList<Pet> favorites, ArrayList<String> keys) {
+                public void DataIsLoaded(ArrayList<PetfinderPet> favorites, ArrayList<String> keys) {
                 }
                 @Override
                 public void DataIsInserted() {

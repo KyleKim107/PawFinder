@@ -18,6 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 public class LostFragment extends Fragment {
 
     private static final String TAG = "LostFragment";
@@ -28,10 +30,12 @@ public class LostFragment extends Fragment {
     PagerAdapter adapter;
     FloatingActionButton mReportPet;
 
+    Boolean myLost;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_lost, container, false);
-        Log.d("TEST", "LOST FRAGMENT : ON CREATE VIEW");
+        Log.d("TAG", "onCreateView called.");
         pager = root.findViewById(R.id.viewPager);
         mTabLayout = root.findViewById(R.id.tablayout);
         mAllLostPetsItem = root.findViewById(R.id.allLostPetsItem);
@@ -50,6 +54,20 @@ public class LostFragment extends Fragment {
         adapter = new PagerAdapter(requireActivity().getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, mTabLayout.getTabCount());
         pager.setAdapter(adapter);
 
+        // Find out if this is myLost or allLost
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            Log.d(TAG, "My Lost Boolean exists.");
+            myLost = bundle.getBoolean("isMyLost");
+
+            if (myLost) {
+                Log.d(TAG, "My Lost Tab is selected.");
+                TabLayout.Tab tab = mTabLayout.getTabAt(1);
+                pager.setCurrentItem(tab.getPosition());
+                tab.select();
+            }
+        }
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -63,6 +81,17 @@ public class LostFragment extends Fragment {
             }
         });
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
         return root;
     }
+
+//    private void paginate() {
+//        List<Pet> old = adapter.getItems();
+//        List<Pet> current = new ArrayList<>(createSpots());
+//        CardStackCallback callback = new CardStackCallback(old, current);
+//        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+//        adapter.setItems(current);
+//        result.dispatchUpdatesTo(adapter);
+//    }
+
 }
