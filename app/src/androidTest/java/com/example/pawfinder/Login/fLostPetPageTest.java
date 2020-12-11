@@ -57,15 +57,6 @@ public class fLostPetPageTest {
 
         Thread.sleep(2000);
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.pet_name), withText("UNKNOWN"),
-                        withParent(allOf(withId(R.id.relLayout3),
-                                withParent(withId(R.id.relLayoutClick)))),
-                        isDisplayed()));
-        textView.check(matches(withText("UNKNOWN")));
-
-        Thread.sleep(2000);
-
         ViewInteraction tabView = onView(
                 allOf(withContentDescription("My Lost Pets"),
                         childAtPosition(
