@@ -102,6 +102,23 @@ public class RegisterActivity extends AppCompatActivity {
                     mPassword.requestFocus();
                     return;
                 }
+                if (firstName.length() > 12) {
+                    mFirstName.setError("First Name should be less than 15 characters long");
+                    mFirstName.requestFocus();
+                    return;
+                }
+                if (lastName.length() > 15) {
+                    mLastName.setError(" Last Name should be less than 15 characters long");
+                    mLastName.requestFocus();
+                    return;
+                }
+                if ((lastName.length() + firstName.length()) > 20) {
+                    mLastName.setError("  first and last name combined should be less than 20 Characters");
+                    mLastName.requestFocus();
+                    mFirstName.setError("  first and last name combined should be less than 20 Characters");
+                    mFirstName.requestFocus();
+                    return;
+                }
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
