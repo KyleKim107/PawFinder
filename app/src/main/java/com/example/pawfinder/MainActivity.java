@@ -24,8 +24,10 @@ import com.example.pawfinder.Lost.MyLostPetsFragment;
 import com.example.pawfinder.Lost.ViewLostPetFragment;
 import com.example.pawfinder.Models.LostPet;
 import com.example.pawfinder.Models.Pet;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.Pets.FilterActivity;
 import com.example.pawfinder.Pets.PetsFragment;
+import com.example.pawfinder.Pets.ViewPetFragment;
 import com.example.pawfinder.Profile.ProfileFragment;
 import com.example.pawfinder.Profile.ViewFavoritePetFragment;
 import com.example.pawfinder.Shelters.SheltersFragment;
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                 }
             };
   
-    public void onFavoritePetSelected(Petfinder pet) {
+    public void onFavoritePetSelected(PetfinderPet pet) {
         Log.d(TAG, "onFavoritePetSelected: Selected a favorite pet");
 
         ViewPetFragment fragment = new ViewPetFragment();
