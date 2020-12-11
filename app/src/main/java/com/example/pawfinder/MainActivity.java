@@ -2,14 +2,19 @@ package com.example.pawfinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.pawfinder.Login.LoginActivity;
@@ -18,6 +23,7 @@ import com.example.pawfinder.Lost.LostFragment;
 import com.example.pawfinder.Lost.MyLostPetsFragment;
 import com.example.pawfinder.Lost.ViewLostPetFragment;
 import com.example.pawfinder.Models.LostPet;
+import com.example.pawfinder.Models.Pet;
 import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.Pets.FilterActivity;
 import com.example.pawfinder.Pets.PetsFragment;
@@ -29,6 +35,12 @@ import com.example.pawfinder.Utils.LostPetsListAdapter;
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+
+import java.io.IOException;
+
 
 
 public class MainActivity extends AppCompatActivity implements AllLostPetsFragment.OnAllLostPetSelectedListener, MyLostPetsFragment.OnMyLostPetSelectedListener, LostPetsListAdapter.OnLoadMoreItemsListener {
@@ -78,21 +90,21 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
                     return true;
                 }
             };
-
+  
     public void onFavoritePetSelected(PetfinderPet pet) {
-        Log.d(TAG, "onLostPetSelected: Selected a lost pet");
+        Log.d(TAG, "onFavoritePetSelected: Selected a favorite pet");
 
-        ViewFavoritePetFragment fragment = new ViewFavoritePetFragment();
+        ViewPetFragment fragment = new ViewPetFragment();
         Bundle args = new Bundle();
-        args.putParcelable("LOSTPET", pet);
+        args.putParcelable("PET", pet);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Favorite Pet");
+        transaction.addToBackStack("View Pet");
         transaction.commit();
     }
-
+  
     public void onPetSelected(PetfinderPet pet) {
         Log.d(TAG, "onPetSelected: Selected a pet");
 

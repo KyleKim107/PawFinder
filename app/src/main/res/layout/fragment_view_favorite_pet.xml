@@ -24,7 +24,7 @@
             android:layout_below="@+id/relLayout1"
             android:id="@+id/relLayout2">
 
-            <include layout="@layout/snippet_center_viewfavoritepet"/>
+            <include layout="@layout/snippet_center_viewpet"/>
 
         </RelativeLayout>
 

@@ -34,15 +34,6 @@
                     android:layout_marginStart="5dp"
                     android:id="@+id/viewFavoritePetText"/>
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/viewFavoritePetEllipses"
-                    android:src="@drawable/ic_ellipses"
-                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
