@@ -212,7 +212,7 @@ public class PetsFragment extends Fragment {
                 if (params == null || allFiltersApplied) {
                     getPetsCall = client.getPetfinderPets(tokenType + " " + accessToken, currentPage + "");
                 } else {
-                    getPetsCall = client.getFilterdPetfinderPets(tokenType + " " + accessToken, currentPage + "", params);
+                    getPetsCall = client.getFilteredPetfinderPets(tokenType + " " + accessToken, currentPage + "", params);
                 }
 
                 getPetsCall.enqueue(new Callback<PetfinderResponse>() {

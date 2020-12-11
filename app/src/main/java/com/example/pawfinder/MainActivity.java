@@ -45,104 +45,84 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
 
     final static String TAG = "MainActivity";
 
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf=8");
-    OkHttpClient client = new OkHttpClient();
-
-    FrameLayout mFrameLayout;
-    View mFragment;
-
-    String post(String url, String json) throws IOException{
-
-
-        return "";
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
-                new PetsFragment()).commit();
-
-        mFrameLayout = findViewById(R.id.main_activity_container);
-//        mFragment = findViewById(R.id.nav_host_fragment);
-
-        String url = "https://api.petfinder.com/v2/oauth2/token";
-
-
-
-
+        getSupportFragmentManager().beginTransaction().add(R.id.main_activity_container,
+                new PetsFragment(), "navigation_pets").addToBackStack("navigation_pets").commit();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selected = null;
+                    String addToBS = "";
                     switch (item.getItemId()) {
                         case R.id.navigation_pets:
                             selected = new PetsFragment();
+                            addToBS = "navigation_pets";
                             break;
                         case R.id.navigation_shelters:
                             selected = new SheltersFragment();
+                            addToBS = "navigation_shelters";
                             break;
                         case R.id.navigation_lost:
                             selected = new LostFragment();
+                            addToBS = "navigation_lost";
                             break;
                         case R.id.navigation_profile:
                             selected = new ProfileFragment();
+                            addToBS = "navigation_profile";
                             break;
                     }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_activity_container,
-                            selected).commit();
-
+                    if(getSupportFragmentManager().findFragmentByTag(addToBS) != null) {
+                        getSupportFragmentManager().popBackStackImmediate(addToBS, 0);
+                    } else {
+                        getSupportFragmentManager().beginTransaction().add(R.id.main_activity_container,
+                                selected, addToBS).addToBackStack(addToBS).commit();
+                    }
                     return true;
                 }
             };
+  
+    public void onFavoritePetSelected(Petfinder pet) {
+        Log.d(TAG, "onFavoritePetSelected: Selected a favorite pet");
 
-    public void onFavoritePetSelected(Pet pet, String callingActivity) {
-        Log.d(TAG, "onLostPetSelected: Selected a lost pet");
-
-        ViewFavoritePetFragment fragment = new ViewFavoritePetFragment();
+        ViewPetFragment fragment = new ViewPetFragment();
         Bundle args = new Bundle();
-        args.putParcelable("LOSTPET", pet);
-        args.putString("MAINACTIVITY", callingActivity);
+        args.putParcelable("PET", pet);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Favorite Pet"); // TODO: or (null) ????
+        transaction.add(R.id.main_activity_container, fragment);
+        transaction.addToBackStack("View Pet");
         transaction.commit();
     }
+  
+    public void onPetSelected(PetfinderPet pet) {
+        Log.d(TAG, "onPetSelected: Selected a pet");
 
-    public void hideLayout() {
-        Log.d(TAG, "hideLayout: Hiding Layout");
-//        mFragment.setVisibility(View.GONE);
-        mFrameLayout.setVisibility(View.VISIBLE);
-    }
+        ViewPetFragment fragment = new ViewPetFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("PET", pet);
+        fragment.setArguments(args);
 
-    public void showLayout() {
-        Log.d(TAG, "showLayout: Showing Layout");
-//        mFragment.setVisibility(View.VISIBLE);
-        mFrameLayout.setVisibility(View.GONE);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.main_activity_container, fragment);
+        transaction.addToBackStack("View Pet");
+        transaction.commit();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(mFrameLayout.getVisibility() == View.VISIBLE) {
-            showLayout();
+        if(getFragmentManager().getBackStackEntryCount() == 1) {
+            moveTaskToBack(false);
         }
-    }
-
-    public void openFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     public void openFilterFragment(View view) {
@@ -171,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
+        transaction.add(R.id.main_activity_container, fragment, "view_lost_pet");
+        transaction.addToBackStack("view_lost_pet");
         transaction.commit();
     }
 
@@ -186,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Lost Pet"); // TODO: or (null) ????
+        transaction.add(R.id.main_activity_container, fragment, "view_lost_pet");
+        transaction.addToBackStack("view_lost_pet");
         transaction.commit();
     }
 

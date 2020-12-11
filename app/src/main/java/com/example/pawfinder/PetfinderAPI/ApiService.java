@@ -1,6 +1,8 @@
 package com.example.pawfinder.PetfinderAPI;
 
 import com.example.pawfinder.BuildConfig;
+import com.example.pawfinder.Models.PetfinderIdResponse;
+import com.example.pawfinder.Models.PetfinderPet;
 import com.example.pawfinder.Models.PetfinderResponse;
 
 import java.util.HashMap;
@@ -14,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -37,9 +40,17 @@ public interface ApiService {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("animals?location=53715&distance=10&sort=random")
-    Call<PetfinderResponse> getFilterdPetfinderPets(
+    Call<PetfinderResponse> getFilteredPetfinderPets(
             @Header("Authorization") String token,
             @Query("page") String page,
-            @QueryMap HashMap<String, String> params);
+            @QueryMap HashMap<String, String> params
+    );
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("animals/{id}")
+    Call<PetfinderIdResponse> checkPetStatus(
+            @Header("Authorization") String token,
+            @Path("id") String id
+    );
 
 }
