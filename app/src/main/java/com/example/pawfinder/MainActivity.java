@@ -82,14 +82,14 @@ public class MainActivity extends AppCompatActivity implements AllLostPetsFragme
     public void onFavoritePetSelected(PetfinderPet pet) {
         Log.d(TAG, "onLostPetSelected: Selected a lost pet");
 
-        ViewFavoritePetFragment fragment = new ViewFavoritePetFragment();
+        ViewPetFragment fragment = new ViewPetFragment();
         Bundle args = new Bundle();
-        args.putParcelable("LOSTPET", pet);
+        args.putParcelable("PET", pet);
         fragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.main_activity_container, fragment);
-        transaction.addToBackStack("View Favorite Pet");
+        transaction.addToBackStack("View Pet");
         transaction.commit();
     }
 
